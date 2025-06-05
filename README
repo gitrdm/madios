@@ -1,3 +1,51 @@
+# ModifiedADIOS
+
+**Purpose:**
+This project implements the ADIOS (Automatic DIstillation Of Structure) algorithm for unsupervised grammar induction from text corpora. It reads a set of sentences and induces grammatical patterns, which can be used for natural language processing and parser development.
+
+## Project Structure
+
+- `main.cpp` – Program entry point.
+- `RDSGraph.*` – Main graph structure for pattern discovery.
+- `RDSNode.*` – Nodes in the graph (words/patterns).
+- `BasicSymbol.*` – Handles basic symbols (tokens).
+- `SearchPath.*` – Manages search paths in the graph.
+- `SpecialLexicons.*` – Handles special lexicon entries.
+- `SignificantPattern.*` – Detects significant patterns.
+- `EquivalenceClass.*` – Groups similar patterns.
+- `maths/` – Math utilities.
+- `utils/` – Utility functions (string, time, misc).
+- `test/corpus.txt` – Example input corpus.
+
+## Building
+
+```sh
+qmake ModifiedADIOS.pro
+make
+```
+
+## Usage
+
+```sh
+./ModifiedADIOS test/corpus.txt
+```
+
+## Example Input
+
+See `test/corpus.txt` for sample sentences.
+
+## Further Reading
+
+- [ADIOS Algorithm Paper](https://www.cs.bgu.ac.il/~elhadad/nlp09/ADIOS.pdf)
+- [C++ Language Reference](https://en.cppreference.com/)
+
+## Learning Tips
+
+- Review the header comments in each source file for a summary of its purpose.
+- Explore the class and function comments to understand how the code is structured.
+- Use the project structure section above to navigate the codebase.
+
+
 This is an implementation of the ADIOS algorithm. This implementation is more efficient than the original author's but it can produce different outputs due to undocumented approximations used in the original author's implementation.
 
 One possible modification to the original ADIOS algorithm is to favour Significant Patterns that are shorter in length and therefore more likely to represent basic grammar units. Applying this approach to sentences at word level, the algorithm does learn grammars that are more consistent with intuitions but when applied to sentences at character level, the algorithm tend to find non-sensical word fragments that do not correspond to intuition. I suspect that additional weighting based on the pattern's length and number of occurrences is required. The relevant code is commented out in RDSGraph.cpp at lines 356-359 and 362-365, if you wish to experiment.
