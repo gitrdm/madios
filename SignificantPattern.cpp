@@ -1,3 +1,7 @@
+// File: SignificantPattern.cpp
+// Purpose: Implements the SignificantPattern class, which detects and manages significant patterns in the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "SignificantPattern.h"
 
 #include <cassert>

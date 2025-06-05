@@ -1,3 +1,11 @@
+// File: main.cpp
+// Purpose: Entry point for the ModifiedADIOS project. Handles input/output and program flow for grammar induction using the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+//
+// Usage: ./ModifiedADIOS test/corpus.txt
+//
+// This file is a good starting point for understanding how the program operates.
+
 #include "MiscUtils.h"
 #include "RDSGraph.h"
 #include "special.h"

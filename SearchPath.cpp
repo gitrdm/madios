@@ -1,3 +1,7 @@
+// File: SearchPath.cpp
+// Purpose: Implements the SearchPath class, which manages search paths through the ADIOS graph for parsing or pattern finding.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "SearchPath.h"
 
 #include <cassert>

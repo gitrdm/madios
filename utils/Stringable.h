@@ -1,3 +1,7 @@
+// File: utils/Stringable.h
+// Purpose: Declares the Stringable class, which provides string conversion utilities for the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #ifndef STRINGABLE_H
 #define STRINGABLE_H
 

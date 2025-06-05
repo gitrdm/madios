@@ -1,3 +1,7 @@
+// File: SpecialLexicons.cpp
+// Purpose: Implements the SpecialLexicons class, which handles special lexicon entries for the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "SpecialLexicons.h"
 
 using std::string;

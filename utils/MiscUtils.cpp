@@ -1,3 +1,7 @@
+// File: utils/MiscUtils.cpp
+// Purpose: Implements miscellaneous utility functions used throughout the ADIOS project.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "MiscUtils.h"
 
 #include <sstream>

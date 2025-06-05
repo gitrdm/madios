@@ -1,3 +1,7 @@
+// File: maths/special.cpp
+// Purpose: Implements special mathematical functions used by the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "special.h"
 
 #include "Constants.h"

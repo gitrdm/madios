@@ -1,3 +1,7 @@
+// File: SpecialLexicons.h
+// Purpose: Declares the SpecialLexicons class, which handles special lexicon entries for the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #ifndef SPECIALLEXICONS_H
 #define SPECIALLEXICONS_H
 

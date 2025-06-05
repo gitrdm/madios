@@ -1,3 +1,7 @@
+// File: utils/MiscUtils.h
+// Purpose: Declares miscellaneous utility functions used throughout the ADIOS project.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #ifndef MISC_UTILS_H
 #define MISC_UTILS_H
 

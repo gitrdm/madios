@@ -1,3 +1,7 @@
+// File: maths/special.h
+// Purpose: Declares special mathematical functions used by the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #ifndef SPECIAL_H
 #define SPECIAL_H
 

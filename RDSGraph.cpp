@@ -1,3 +1,7 @@
+// File: RDSGraph.cpp
+// Purpose: Implements the RDSGraph class, which manages the main graph structure for pattern discovery in the ADIOS algorithm.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "RDSGraph.h"
 
 #include "TimeFuncs.h"
@@ -336,7 +340,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 //         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
         {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
-                if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
+                if((all_general_slots[i] < some_patterns[j].first) || (all_generalSlots[i] > some_patterns[j].second))
                     continue;
 
             all_patterns.push_back(some_patterns[j]);

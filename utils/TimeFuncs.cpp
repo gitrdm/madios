@@ -1,3 +1,7 @@
+// File: utils/TimeFuncs.cpp
+// Purpose: Implements time-related utility functions for timing and profiling in the ADIOS project.
+// Part of the ADIOS grammar induction project. See README for usage and structure.
+
 #include "TimeFuncs.h"
 
 #if defined _WIN32 || defined _WIN64
