@@ -198,4 +198,23 @@ S _
 1 S --> Cindy P32 easy
 1 S --> that P34 is tough P35 disturbs P34
 1 S --> Beth P32 tough
-1 S --> Cindy P32 easy
+
+## Running Tests
+
+This project uses [Catch2](https://github.com/catchorg/Catch2) for unit testing. To set up and run tests:
+
+1. Download the Catch2 single-header file:
+
+```sh
+curl -L -o tests/catch.hpp https://github.com/catchorg/Catch2/releases/download/v2.13.10/catch.hpp
+```
+
+2. Build and run tests:
+
+```sh
+cd build
+make
+ctest
+```
+
+You should see output indicating the test results. Add more tests in the `tests/` directory as needed.

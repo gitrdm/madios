@@ -30,3 +30,12 @@ add_executable(madios ${SRC_FILES} ${HEADER_FILES})
 set_target_properties(madios PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
+
+# --- Testing ---
+enable_testing()
+add_executable(tests_basic tests/test_basic.cpp)
+target_include_directories(tests_basic PRIVATE tests)
+add_test(NAME basic_test COMMAND tests_basic)
+add_test(NAME integration_test
+  COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/tests/test_integration.cmake
+)
