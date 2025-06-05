@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = 
 CFLAGS        = -pipe -O2 -Wall -Wextra -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -pedantic -ansi -Wall -Wextra -fPIC $(DEFINES)
-INCPATH       = -I. -I. -Iutils -Imaths -Imaths/tnt -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -Isrc -Isrc/utils -Isrc/maths -Isrc/maths/tnt -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -52,18 +52,18 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp \
-		RDSGraph.cpp \
-		RDSNode.cpp \
-		BasicSymbol.cpp \
-		SearchPath.cpp \
-		utils/Stringable.cpp \
-		SpecialLexicons.cpp \
-		SignificantPattern.cpp \
-		EquivalenceClass.cpp \
-		maths/special.cpp \
-		utils/MiscUtils.cpp \
-		utils/TimeFuncs.cpp 
+SOURCES       = src/main.cpp \
+		src/RDSGraph.cpp \
+		src/RDSNode.cpp \
+		src/BasicSymbol.cpp \
+		src/SearchPath.cpp \
+		src/utils/Stringable.cpp \
+		src/SpecialLexicons.cpp \
+		src/SignificantPattern.cpp \
+		src/EquivalenceClass.cpp \
+		src/maths/special.cpp \
+		src/utils/MiscUtils.cpp \
+		src/utils/TimeFuncs.cpp 
 OBJECTS       = main.o \
 		RDSGraph.o \
 		RDSNode.o \
@@ -146,28 +146,31 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		ModifiedADIOS.pro RDSGraph.h \
-		RDSNode.h \
-		BasicSymbol.h \
-		SearchPath.h \
-		utils/Stringable.h \
-		SpecialLexicons.h \
-		SignificantPattern.h \
-		EquivalenceClass.h \
-		maths/special.h \
-		utils/TimeFuncs.h \
-		utils/MiscUtils.h main.cpp \
-		RDSGraph.cpp \
-		RDSNode.cpp \
-		BasicSymbol.cpp \
-		SearchPath.cpp \
-		utils/Stringable.cpp \
-		SpecialLexicons.cpp \
-		SignificantPattern.cpp \
-		EquivalenceClass.cpp \
-		maths/special.cpp \
-		utils/MiscUtils.cpp \
-		utils/TimeFuncs.cpp
+		ModifiedADIOS.pro src/RDSGraph.h \
+		src/RDSNode.h \
+		src/BasicSymbol.h \
+		src/SearchPath.h \
+		src/utils/Stringable.h \
+		src/SpecialLexicons.h \
+		src/SignificantPattern.h \
+		src/EquivalenceClass.h \
+		src/maths/special.h \
+		src/utils/TimeFuncs.h \
+		src/utils/MiscUtils.h \
+		src/ParseTree.h \
+		src/ADIOSUtils.h \
+		src/LexiconUnit.h src/main.cpp \
+		src/RDSGraph.cpp \
+		src/RDSNode.cpp \
+		src/BasicSymbol.cpp \
+		src/SearchPath.cpp \
+		src/utils/Stringable.cpp \
+		src/SpecialLexicons.cpp \
+		src/SignificantPattern.cpp \
+		src/EquivalenceClass.cpp \
+		src/maths/special.cpp \
+		src/utils/MiscUtils.cpp \
+		src/utils/TimeFuncs.cpp
 QMAKE_TARGET  = ModifiedADIOS
 DESTDIR       = 
 TARGET        = ModifiedADIOS
@@ -365,91 +368,91 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.cpp utils/MiscUtils.h \
-		RDSGraph.h \
-		RDSNode.h \
-		maths/tnt/array2d.h \
-		maths/tnt/array1d.h \
-		LexiconUnit.h \
-		utils/Stringable.h \
-		ADIOSUtils.h \
-		BasicSymbol.h \
-		SpecialLexicons.h \
-		SignificantPattern.h \
-		EquivalenceClass.h \
-		SearchPath.h \
-		maths/special.h \
-		ParseTree.h \
-		utils/TimeFuncs.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+main.o: src/main.cpp src/utils/MiscUtils.h \
+		src/RDSGraph.h \
+		src/RDSNode.h \
+		src/maths/tnt/array2d.h \
+		src/maths/tnt/array1d.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h \
+		src/ADIOSUtils.h \
+		src/BasicSymbol.h \
+		src/SpecialLexicons.h \
+		src/SignificantPattern.h \
+		src/EquivalenceClass.h \
+		src/SearchPath.h \
+		src/maths/special.h \
+		src/ParseTree.h \
+		src/utils/TimeFuncs.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cpp
 
-RDSGraph.o: RDSGraph.cpp RDSGraph.h \
-		RDSNode.h \
-		maths/tnt/array2d.h \
-		maths/tnt/array1d.h \
-		LexiconUnit.h \
-		utils/Stringable.h \
-		ADIOSUtils.h \
-		BasicSymbol.h \
-		SpecialLexicons.h \
-		SignificantPattern.h \
-		EquivalenceClass.h \
-		SearchPath.h \
-		maths/special.h \
-		utils/MiscUtils.h \
-		ParseTree.h \
-		utils/TimeFuncs.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RDSGraph.o RDSGraph.cpp
+RDSGraph.o: src/RDSGraph.cpp src/RDSGraph.h \
+		src/RDSNode.h \
+		src/maths/tnt/array2d.h \
+		src/maths/tnt/array1d.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h \
+		src/ADIOSUtils.h \
+		src/BasicSymbol.h \
+		src/SpecialLexicons.h \
+		src/SignificantPattern.h \
+		src/EquivalenceClass.h \
+		src/SearchPath.h \
+		src/maths/special.h \
+		src/utils/MiscUtils.h \
+		src/ParseTree.h \
+		src/utils/TimeFuncs.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RDSGraph.o src/RDSGraph.cpp
 
-RDSNode.o: RDSNode.cpp RDSNode.h \
-		maths/tnt/array2d.h \
-		maths/tnt/array1d.h \
-		LexiconUnit.h \
-		utils/Stringable.h \
-		ADIOSUtils.h \
-		BasicSymbol.h \
-		SpecialLexicons.h \
-		SignificantPattern.h \
-		EquivalenceClass.h \
-		SearchPath.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RDSNode.o RDSNode.cpp
+RDSNode.o: src/RDSNode.cpp src/RDSNode.h \
+		src/maths/tnt/array2d.h \
+		src/maths/tnt/array1d.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h \
+		src/ADIOSUtils.h \
+		src/BasicSymbol.h \
+		src/SpecialLexicons.h \
+		src/SignificantPattern.h \
+		src/EquivalenceClass.h \
+		src/SearchPath.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RDSNode.o src/RDSNode.cpp
 
-BasicSymbol.o: BasicSymbol.cpp BasicSymbol.h \
-		LexiconUnit.h \
-		utils/Stringable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BasicSymbol.o BasicSymbol.cpp
+BasicSymbol.o: src/BasicSymbol.cpp src/BasicSymbol.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BasicSymbol.o src/BasicSymbol.cpp
 
-SearchPath.o: SearchPath.cpp SearchPath.h \
-		utils/Stringable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SearchPath.o SearchPath.cpp
+SearchPath.o: src/SearchPath.cpp src/SearchPath.h \
+		src/utils/Stringable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SearchPath.o src/SearchPath.cpp
 
-Stringable.o: utils/Stringable.cpp utils/Stringable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Stringable.o utils/Stringable.cpp
+Stringable.o: src/utils/Stringable.cpp src/utils/Stringable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Stringable.o src/utils/Stringable.cpp
 
-SpecialLexicons.o: SpecialLexicons.cpp SpecialLexicons.h \
-		LexiconUnit.h \
-		utils/Stringable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SpecialLexicons.o SpecialLexicons.cpp
+SpecialLexicons.o: src/SpecialLexicons.cpp src/SpecialLexicons.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SpecialLexicons.o src/SpecialLexicons.cpp
 
-SignificantPattern.o: SignificantPattern.cpp SignificantPattern.h \
-		LexiconUnit.h \
-		utils/Stringable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SignificantPattern.o SignificantPattern.cpp
+SignificantPattern.o: src/SignificantPattern.cpp src/SignificantPattern.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SignificantPattern.o src/SignificantPattern.cpp
 
-EquivalenceClass.o: EquivalenceClass.cpp EquivalenceClass.h \
-		LexiconUnit.h \
-		utils/Stringable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o EquivalenceClass.o EquivalenceClass.cpp
+EquivalenceClass.o: src/EquivalenceClass.cpp src/EquivalenceClass.h \
+		src/LexiconUnit.h \
+		src/utils/Stringable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o EquivalenceClass.o src/EquivalenceClass.cpp
 
-special.o: maths/special.cpp maths/special.h \
-		maths/Constants.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o special.o maths/special.cpp
+special.o: src/maths/special.cpp src/maths/special.h \
+		src/maths/Constants.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o special.o src/maths/special.cpp
 
-MiscUtils.o: utils/MiscUtils.cpp utils/MiscUtils.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MiscUtils.o utils/MiscUtils.cpp
+MiscUtils.o: src/utils/MiscUtils.cpp src/utils/MiscUtils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MiscUtils.o src/utils/MiscUtils.cpp
 
-TimeFuncs.o: utils/TimeFuncs.cpp utils/TimeFuncs.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TimeFuncs.o utils/TimeFuncs.cpp
+TimeFuncs.o: src/utils/TimeFuncs.cpp src/utils/TimeFuncs.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TimeFuncs.o src/utils/TimeFuncs.cpp
 
 ####### Install
 

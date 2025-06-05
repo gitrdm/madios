@@ -1,33 +1,54 @@
-# ModifiedADIOS
+# madios
 
 **Purpose:**
 This project implements the ADIOS (Automatic DIstillation Of Structure) algorithm for unsupervised grammar induction from text corpora. It reads a set of sentences and induces grammatical patterns, which can be used for natural language processing and parser development.
 
 ## Project Structure
 
-- `main.cpp` – Program entry point.
-- `RDSGraph.*` – Main graph structure for pattern discovery.
-- `RDSNode.*` – Nodes in the graph (words/patterns).
-- `BasicSymbol.*` – Handles basic symbols (tokens).
-- `SearchPath.*` – Manages search paths in the graph.
-- `SpecialLexicons.*` – Handles special lexicon entries.
-- `SignificantPattern.*` – Detects significant patterns.
-- `EquivalenceClass.*` – Groups similar patterns.
-- `maths/` – Math utilities.
-- `utils/` – Utility functions (string, time, misc).
+- `src/main.cpp` – Program entry point.
+- `src/RDSGraph.*` – Main graph structure for pattern discovery.
+- `src/RDSNode.*` – Nodes in the graph (words/patterns).
+- `src/BasicSymbol.*` – Handles basic symbols (tokens).
+- `src/SearchPath.*` – Manages search paths in the graph.
+- `src/SpecialLexicons.*` – Handles special lexicon entries.
+- `src/SignificantPattern.*` – Detects significant patterns.
+- `src/EquivalenceClass.*` – Groups similar patterns.
+- `src/maths/` – Math utilities.
+- `src/utils/` – Utility functions (string, time, misc).
 - `test/corpus.txt` – Example input corpus.
 
 ## Building
+
+### With CMake (Recommended)
+
+```sh
+mkdir -p build
+cd build
+cmake ..
+make
+```
+
+The resulting executable will be `build/madios`.
+
+### With qmake (Legacy)
 
 ```sh
 qmake ModifiedADIOS.pro
 make
 ```
 
+The resulting executable will be `madios` in the project root.
+
 ## Usage
 
 ```sh
-./ModifiedADIOS test/corpus.txt
+./build/madios ../test/corpus.txt
+```
+
+or, if built with qmake:
+
+```sh
+./madios test/corpus.txt
 ```
 
 ## Example Input

@@ -3,35 +3,38 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET +=
-DEPENDPATH += . utils maths maths/tnt 
-INCLUDEPATH += . utils maths maths/tnt
+TARGET = madios
+DEPENDPATH += src src/utils src/maths src/maths/tnt 
+INCLUDEPATH += src src/utils src/maths src/maths/tnt
 CONFIG += release
 CONFIG -= qt
 QMAKE_CXXFLAGS_RELEASE += -pedantic -ansi
 
 # Input
-HEADERS += RDSGraph.h \
-           RDSNode.h \
-           BasicSymbol.h \
-           SearchPath.h \
-           utils/Stringable.h \
-           SpecialLexicons.h \
-           SignificantPattern.h \
-           EquivalenceClass.h \
-           maths/special.h \
-           utils/TimeFuncs.h \
-           utils/MiscUtils.h
+HEADERS += src/RDSGraph.h \
+           src/RDSNode.h \
+           src/BasicSymbol.h \
+           src/SearchPath.h \
+           src/utils/Stringable.h \
+           src/SpecialLexicons.h \
+           src/SignificantPattern.h \
+           src/EquivalenceClass.h \
+           src/maths/special.h \
+           src/utils/TimeFuncs.h \
+           src/utils/MiscUtils.h \
+           src/ParseTree.h \
+           src/ADIOSUtils.h \
+           src/LexiconUnit.h
 
-SOURCES += main.cpp \
-           RDSGraph.cpp \
-           RDSNode.cpp \
-           BasicSymbol.cpp \
-           SearchPath.cpp \
-           utils/Stringable.cpp \
-           SpecialLexicons.cpp \
-           SignificantPattern.cpp \
-           EquivalenceClass.cpp \
-           maths/special.cpp \
-           utils/MiscUtils.cpp \
-           utils/TimeFuncs.cpp
+SOURCES += src/main.cpp \
+           src/RDSGraph.cpp \
+           src/RDSNode.cpp \
+           src/BasicSymbol.cpp \
+           src/SearchPath.cpp \
+           src/utils/Stringable.cpp \
+           src/SpecialLexicons.cpp \
+           src/SignificantPattern.cpp \
+           src/EquivalenceClass.cpp \
+           src/maths/special.cpp \
+           src/utils/MiscUtils.cpp \
+           src/utils/TimeFuncs.cpp
