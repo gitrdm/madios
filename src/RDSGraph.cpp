@@ -92,6 +92,10 @@ void RDSGraph::distill(const ADIOSParams &params)
         if(counts[i].size() > 1)
         {
             if (!quiet) {
+                if (i >= counts.size()) {
+                    std::cerr << "[RDSGraph::distill] Warning: i out of bounds for counts (" << i << "/" << counts.size() << ")" << std::endl;
+                    continue;
+                }
                 std::cout << printNodeName(i);
                 std::cout <<  " ---> [";
                 for(unsigned int j = 0; j < counts[i].size(); j++) {
@@ -99,14 +103,7 @@ void RDSGraph::distill(const ADIOSParams &params)
                     if(j < counts[i].size() - 1)
                         std::cout << " | ";
                 }
-                std::cout << "]";/*
-                std::cout <<  " ---> [";
-                for(unsigned int j = 0; j < counts[i].size(); j++) {
-                    std::cout << counts[i][j];
-                    if(j < counts[i].size() - 1)
-                        std::cout << " | ";
-                }
-                std::cout << "]";*/
+                std::cout << "]";
                 std::cout << endl;
             }
         }
@@ -173,6 +170,10 @@ vector<string> RDSGraph::generate(const SearchPath &search_path) const
 
 vector<string> RDSGraph::generate(unsigned int node) const
 {
+    if (node >= nodes.size()) {
+        std::cerr << "[RDSGraph::generate] Error: node index out of bounds (" << node << "/" << nodes.size() << ")" << std::endl;
+        return {};
+    }
     vector<string> sequence;
 
     if(nodes[node].type == LexiconTypes::Start)
@@ -353,7 +354,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 //         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
         {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
-                if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
+                if((all_general_slots[i] < some_patterns[j].first) || (all_generalSlots[i] > some_patterns[j].second))
                     continue;
 
             all_patterns.push_back(some_patterns[j]);
@@ -733,7 +734,10 @@ void RDSGraph::rewire(const vector<Connection> &connections, const SignificantPa
     nodes.push_back(RDSNode(new SignificantPattern(sp), LexiconTypes::SP));
     const SignificantPattern &pattern = sp;
 
-    assert(connections.size() > 0);
+    if (connections.empty()) {
+        std::cerr << "[RDSGraph::rewire] Warning: empty connections vector." << std::endl;
+        return;
+    }
     unsigned int pattern_size = pattern.size();
 
     // remove any overlapping connections
@@ -767,6 +771,10 @@ void RDSGraph::rewire(const vector<Connection> &connections, const SignificantPa
     }
 
     // validate the sorted connections
+    if (sorted_connections.empty()) {
+        std::cerr << "[RDSGraph::rewire] Warning: sorted_connections is empty." << std::endl;
+        return;
+    }
     vector<Connection> valid_connections;
     valid_connections.push_back(sorted_connections.front());
     for(unsigned int i = 1; i < sorted_connections.size(); i++)
@@ -790,6 +798,14 @@ void RDSGraph::rewire(const vector<Connection> &connections, const SignificantPa
         unsigned int path_index = valid_connections[i].first;
         unsigned int path_pos = valid_connections[i].second;
 
+        if (path_index >= paths.size()) {
+            std::cerr << "[RDSGraph::rewire] Warning: path_index out of bounds (" << path_index << "/" << paths.size() << ")" << std::endl;
+            continue;
+        }
+        if (path_pos + pattern_size - 1 >= paths[path_index].size()) {
+            std::cerr << "[RDSGraph::rewire] Warning: path_pos out of bounds (" << path_pos << "/" << paths[path_index].size() << ")" << std::endl;
+            continue;
+        }
         // rewiring the parse trees
         SearchPath segment(paths[path_index](path_pos, path_pos+pattern_size-1));
         for(unsigned int j = 0; j < segment.size(); j++)
@@ -978,6 +994,7 @@ unsigned int RDSGraph::findExistingEquivalenceClass(const EquivalenceClass &ec)
 
 void RDSGraph::estimateProbabilities()
 {
+    counts.clear(); // Defensive: clear counts before filling
     for(unsigned int i = 0; i < nodes.size(); i++)
         if(nodes[i].type == LexiconTypes::EC)
         {
@@ -993,6 +1010,10 @@ void RDSGraph::estimateProbabilities()
         for(unsigned int j = 1; j < tree_nodes.size(); j++)
         {
             unsigned int node_index = tree_nodes[j].value();
+            if(node_index >= nodes.size()) {
+                std::cerr << "[RDSGraph::estimateProbabilities] Warning: node_index out of bounds (" << node_index << "/" << nodes.size() << ")" << std::endl;
+                continue;
+            }
             if(nodes[node_index].type == LexiconTypes::EC)
             {
                 assert(tree_nodes[j].children().size() == 1);
@@ -1002,10 +1023,10 @@ void RDSGraph::estimateProbabilities()
                 unsigned int first_child_val = tree_nodes[first_child_pos].value();
 
                 for(unsigned int k = 0; k < ec->size(); k++)
-                    if(ec->at(k) == first_child_val)
+                    if(ec->at(k) == first_child_val && node_index < counts.size() && k < counts[node_index].size())
                         counts[node_index][k]++;
             }
-            else
+            else if(node_index < counts.size() && 0 < counts[node_index].size())
                 counts[node_index][0]++;
         }
     }
