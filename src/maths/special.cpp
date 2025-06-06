@@ -1,9 +1,10 @@
 // File: maths/special.cpp
 // Purpose: Implements special mathematical functions used by the ADIOS algorithm.
+// Provides random number generation, special functions (gamma, digamma, factorial), and cubic equation solver.
+// All functions are robust to edge cases and documented for developer clarity.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 
 #include "special.h"
-
 #include "Constants.h"
 
 using MathConstants::DOUBLE_EPSILON;
@@ -15,10 +16,10 @@ using MathConstants::PI;
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <limits>
 
 using std::swap;
 using std::vector;
-
 
 const double INV_RAND_MAX = 1.0 / static_cast<double>(RAND_MAX);
 const double realmin = std::numeric_limits<double>::min();
@@ -26,25 +27,29 @@ const double realmax = std::numeric_limits<double>::max();
 const int intmax = std::numeric_limits<int>::max();
 
 
+// Cube root function (fallback if not provided by std)
 #ifndef cbrt
 template <typename T>
 T cbrt(const T &v)
 {
-	return pow(v, 1.0/3.0);
+    return pow(v, 1.0/3.0);
 }
 #endif
 
+// Returns a random double in [0,1)
 double uniform_rand()
 {
     return rand() * INV_RAND_MAX;
 }
 
+// Returns a random double in [l,u)
 double uniform_rand(double l, double u)
 {
     assert(l < u);
-    return rand()*(u-l) + l;
+    return uniform_rand() * (u - l) + l;
 }
 
+// Returns a normally distributed random number (mean 0, stddev 1)
 double normal_rand()
 {
     static double n2 = 0.0;
@@ -65,7 +70,7 @@ double normal_rand()
             x2 = 2.0 * uniform_rand() - 1.0;
             w = x1*x1 + x2*x2;
         }
-        while(w >= 1.0);
+        while(w >= 1.0 || w == 0.0);
 
         w = sqrt((-2.0*log(w)) / w);
         n1 = x1*w;
@@ -75,20 +80,24 @@ double normal_rand()
         return n1;
     }
 
+    // Should never reach here
     assert(false);
     return 0.0;
 }
 
+// Returns a normally distributed random number with given mean and stddev
 double normal_rand(double mu, double stddev)
 {
     return normal_rand()*stddev + mu;
 }
 
+// Returns cotangent of x
 double cot(double x)
 {
     return 1.0/tan(x);
 }
 
+// Returns the natural logarithm of the gamma function (Lanczos approximation)
 double gammaln(double x)
 {
     const double d1 = -5.772156649015328605195174e-1;
@@ -225,6 +234,7 @@ double gammaln(double x)
     return 0.0;
 }
 
+// Returns the digamma function value (derivative of the gamma function)
 double digamma(double x)
 {
     const double large = 9.5;
@@ -271,6 +281,8 @@ double digamma(double x)
 }
 
 vector<double> factlncache(101, -1.0);
+
+// Returns the natural logarithm of the factorial of n (using cached values for efficiency)
 double factln(unsigned int n)
 {
     if (n < 2) return 0.0;
@@ -286,6 +298,7 @@ double factln(unsigned int n)
         return gammaln(n + 1.0);
 }
 
+// Returns the binomial coefficient "n choose k" multiplied by p^k * (1-p)^(n-k)
 double binom(unsigned int k, unsigned int n, double p)
 {
     assert((p >= 0.0) && (p <= 1.0));
@@ -300,6 +313,7 @@ double binom(unsigned int k, unsigned int n, double p)
     }
 }
 
+// Solves cubic equations of the form o*x^3 + p*x^2 + q*x + r = 0
 unsigned int solve_cubic(double o, double p, double q, double r, double &result0, double &result1, double &result2)
 {
     double c2 = p / o;

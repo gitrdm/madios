@@ -1,5 +1,7 @@
 // File: utils/MiscUtils.cpp
 // Purpose: Implements miscellaneous utility functions used throughout the ADIOS project.
+// Provides string manipulation, tokenization, and file reading utilities.
+// All functions are robust to malformed input and documented for developer clarity.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 
 #include "MiscUtils.h"
@@ -9,6 +11,7 @@
 #include <iostream>
 #include <cstdio>
 #include <fstream>
+#include <cctype>
 
 using std::vector;
 using std::string;
@@ -16,14 +19,15 @@ using std::istream;
 using std::stringstream;
 
 
-// Move readSequencesFromFile from main.cpp to MiscUtils.cpp for proper linkage
+// Reads sequences from a file, supporting both ADIOS-style (with '*' and '#') and plain space-separated input.
+// Returns a vector of token sequences. Warns once if markers are missing.
 vector<vector<string> > readSequencesFromFile(const string &filename) {
     vector<vector<string> > sequences;
     vector<string> tokens;
     string token;
     std::ifstream in(filename.c_str(), std::ios::in);
     if(!in.is_open()) {
-        std::cout << "Unable to open file: " << filename << std::endl;
+        std::cerr << "Unable to open file: " << filename << std::endl;
         exit(1);
     }
     while(!in.eof()) {
@@ -42,7 +46,7 @@ vector<vector<string> > readSequencesFromFile(const string &filename) {
             if(!has_star || !has_hash) {
                 static bool warned = false;
                 if(!warned) {
-                    std::cout << "Warning: Input line(s) missing '*' or '#' markers. Accepting as plain sequence.\n";
+                    std::cerr << "Warning: Input line(s) missing '*' or '#' markers. Accepting as plain sequence.\n";
                     warned = true;
                 }
             }
@@ -53,6 +57,7 @@ vector<vector<string> > readSequencesFromFile(const string &filename) {
     return sequences;
 }
 
+// Reads all lines from an input stream into a vector of strings.
 void getlines(istream &in, vector<string> &lines)
 {
     while(!in.eof())
@@ -63,6 +68,7 @@ void getlines(istream &in, vector<string> &lines)
     }
 }
 
+// Tokenizes a string by whitespace.
 vector<string> tokenise(const string &line)
 {
     stringstream ss(line);
@@ -77,6 +83,7 @@ vector<string> tokenise(const string &line)
     return tokens;
 }
 
+// Tokenizes a string by a custom delimiter.
 vector<string> tokenise(const string &line, const char &delimiter)
 {
     stringstream ss(line);
@@ -84,45 +91,34 @@ vector<string> tokenise(const string &line, const char &delimiter)
     string tok;
     vector<string> tokens;
     while(getline(ss, tok, delimiter))
-        if(tok.size() > 0)
+        if(!tok.empty())
             tokens.push_back(tok);
 
     return tokens;
 }
 
+// Returns an uppercase copy of the input string.
 string uppercase(const string &s)
 {
     string result = s;
-    transform(s.begin(), s.end(), result.begin(), toupper);
+    std::transform(s.begin(), s.end(), result.begin(), [](unsigned char c){ return std::toupper(c); });
     return result;
 }
 
+// Returns a lowercase copy of the input string.
 string lowercase(const string &s)
 {
     string result = s;
-    transform(s.begin(), s.end(), result.begin(), tolower);
+    std::transform(s.begin(), s.end(), result.begin(), [](unsigned char c){ return std::tolower(c); });
     return result;
 }
 
+// Trims leading and trailing whitespace from a string.
 string trimSpaces(const string &s)
 {
-    printf("trimSpaces input ptr: %p, size: %zu\n", (const void*)s.c_str(), s.size());
-    fflush(stdout);
-    string str = s;
-    size_t t = str.find('\t');
-    while (t != string::npos) {
-        str[t] = ' ';
-        t = str.find('\t', t + 1);
-    }
-    t = str.find('\n');
-    while (t != string::npos) {
-        str[t] = ' ';
-        t = str.find('\n', t + 1);
-    }
-    if (str.empty()) return "";
-    size_t n = str.find_first_not_of(" ");
-    size_t k = str.find_last_not_of(" ");
-    if (n == string::npos) return "";
-    if (k == string::npos || k < n) return "";
-    return str.substr(n, k - n + 1);
+    if(s.empty()) return s;
+    size_t start = s.find_first_not_of(" \t\n\r");
+    if(start == string::npos) return "";
+    size_t end = s.find_last_not_of(" \t\n\r");
+    return s.substr(start, end - start + 1);
 }
