@@ -10,6 +10,7 @@
 #include "RDSGraph.h"
 #include "special.h"
 #include "TimeFuncs.h"
+#include "utils/json.hpp"
 
 #include <sstream>
 #include <iostream>
@@ -17,6 +18,7 @@
 #include <utility>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 using std::vector;
 using std::pair;
@@ -71,33 +73,81 @@ vector<vector<string> > readSequencesFromFile(const string &filename)
 
 int main(int argc, char *argv[])
 {
-    if(argc < 6)
-    {
+    bool json_mode = false;
+    int positional_argc = 0;
+    for(int i = 1; i < argc; ++i) {
+        if(std::string(argv[i]) == "--json") {
+            json_mode = true;
+            break;
+        } else {
+            positional_argc++;
+        }
+    }
+    if(positional_argc < 5) {
         cout << "Usage:" << endl;
-        cout << "ModifiedADIOS <filename> <eta> <alpha> <context_size> <coverage> ---OPTIONAL--- <number_of_new_sequences>" << endl;
+        cout << "ModifiedADIOS <filename> <eta> <alpha> <context_size> <coverage> [--json] ---OPTIONAL--- <number_of_new_sequences>" << endl;
         exit(1);
     }
-
-    cout << "BEGIN CORPUS ----------" << endl;
     vector<vector<string> > sequences = readSequencesFromFile(argv[1]);
-    for(unsigned int i = 0; i < sequences.size(); i++)
-    {
-        for(unsigned int j = 0; j < sequences[i].size(); j++)
-            cout << sequences[i][j] << " ";
-        cout << endl;
-    }
-    cout << "END CORPUS ----------" << endl << endl << endl;
-
     RDSGraph testGraph(sequences);
-    cout << testGraph << endl;
+    testGraph.setQuiet(json_mode); // Suppress verbose output if --json is set
     double startTime = getTime();
     testGraph.distill(ADIOSParams(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atof(argv[5])));
     double endTime = getTime();
-    cout << testGraph << endl << endl;
-
-    std::cout << endl << "Time elapsed: " << endTime - startTime << " seconds" << endl << endl << endl << endl;
-
-    testGraph.convert2PCFG(std::cout);
+    if(json_mode) {
+        nlohmann::json j;
+        j["corpus"] = sequences;
+        // Search paths
+        std::vector<std::vector<std::string>> search_paths;
+        for(const auto& path : testGraph.getPaths()) {
+            std::vector<std::string> s;
+            for(unsigned int idx : path) {
+                s.push_back(testGraph.getNodeName(idx));
+            }
+            search_paths.push_back(s);
+        }
+        j["search_paths"] = search_paths;
+        // Lexicon
+        std::vector<nlohmann::json> lexicon;
+        const auto& nodes = testGraph.getNodes();
+        for(size_t i = 0; i < nodes.size(); ++i) {
+            nlohmann::json node_j;
+            node_j["id"] = i;
+            node_j["type"] = nodes[i].type;
+            node_j["string"] = testGraph.getNodeString(i);
+            std::vector<unsigned int> parents;
+            for(const auto& p : nodes[i].parents) parents.push_back(p.first);
+            node_j["parents"] = parents;
+            lexicon.push_back(node_j);
+        }
+        j["lexicon"] = lexicon;
+        // Grammar (PCFG)
+        std::stringstream grammar_ss;
+        testGraph.convert2PCFG(grammar_ss);
+        j["grammar"] = grammar_ss.str();
+        j["timing"] = endTime - startTime;
+        std::cout << std::setw(2) << j << std::endl;
+        return 0;
+    } else {
+        cout << "eta = " << argv[2] << endl;
+        cout << "alpha = " << argv[3] << endl;
+        cout << "contextSize = " << argv[4] << endl;
+        cout << "overlapThreshold = " << argv[5] << endl;
+        cout << "BEGIN CORPUS ----------" << endl;
+        for(unsigned int i = 0; i < sequences.size(); i++) {
+            for(unsigned int j = 0; j < sequences[i].size(); j++)
+                cout << sequences[i][j] << " ";
+            cout << endl;
+        }
+        cout << "END CORPUS ----------" << endl << endl << endl;
+        cout << testGraph << endl;
+        cout << "BEGIN DISTILLATION ----------" << endl;
+        testGraph.distill(ADIOSParams(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atof(argv[5])));
+        cout << "END DISTILLATION ----------" << endl << endl;
+        cout << testGraph << endl << endl;
+        std::cout << endl << "Time elapsed: " << endTime - startTime << " seconds" << endl << endl << endl << endl;
+        testGraph.convert2PCFG(std::cout);
+    }
 /*
     startTime = getTime();
     testGraph.distill(ADIOSParams(atof(argv[2]), atof(argv[3])*10, atoi(argv[4])-2, atof(argv[5])));

@@ -59,7 +59,6 @@ void RDSGraph::distill(const ADIOSParams &params)
         std::cout << "contextSize = " << params.contextSize << endl;
         std::cout << "overlapThreshold = " << params.overlapThreshold << endl;
     }
-
     while(true)
     {
         bool foundPattern = false;
@@ -69,7 +68,6 @@ void RDSGraph::distill(const ADIOSParams &params)
                 std::cout << "--------------------------- working on Path " << i << " of length " << paths[i].size() << " ----------------------------------" << endl;
                 std::cout << printPath(paths[i]) << endl;
             }
-
             if((params.contextSize < 3) || (paths[i].size() < params.contextSize))
             {
                 bool foundAnotherPattern = distill(paths[i], params);
@@ -84,35 +82,26 @@ void RDSGraph::distill(const ADIOSParams &params)
         if(!foundPattern)
             break;
     }
-
     estimateProbabilities();
-
-    if (!quiet) std::cout << endl << endl << endl;
-    for(unsigned int i = 0; i < counts.size(); i++)
-        if(counts[i].size() > 1)
-        {
-            if (!quiet) {
+    if (!quiet) {
+        std::cout << endl << endl << endl;
+        for(unsigned int i = 0; i < counts.size(); i++)
+            if(counts[i].size() > 1)
+            {
                 std::cout << printNodeName(i);
                 std::cout <<  " ---> [";
-                for(unsigned int j = 0; j < counts[i].size(); j++) {
+                for(unsigned int j = 0; j < counts[i].size(); j++)
+                {
                     std::cout << counts[i][j];
-                    if(j < counts[i].size() - 1)
+                    if(j < (counts[i].size()-1))
                         std::cout << " | ";
                 }
-                std::cout << "]";/*
-                std::cout <<  " ---> [";
-                for(unsigned int j = 0; j < counts[i].size(); j++) {
-                    std::cout << counts[i][j];
-                    if(j < counts[i].size() - 1)
-                        std::cout << " | ";
-                }
-                std::cout << "]";*/
-                std::cout << endl;
+                std::cout << "]" << endl;
             }
-        }
-    if (!quiet) std::cout << endl << endl << endl;
-    if (!quiet) trees[0].print(0, 0);
-    if (!quiet) std::cout << endl << endl << endl;
+        std::cout << endl << endl << endl;
+        trees[0].print(0, 0);
+        std::cout << endl << endl << endl;
+    }
 }
 
 void RDSGraph::convert2PCFG(ostream &out) const
@@ -223,7 +212,6 @@ bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
         std::cout << connectionsToRewire.size() << " connections rewired." << endl;
         std::cout << "END BEST PATTERN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
     }
-
     return true;
 }
 
@@ -305,7 +293,9 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
             all_general_ecs.push_back(ec);
         }
     }
-    if (!quiet) std::cout << all_general_paths.size() << " paths tested" << endl;
+    if (!quiet) {
+        std::cout << all_general_paths.size() << " paths tested" << endl;
+    }
 
 
 
@@ -316,7 +306,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     vector<unsigned int> pattern2general;
 
     // test each path for significant patterns;
-    RDSGraph temp_graph(*this);
+    RDSGraph temp_graph(*this); // Copy constructor now copies 'quiet'
     for(unsigned int i = 0; i < all_general_paths.size(); i++)
     {
         ConnectionMatrix connections;
@@ -346,7 +336,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 //         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
         {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
-                if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
+                if((all_general_slots[i] < some_patterns[j].first) || (all_generalSlots[i] > somePatterns[j].second))
                     continue;
 
             all_patterns.push_back(some_patterns[j]);
@@ -384,7 +374,9 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     if(!best_pattern_found)
         return false;
     assert(best_pattern_index < all_patterns.size());
-    if (!quiet) std::cout << all_patterns.size() << " patterns found" << endl;
+    if (!quiet) {
+        std::cout << all_patterns.size() << " patterns found" << endl;
+    }
 
     // get alll the information about the best pattern
     Range best_pattern = all_patterns[best_pattern_index];
@@ -402,7 +394,9 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 
 
     // REWIRING STAGE
-    if (!quiet) std::cout << "STARTS REWIRING" << endl;
+    if (!quiet) {
+        std::cout << "STARTS REWIRING" << endl;
+    }
     unsigned int old_num_nodes = nodes.size();
     unsigned int search_start = max(best_pattern.first, best_context.first);
     unsigned int search_finish = min(best_pattern.second, best_context.second);
@@ -420,15 +414,16 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
             EquivalenceClass overlap_ec = best_encountered_ecs[local_slot].computeOverlapEC(*best_exisiting_ec);
             double overlap_ratio = overlap_ec.size() / best_exisiting_ec->size();
 
-            if(overlap_ratio < 1.0)            // true if the overlap with existing EC is less than 1.0, only use the subset that overlaps with it
-            {
-                std::cout << "NEW OVERLAP EC USED: E[" << printEquivalenceClass(overlap_ec) << "]" << endl;
+            if(overlap_ratio < 1.0) {
+                if (!quiet) {
+                    std::cout << "NEW OVERLAP EC USED: E[" << printEquivalenceClass(overlap_ec) << "]" << endl;
+                }
                 best_path[i] = nodes.size();
                 rewire(vector<Connection>(), EquivalenceClass(overlap_ec));
-            }
-            else
-            {
-                if (!quiet) std::cout << "OLD OVERLAP EC USED: E[" << printNode(best_path[i]) << "]" << endl;
+            } else {
+                if (!quiet) {
+                    std::cout << "OLD OVERLAP EC USED: E[" << printNode(best_path[i]) << "]" << endl;
+                }
                 //rewire(vector<Connection>(), best_path[i]);
             }
         }
@@ -437,9 +432,10 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     computeConnectionMatrix(best_connections, best_path);
     vector<Connection> best_pattern_connections = getRewirableConnections(best_connections, best_pattern, params.alpha);
     rewire(best_pattern_connections, SignificantPattern(best_path(best_pattern.first, best_pattern.second)));
-    if (!quiet) std::cout << best_pattern_connections .size() << " occurences rewired" << endl;
-    if (!quiet) std::cout << "ENDS REWIRING" << endl;
-
+    if (!quiet) {
+        std::cout << best_pattern_connections.size() << " occurences rewired" << endl;
+        std::cout << "ENDS REWIRING" << endl;
+    }
     return true;
 }
 
@@ -775,7 +771,9 @@ void RDSGraph::rewire(const vector<Connection> &connections, const SignificantPa
 
         valid_connections.push_back(sorted_connections[i]);
     }
-    if (!quiet) std::cout << valid_connections.size() << " valid_connections" << endl;
+    if (!quiet) {
+        std::cout << valid_connections.size() << " valid_connections" << endl;
+    }
 
     // rewire the connections in reverse order to avoid problems with path changing size
     for(unsigned int i = valid_connections.size()-1; i < valid_connections.size(); i--)
@@ -1106,21 +1104,21 @@ void printInfo(const ConnectionMatrix &connections, const Array2D<double> &flows
     for(int i = 0; i < connections.dim1(); i++)
     {
         for(int j = 0; j < connections.dim2(); j++)
-                std::cout << connections(i, j).size() << "\t";
+            std::cout << connections(i, j).size() << "\t";
         std::cout << endl;
     }
     std::cout << endl << endl << endl;
     for(int i = 0; i < flows.dim1(); i++)
     {
         for(int j = 0; j < flows.dim2(); j++)
-                std::cout << flows(i, j) << "\t";
+            std::cout << flows(i, j) << "\t";
         std::cout << endl;
     }
     std::cout << endl << endl << endl;
     for(int i = 0; i < descents.dim1(); i++)
     {
         for(int j = 0; j < descents.dim2(); j++)
-                std::cout << descents(i, j) << "\t";
+            std::cout << descents(i, j) << "\t";
         std::cout << endl;
     }
     std::cout << endl << endl << endl;

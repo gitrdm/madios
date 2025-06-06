@@ -23,6 +23,9 @@ class RDSGraph: public Stringable
     public:
         RDSGraph();
         explicit RDSGraph(const std::vector<std::vector<std::string> > &sequences);
+        // Copy constructor to ensure 'quiet' is copied
+        RDSGraph(const RDSGraph& other)
+            : corpusSize(other.corpusSize), nodes(other.nodes), paths(other.paths), trees(other.trees), counts(other.counts), quiet(other.quiet) {}
 
         std::vector<std::string> generate() const;
         std::vector<std::string> generate(const SearchPath &search_path) const;
@@ -33,15 +36,22 @@ class RDSGraph: public Stringable
 
         virtual std::string toString() const;
 
+        // Expose for JSON output
+        const std::vector<SearchPath>& getPaths() const { return paths; }
+        const std::vector<RDSNode>& getNodes() const { return nodes; }
+        std::string getNodeString(unsigned int node) const { return printNode(node); }
+        std::string getNodeName(unsigned int node) const { return printNodeName(node); }
+
+        void setQuiet(bool q) { quiet = q; }
+        bool isQuiet() const { return quiet; }
+
     private:
         unsigned int corpusSize;
         std::vector<RDSNode> nodes;
         std::vector<SearchPath> paths;
         std::vector<ParseTree<unsigned int> > trees;
-
-        // counts and normalised probabilities
         std::vector<std::vector<unsigned int> > counts;
-        //std::vector<std::vector<double> > probs;
+        bool quiet = false; // Suppress verbose output if true
 
         void buildInitialGraph(const std::vector<std::vector<std::string> > &sequences);
         bool distill(const SearchPath &search_path, const ADIOSParams &params);
@@ -54,7 +64,7 @@ class RDSGraph: public Stringable
         // compute matrix and pattern searching function
         void computeConnectionMatrix(ConnectionMatrix &connections, const SearchPath &search_path) const;
         void computeDescentsMatrix(Array2D<double> &flows, Array2D<double> &descents, const ConnectionMatrix &connections) const;
-        bool findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const Array2D<double> &flows, const Array2D<double> &descents, double eta, double alpha) const;
+        bool findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const Array2D<double> &flows, const Array2D<double> &descents, double eta, double alpha);
 
         // rewiring and update functions
         void updateAllConnections();
