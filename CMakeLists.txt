@@ -52,3 +52,6 @@ add_test(NAME basic_test COMMAND tests_basic)
 add_test(NAME integration_test
   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/tests/test_integration.cmake
 )
+
+# Install rule for the madios binary (user-local install)
+install(TARGETS madios DESTINATION bin)

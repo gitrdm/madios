@@ -1,8 +1,8 @@
 // File: main.cpp
-// Purpose: Entry point for the ModifiedADIOS project. Handles input/output and program flow for grammar induction using the ADIOS algorithm.
+// Purpose: Entry point for the madios project. Handles input/output and program flow for grammar induction using the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 //
-// Usage: ./ModifiedADIOS test/corpus.txt
+// Usage: ./madios test/corpus.txt
 //
 // This file is a good starting point for understanding how the program operates.
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     }
     if(positional_argc < 5) {
         cout << "Usage:" << endl;
-        cout << "ModifiedADIOS <filename> <eta> <alpha> <context_size> <coverage> [--json] ---OPTIONAL--- <number_of_new_sequences>" << endl;
+        cout << "madios <filename> <eta> <alpha> <context_size> <coverage> [--json] ---OPTIONAL--- <number_of_new_sequences>" << endl;
         exit(1);
     }
     vector<vector<string> > sequences = readSequencesFromFile(argv[1]);
