@@ -2,9 +2,16 @@
 // Purpose: Entry point for the madios project. Handles input/output and program flow for grammar induction using the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 //
-// Usage: ./madios test/corpus.txt
+// Usage: ./madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [number_of_new_sequences]
 //
 // This file is a good starting point for understanding how the program operates.
+//
+// Major responsibilities:
+//   - Parse and validate command-line arguments
+//   - Read and validate input corpus files
+//   - Run the ADIOS grammar induction algorithm
+//   - Output results in human-readable or JSON format
+//   - Provide robust error handling and clear diagnostics
 
 #include "MiscUtils.h"
 #include "RDSGraph.h"
@@ -29,8 +36,19 @@ using std::ios;
 using std::cout;
 using std::endl;
 
+/**
+ * @brief Entry point for the madios program.
+ *
+ * Handles argument parsing, input file reading, and program flow for grammar induction.
+ * Provides robust error handling and clear output for both human and machine (JSON) consumption.
+ *
+ * @param argc Number of command-line arguments
+ * @param argv Array of command-line argument strings
+ * @return int Exit code (0 for success, nonzero for error)
+ */
 int main(int argc, char *argv[])
 {
+    // Parse command-line arguments and detect JSON mode
     bool json_mode = false;
     int positional_argc = 0;
     for(int i = 1; i < argc; ++i) {
@@ -42,16 +60,42 @@ int main(int argc, char *argv[])
         }
     }
     if(positional_argc < 5) {
-        cout << "Usage:" << endl;
-        cout << "madios <filename> <eta> <alpha> <context_size> <coverage> [--json] ---OPTIONAL--- <number_of_new_sequences>" << endl;
-        exit(1);
+        std::cerr << "Usage:" << std::endl;
+        std::cerr << "madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [number_of_new_sequences]" << std::endl;
+        return 1;
     }
+    // Defensive: Validate and open input file
+    std::ifstream infile(argv[1]);
+    if (!infile.good()) {
+        std::cerr << "[main] Error: Cannot open input file '" << argv[1] << "'." << std::endl;
+        return 2;
+    }
+    infile.close();
+    // Defensive: Parse numeric arguments
+    double eta = 0.0, alpha = 0.0, coverage = 0.0;
+    int context_size = 0;
+    try {
+        eta = std::stod(argv[2]);
+        alpha = std::stod(argv[3]);
+        context_size = std::stoi(argv[4]);
+        coverage = std::stod(argv[5]);
+    } catch (const std::exception &e) {
+        std::cerr << "[main] Error: Invalid numeric argument. " << e.what() << std::endl;
+        return 3;
+    }
+    // Read input sequences (robust to plain or ADIOS-style input)
     vector<vector<string> > sequences = readSequencesFromFile(argv[1]);
+    if (sequences.empty()) {
+        std::cerr << "[main] Error: No sequences found in input file '" << argv[1] << "'." << std::endl;
+        return 4;
+    }
+    // Build the initial graph
     RDSGraph testGraph(sequences);
     testGraph.setQuiet(json_mode); // Suppress verbose output if --json is set
     double startTime = getTime();
-    testGraph.distill(ADIOSParams(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atof(argv[5])));
+    testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
     double endTime = getTime();
+    // Output results in JSON or human-readable format
     if(json_mode) {
         nlohmann::json j;
         j["corpus"] = sequences;
@@ -87,10 +131,10 @@ int main(int argc, char *argv[])
         std::cout << std::setw(2) << j << std::endl;
         return 0;
     } else {
-        cout << "eta = " << argv[2] << endl;
-        cout << "alpha = " << argv[3] << endl;
-        cout << "contextSize = " << argv[4] << endl;
-        cout << "overlapThreshold = " << argv[5] << endl;
+        cout << "eta = " << eta << endl;
+        cout << "alpha = " << alpha << endl;
+        cout << "contextSize = " << context_size << endl;
+        cout << "overlapThreshold = " << coverage << endl;
         cout << "BEGIN CORPUS ----------" << endl;
         for(unsigned int i = 0; i < sequences.size(); i++) {
             for(unsigned int j = 0; j < sequences[i].size(); j++)
@@ -100,28 +144,14 @@ int main(int argc, char *argv[])
         cout << "END CORPUS ----------" << endl << endl << endl;
         cout << testGraph << endl;
         cout << "BEGIN DISTILLATION ----------" << endl;
-        testGraph.distill(ADIOSParams(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atof(argv[5])));
+        testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
         cout << "END DISTILLATION ----------" << endl << endl;
         cout << testGraph << endl << endl;
         std::cout << endl << "Time elapsed: " << endTime - startTime << " seconds" << endl << endl << endl << endl;
         testGraph.convert2PCFG(std::cout);
     }
-/*
-    startTime = getTime();
-    testGraph.distill(ADIOSParams(atof(argv[2]), atof(argv[3])*10, atoi(argv[4])-2, atof(argv[5])));
-    endTime = getTime();
-    cout << testGraph << endl << endl;
-
-    std::cout << endl << "Time elapsed: " << endTime - startTime << " seconds" << endl << endl << endl << endl;*/
-/*
-    vector<string> testString(sequences[10].begin(), sequences[10].end());
-    for(unsigned int i = 0; i < testString.size() - 1; i++)
-        std::cout << testString[i] << " ";
-    std::cout << testString.back() << endl;
-    SearchPath newPath = testGraph.encode(testString);
-    std::cout << newPath << endl;
-    testGraph.predict(newPath);
-
+    // Optionally: generate new sequences if requested (not enabled by default)
+    /*
     if(argc > 6)
         for(unsigned int i = 0; i < static_cast<unsigned int>(atoi(argv[6])); i++)
         {
@@ -129,5 +159,7 @@ int main(int argc, char *argv[])
             for(unsigned int j = 0; j < sequence.size(); j++)
                 std::cout << sequence[j] << " ";
             std::cout << endl;
-        }*/
+        }
+    */
+    return 0;
 }

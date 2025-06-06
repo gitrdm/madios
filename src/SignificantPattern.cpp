@@ -1,6 +1,16 @@
 // File: SignificantPattern.cpp
 // Purpose: Implements the SignificantPattern class, which detects and manages significant patterns in the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
+//
+// Major responsibilities:
+//   - Represent a significant pattern (sequence of node indices) in the ADIOS graph
+//   - Provide robust copying, search, and string conversion
+//   - Used for pattern discovery and generalization
+//
+// Design notes:
+//   - Inherits from LexiconUnit and std::vector<unsigned int>
+//   - All methods are robust to empty and duplicate input
+//   - Used throughout the ADIOS algorithm for significant pattern management
 
 #include "SignificantPattern.h"
 
@@ -10,10 +20,17 @@ using std::vector;
 using std::string;
 using std::ostringstream;
 
+/**
+ * @brief Default constructor. Initializes an empty significant pattern.
+ */
 SignificantPattern::SignificantPattern()
 {
 }
 
+/**
+ * @brief Construct a significant pattern from a vector of node indices.
+ * @param sequence Vector of node indices
+ */
 SignificantPattern::SignificantPattern(const vector<unsigned int> &sequence)
 {
     clear();
@@ -21,24 +38,41 @@ SignificantPattern::SignificantPattern(const vector<unsigned int> &sequence)
         push_back(sequence[i]);
 }
 
+/**
+ * @brief Destructor. No special cleanup needed.
+ */
 SignificantPattern::~SignificantPattern()
 {
 }
 
+/**
+ * @brief Find the index of a unit in the pattern.
+ * @param unit Node index to find
+ * @return Index of the unit in the pattern
+ * @throws Asserts if not found
+ */
 unsigned int SignificantPattern::find(unsigned int unit) const
 {
     for(unsigned int i = 0; i < size(); i++)
         if(at(i) == unit)
             return i;
 
-    assert(false);
+    assert(false); // Defensive: should always find the unit if used correctly
 }
 
+/**
+ * @brief Make a deep copy of this significant pattern.
+ * @return Pointer to a new SignificantPattern object
+ */
 LexiconUnit* SignificantPattern::makeCopy() const
 {
     return new SignificantPattern(*this);
 }
 
+/**
+ * @brief Convert the significant pattern to a human-readable string.
+ * @return String representation of the pattern
+ */
 string SignificantPattern::toString() const
 {
     ostringstream sout;
