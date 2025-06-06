@@ -111,8 +111,15 @@ void RDSGraph::distill(const ADIOSParams &params)
             }
         }
     if (!quiet) std::cout << endl << endl << endl;
-    if (!quiet) trees[0].print(0, 0);
-    if (!quiet) std::cout << endl << endl << endl;
+    if (!quiet) {
+        std::cout << endl << endl << endl;
+        if (!trees.empty() && trees[0].nodes().size() > 0) {
+            trees[0].print(0, 0);
+        } else {
+            std::cout << "No parse trees to print (empty or invalid)." << std::endl;
+        }
+        std::cout << endl << endl << endl;
+    }
 }
 
 void RDSGraph::convert2PCFG(ostream &out) const

@@ -46,24 +46,27 @@ vector<vector<string> > readSequencesFromFile(const string &filename)
     {
         string line;
         getline(in, line);
-
-        if(line.size() > 0)
+        if(line.empty()) continue;
+        stringstream ss(line);
+        tokens.clear();
+        bool has_star = false, has_hash = false;
+        while(ss >> token)
         {
-            stringstream ss(line);
-            while(!ss.eof())
-            {
-                ss >> token;
-
-                if(token == "*")
-                    tokens.clear();
-                else if(token == "#")
-                {
-                    sequences.push_back(tokens);
-                    break;
+            if(token == "*") has_star = true;
+            else if(token == "#") has_hash = true;
+            else tokens.push_back(token);
+        }
+        // Accept line if it has tokens, regardless of * or #, but warn if missing
+        if(!tokens.empty()) {
+            if(!has_star || !has_hash) {
+                // Warn only once per file for missing markers
+                static bool warned = false;
+                if(!warned) {
+                    cout << "Warning: Input line(s) missing '*' or '#' markers. Accepting as plain sequence.\n";
+                    warned = true;
                 }
-                else
-                    tokens.push_back(token);
             }
+            sequences.push_back(tokens);
         }
     }
     in.close();
