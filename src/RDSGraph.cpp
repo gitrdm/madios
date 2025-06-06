@@ -141,30 +141,40 @@ void RDSGraph::distill(const ADIOSParams &params)
 // Output the learned PCFG rules in a standard format.
 void RDSGraph::convert2PCFG(ostream &out) const
 {
-    out << "S _" << std::endl;
+    // Output the learned PCFG rules in standard format: LHS -> RHS [probability]
+    // Probabilities are normalized over all rules with the same LHS.
     for(unsigned int i = 0; i < nodes.size(); i++)
     {
         if(nodes[i].type == LexiconTypes::EC)
         {
             EquivalenceClass *ec = static_cast<EquivalenceClass *>(nodes[i].lexicon);
+            double total = 0.0;
             for(unsigned int j = 0; j < ec->size(); j++)
-                out << counts[i][j] << " E" << i << " --> " << printNodeName((*ec)[j]) << std::endl;
+                total += counts[i][j];
+            if (total == 0.0) total = 1.0; // avoid division by zero
+            for(unsigned int j = 0; j < ec->size(); j++) {
+                double prob = counts[i][j] / total;
+                out << "E" << i << " -> " << printNodeName((*ec)[j]) << " [" << prob << "]" << std::endl;
+            }
         }
         else if(nodes[i].type == LexiconTypes::SP)
         {
             SignificantPattern *sp = static_cast<SignificantPattern *>(nodes[i].lexicon);
-            out << counts[i][0] << " P" << i << " -->";
+            double total = counts[i][0];
+            if (total == 0.0) total = 1.0;
+            double prob = counts[i][0] / total;
+            out << "P" << i << " ->";
             for(unsigned int j = 0; j < sp->size(); j++)
                 out << " " << printNodeName((*sp)[j]);
-            out << std::endl;
+            out << " [" << prob << "]" << std::endl;
         }
     }
     for(unsigned int i = 0; i < paths.size(); i++)
     {
-        out << "1 S -->";
+        out << "S ->";
         for(unsigned int j = 1; j < paths[i].size()-1; j++)
             out << " " << printNodeName(paths[i][j]);
-        out << std::endl;
+        out << " [1.0]" << std::endl;
     }
 }
 
@@ -394,7 +404,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 //         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
         {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
-                if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
+                if((all_general_slots[i] < some_patterns[j].first) || (all_generalSlots[i] > some_patterns[j].second))
                     continue;
 
             all_patterns.push_back(some_patterns[j]);
