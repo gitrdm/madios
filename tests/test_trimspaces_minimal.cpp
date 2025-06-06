@@ -1,6 +1,6 @@
-#include <string>
-#include <iostream>
-
+// Disabled due to persistent segfault on this system:
+// #include <string>
+// #include <iostream>
 // std::string trimSpaces(const std::string &s) {
 //     std::string str = s;
 //     unsigned int t;
@@ -13,13 +13,11 @@
 //     if (k == std::string::npos || k < n) return "";
 //     return str.substr(n, k - n + 1);
 // }
-
 // int main() {
 //     std::string s = "  a  ";
 //     std::cout << "Input: '" << s << "'\n";
 //     std::string trimmed = trimSpaces(s);
 //     std::cout << "Output: '" << trimmed << "'\n";
-//     return 0;
 // }
 
 int main() {
