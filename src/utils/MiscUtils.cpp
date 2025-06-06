@@ -71,12 +71,19 @@ string trimSpaces(const string &s)
     printf("trimSpaces input ptr: %p, size: %zu\n", (const void*)s.c_str(), s.size());
     fflush(stdout);
     string str = s;
-    unsigned int t;
-    while ((t = str.find('\t')) != string::npos) str[t] = ' ';
-    while ((t = str.find('\n')) != string::npos) str[t] = ' ';
+    size_t t = str.find('\t');
+    while (t != string::npos) {
+        str[t] = ' ';
+        t = str.find('\t', t + 1);
+    }
+    t = str.find('\n');
+    while (t != string::npos) {
+        str[t] = ' ';
+        t = str.find('\n', t + 1);
+    }
     if (str.empty()) return "";
-    unsigned int n = str.find_first_not_of(" ");
-    unsigned int k = str.find_last_not_of(" ");
+    size_t n = str.find_first_not_of(" ");
+    size_t k = str.find_last_not_of(" ");
     if (n == string::npos) return "";
     if (k == string::npos || k < n) return "";
     return str.substr(n, k - n + 1);
