@@ -43,6 +43,7 @@ add_executable(tests_basic
     tests/test_equiv.cpp
     tests/test_special.cpp
     tests/test_rdsgraph_json.cpp
+    tests/test_input_plain.cpp
 )
 target_include_directories(tests_basic PRIVATE tests)
 # Link main project sources to tests_basic for symbol resolution

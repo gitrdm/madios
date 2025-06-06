@@ -35,4 +35,12 @@ std::string num2str(const T &num)
     return stream_cast<std::string, T>(num);
 }
 
+#ifdef __cplusplus
+extern "C++" {
+#endif
+std::vector<std::vector<std::string> > readSequencesFromFile(const std::string &filename);
+#ifdef __cplusplus
+}
+#endif
+
 #endif

@@ -8,12 +8,50 @@
 #include <algorithm>
 #include <iostream>
 #include <cstdio>
+#include <fstream>
 
 using std::vector;
 using std::string;
 using std::istream;
 using std::stringstream;
 
+
+// Move readSequencesFromFile from main.cpp to MiscUtils.cpp for proper linkage
+vector<vector<string> > readSequencesFromFile(const string &filename) {
+    vector<vector<string> > sequences;
+    vector<string> tokens;
+    string token;
+    std::ifstream in(filename.c_str(), std::ios::in);
+    if(!in.is_open()) {
+        std::cout << "Unable to open file: " << filename << std::endl;
+        exit(1);
+    }
+    while(!in.eof()) {
+        string line;
+        getline(in, line);
+        if(line.empty()) continue;
+        stringstream ss(line);
+        tokens.clear();
+        bool has_star = false, has_hash = false;
+        while(ss >> token) {
+            if(token == "*") has_star = true;
+            else if(token == "#") has_hash = true;
+            else tokens.push_back(token);
+        }
+        if(!tokens.empty()) {
+            if(!has_star || !has_hash) {
+                static bool warned = false;
+                if(!warned) {
+                    std::cout << "Warning: Input line(s) missing '*' or '#' markers. Accepting as plain sequence.\n";
+                    warned = true;
+                }
+            }
+            sequences.push_back(tokens);
+        }
+    }
+    in.close();
+    return sequences;
+}
 
 void getlines(istream &in, vector<string> &lines)
 {

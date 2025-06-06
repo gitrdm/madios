@@ -29,51 +29,6 @@ using std::ios;
 using std::cout;
 using std::endl;
 
-vector<vector<string> > readSequencesFromFile(const string &filename)
-{
-    vector<vector<string> > sequences;
-    vector<string> tokens;
-    string token;
-
-    ifstream in(filename.c_str(), ios::in);
-    if(!in.is_open())
-    {
-        cout << "Unable to open file: " << filename << endl;
-        exit(1);
-    }
-
-    while(!in.eof())
-    {
-        string line;
-        getline(in, line);
-        if(line.empty()) continue;
-        stringstream ss(line);
-        tokens.clear();
-        bool has_star = false, has_hash = false;
-        while(ss >> token)
-        {
-            if(token == "*") has_star = true;
-            else if(token == "#") has_hash = true;
-            else tokens.push_back(token);
-        }
-        // Accept line if it has tokens, regardless of * or #, but warn if missing
-        if(!tokens.empty()) {
-            if(!has_star || !has_hash) {
-                // Warn only once per file for missing markers
-                static bool warned = false;
-                if(!warned) {
-                    cout << "Warning: Input line(s) missing '*' or '#' markers. Accepting as plain sequence.\n";
-                    warned = true;
-                }
-            }
-            sequences.push_back(tokens);
-        }
-    }
-    in.close();
-
-    return sequences;
-}
-
 int main(int argc, char *argv[])
 {
     bool json_mode = false;
