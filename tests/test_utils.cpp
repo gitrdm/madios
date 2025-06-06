@@ -1,8 +1,8 @@
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "src/utils/Stringable.h"
-#include "src/utils/MiscUtils.h"
-#include "src/utils/TimeFuncs.h"
+#include "utils/Stringable.h"
+#include "utils/MiscUtils.h"
+#include "utils/TimeFuncs.h"
+#include <sstream>
 
 TEST_CASE("Stringable basic usage", "[utils]") {
     // Assuming Stringable is a base class with a toString() method
@@ -12,16 +12,36 @@ TEST_CASE("Stringable basic usage", "[utils]") {
     REQUIRE(d.toString() == "dummy");
 }
 
-TEST_CASE("MiscUtils: min/max", "[utils]") {
-    // If MiscUtils has min/max functions, test them (example only)
-    // REQUIRE(min(3, 5) == 3);
-    // REQUIRE(max(3, 5) == 5);
-    SUCCEED(); // Placeholder if no such functions
+TEST_CASE("MiscUtils: tokenise", "[utils]") {
+    std::string line = "  Foo Bar\tBaz  ";
+    auto tokens = tokenise(line);
+    REQUIRE(tokens.size() >= 2);
 }
 
-TEST_CASE("TimeFuncs: basic timing", "[utils]") {
-    // If TimeFuncs has a function to get current time, test it (example only)
-    // auto t1 = getCurrentTime();
-    // REQUIRE(t1 > 0);
-    SUCCEED(); // Placeholder if no such functions
+TEST_CASE("MiscUtils: uppercase", "[utils]") {
+    REQUIRE(uppercase("abc") == "ABC");
+}
+
+TEST_CASE("MiscUtils: lowercase", "[utils]") {
+    REQUIRE(lowercase("ABC") == "abc");
+}
+
+TEST_CASE("MiscUtils: trimSpaces minimal crash test", "[utils]") {
+    std::string s = "  a  ";
+    REQUIRE(trimSpaces(s) == "a");
+}
+
+TEST_CASE("MiscUtils: trimSpaces empty string", "[utils]") {
+    REQUIRE(trimSpaces("") == "");
+}
+TEST_CASE("MiscUtils: trimSpaces all spaces", "[utils]") {
+    REQUIRE(trimSpaces("     ") == "");
+}
+
+TEST_CASE("TimeFuncs: getTime monotonicity, getSeedFromTime", "[utils]") {
+    double t1 = getTime();
+    double t2 = getTime();
+    REQUIRE(t2 >= t1);
+    unsigned int seed = getSeedFromTime();
+    REQUIRE(seed > 0);
 }

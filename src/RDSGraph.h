@@ -7,7 +7,7 @@
 
 #include "RDSNode.h"
 #include "ADIOSUtils.h"
-#include "special.h"
+#include "maths/special.h"
 #include "MiscUtils.h"
 #include "ParseTree.h"
 

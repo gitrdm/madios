@@ -6,6 +6,8 @@
 
 #include <sstream>
 #include <algorithm>
+#include <iostream>
+#include <cstdio>
 
 using std::vector;
 using std::string;
@@ -28,13 +30,10 @@ vector<string> tokenise(const string &line)
     stringstream ss(line);
 
     vector<string> tokens;
-    while(!ss.eof())
+    string tok;
+    while (ss >> tok)
     {
-        string tok;
-        ss >> tok;
-
-        if(tok.size() > 0)
-            tokens.push_back(tok);
+        tokens.push_back(tok);
     }
 
     return tokens;
@@ -69,11 +68,16 @@ string lowercase(const string &s)
 
 string trimSpaces(const string &s)
 {
-    unsigned int t;
+    printf("trimSpaces input ptr: %p, size: %zu\n", (const void*)s.c_str(), s.size());
+    fflush(stdout);
     string str = s;
+    unsigned int t;
     while ((t = str.find('\t')) != string::npos) str[t] = ' ';
     while ((t = str.find('\n')) != string::npos) str[t] = ' ';
+    if (str.empty()) return "";
     unsigned int n = str.find_first_not_of(" ");
     unsigned int k = str.find_last_not_of(" ");
+    if (n == string::npos) return "";
+    if (k == string::npos || k < n) return "";
     return str.substr(n, k - n + 1);
 }

@@ -1,7 +1,7 @@
 #ifndef LEXICONUNIT_H
 #define LEXICONUNIT_H
 
-#include "Stringable.h"
+#include "utils/Stringable.h"
 
 class LexiconUnit: public Stringable
 {

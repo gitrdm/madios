@@ -17,6 +17,7 @@ class BasicSymbol: public LexiconUnit
         virtual LexiconUnit* makeCopy() const;
         virtual std::string toString() const;
         std::string getSymbol() const;
+        bool operator==(const BasicSymbol& other) const { return symbol == other.symbol; }
 
     private:
         std::string symbol;
