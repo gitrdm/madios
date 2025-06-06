@@ -2,7 +2,7 @@
 // Purpose: Entry point for the madios project. Handles input/output and program flow for grammar induction using the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 //
-// Usage: ./madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [number_of_new_sequences]
+// Usage: ./madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [--pcfg] [number_of_new_sequences]
 //
 // This file is a good starting point for understanding how the program operates.
 //
@@ -50,10 +50,14 @@ int main(int argc, char *argv[])
 {
     // Parse command-line arguments and detect JSON mode
     bool json_mode = false;
+    bool pcfg_mode = false;
     int positional_argc = 0;
     for(int i = 1; i < argc; ++i) {
         if(std::string(argv[i]) == "--json") {
             json_mode = true;
+            break;
+        } else if(std::string(argv[i]) == "--pcfg") {
+            pcfg_mode = true;
             break;
         } else {
             positional_argc++;
@@ -61,7 +65,9 @@ int main(int argc, char *argv[])
     }
     if(positional_argc < 5) {
         std::cerr << "Usage:" << std::endl;
-        std::cerr << "madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [number_of_new_sequences]" << std::endl;
+        std::cerr << "madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [--pcfg] [number_of_new_sequences]" << std::endl;
+        std::cerr << "  --json : output all results as JSON" << std::endl;
+        std::cerr << "  --pcfg : output only the learned grammar in standard PCFG format" << std::endl;
         return 1;
     }
     // Defensive: Validate and open input file
@@ -91,11 +97,11 @@ int main(int argc, char *argv[])
     }
     // Build the initial graph
     RDSGraph testGraph(sequences);
-    testGraph.setQuiet(json_mode); // Suppress verbose output if --json is set
+    testGraph.setQuiet(json_mode || pcfg_mode); // Suppress verbose output if --json or --pcfg is set
     double startTime = getTime();
     testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
     double endTime = getTime();
-    // Output results in JSON or human-readable format
+    // Output results in JSON, PCFG, or human-readable format
     if(json_mode) {
         nlohmann::json j;
         j["corpus"] = sequences;
@@ -129,6 +135,9 @@ int main(int argc, char *argv[])
         j["grammar"] = grammar_ss.str();
         j["timing"] = endTime - startTime;
         std::cout << std::setw(2) << j << std::endl;
+        return 0;
+    } else if(pcfg_mode) {
+        testGraph.convert2PCFG(std::cout);
         return 0;
     } else {
         cout << "eta = " << eta << endl;
