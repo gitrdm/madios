@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
     // Parse command-line arguments and detect JSON mode
     bool json_mode = false;
     bool pcfg_mode = false;
+    std::string output_filename;
     int positional_argc = 0;
     for(int i = 1; i < argc; ++i) {
         if(std::string(argv[i]) == "--json") {
@@ -59,15 +60,19 @@ int main(int argc, char *argv[])
         } else if(std::string(argv[i]) == "--pcfg") {
             pcfg_mode = true;
             break;
+        } else if(std::string(argv[i]) == "-o" && i + 1 < argc) {
+            output_filename = argv[i+1];
+            ++i; // skip filename
         } else {
             positional_argc++;
         }
     }
     if(positional_argc < 5) {
         std::cerr << "Usage:" << std::endl;
-        std::cerr << "madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [--pcfg] [number_of_new_sequences]" << std::endl;
+        std::cerr << "madios <filename> <eta> <alpha> <context_size> <coverage> [-o <outputfile>] [--json] [--pcfg] [number_of_new_sequences]" << std::endl;
         std::cerr << "  --json : output all results as JSON" << std::endl;
         std::cerr << "  --pcfg : output only the learned grammar in standard PCFG format" << std::endl;
+        std::cerr << "  -o <outputfile> : write output to file instead of stdout" << std::endl;
         return 1;
     }
     // Defensive: Validate and open input file
@@ -101,6 +106,17 @@ int main(int argc, char *argv[])
     double startTime = getTime();
     testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
     double endTime = getTime();
+    // Setup output stream
+    std::ostream* out = &std::cout;
+    std::ofstream outfile;
+    if (!output_filename.empty()) {
+        outfile.open(output_filename);
+        if (!outfile.is_open()) {
+            std::cerr << "[main] Error: Cannot open output file '" << output_filename << "'." << std::endl;
+            return 5;
+        }
+        out = &outfile;
+    }
     // Output results in JSON, PCFG, or human-readable format
     if(json_mode) {
         nlohmann::json j;
@@ -134,30 +150,30 @@ int main(int argc, char *argv[])
         testGraph.convert2PCFG(grammar_ss);
         j["grammar"] = grammar_ss.str();
         j["timing"] = endTime - startTime;
-        std::cout << std::setw(2) << j << std::endl;
+        (*out) << std::setw(2) << j << std::endl;
         return 0;
     } else if(pcfg_mode) {
-        testGraph.convert2PCFG(std::cout);
+        testGraph.convert2PCFG(*out);
         return 0;
     } else {
-        cout << "eta = " << eta << endl;
-        cout << "alpha = " << alpha << endl;
-        cout << "contextSize = " << context_size << endl;
-        cout << "overlapThreshold = " << coverage << endl;
-        cout << "BEGIN CORPUS ----------" << endl;
+        (*out) << "eta = " << eta << std::endl;
+        (*out) << "alpha = " << alpha << std::endl;
+        (*out) << "contextSize = " << context_size << std::endl;
+        (*out) << "overlapThreshold = " << coverage << std::endl;
+        (*out) << "BEGIN CORPUS ----------" << std::endl;
         for(unsigned int i = 0; i < sequences.size(); i++) {
             for(unsigned int j = 0; j < sequences[i].size(); j++)
-                cout << sequences[i][j] << " ";
-            cout << endl;
+                (*out) << sequences[i][j] << " ";
+            (*out) << std::endl;
         }
-        cout << "END CORPUS ----------" << endl << endl << endl;
-        cout << testGraph << endl;
-        cout << "BEGIN DISTILLATION ----------" << endl;
+        (*out) << "END CORPUS ----------" << std::endl << std::endl << std::endl;
+        (*out) << testGraph << std::endl;
+        (*out) << "BEGIN DISTILLATION ----------" << std::endl;
         testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
-        cout << "END DISTILLATION ----------" << endl << endl;
-        cout << testGraph << endl << endl;
-        std::cout << endl << "Time elapsed: " << endTime - startTime << " seconds" << endl << endl << endl << endl;
-        testGraph.convert2PCFG(std::cout);
+        (*out) << "END DISTILLATION ----------" << std::endl << std::endl;
+        (*out) << testGraph << std::endl << std::endl;
+        (*out) << std::endl << "Time elapsed: " << endTime - startTime << " seconds" << std::endl << std::endl << std::endl << std::endl;
+        testGraph.convert2PCFG(*out);
     }
     // Optionally: generate new sequences if requested (not enabled by default)
     /*
