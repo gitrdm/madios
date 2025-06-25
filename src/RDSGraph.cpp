@@ -16,6 +16,7 @@
 //   - All major steps are documented inline for maintainability
 
 #include "RDSGraph.h"
+#include "logging.h"
 #include "utils/TimeFuncs.h"
 #include <algorithm>
 #include <cassert>
