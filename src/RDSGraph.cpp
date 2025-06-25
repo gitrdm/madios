@@ -18,6 +18,7 @@
 #include "RDSGraph.h"
 #include "logging.h"
 #include "utils/TimeFuncs.h"
+#include "madios/maths/tnt/array2d.h"
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -274,7 +275,7 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
 bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
 {
     ConnectionMatrix connections;
-    Array2D<double> flows, descents;
+    TNT::Array2D<double> flows, descents;
     computeConnectionMatrix(connections, search_path);
     computeDescentsMatrix(flows, descents, connections);
 
@@ -406,7 +407,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
             computeConnectionMatrix(connections, all_general_paths[i]);
 
         // compute flows and descents matrix from connection matrix
-        Array2D<double> flows, descents;
+        TNT::Array2D<double> flows, descents;
         computeDescentsMatrix(flows, descents, connections);
 
         // look for significant patterns
@@ -685,11 +686,11 @@ SearchPath RDSGraph::bootstrap(vector<EquivalenceClass> &encountered_ecs, const 
 // Compute the descents matrix (D_R and D_L) for the connection matrix.
 // Dimensionality: len(connections) x len(connections)
 // Defensive: handles empty connections matrices and updates descents in place
-void RDSGraph::computeDescentsMatrix(Array2D<double> &flows, Array2D<double> &descents, const ConnectionMatrix &connections) const
+void RDSGraph::computeDescentsMatrix(TNT::Array2D<double> &flows, TNT::Array2D<double> &descents, const ConnectionMatrix &connections) const
 {
     // calculate P_R and P_L
     unsigned dim = connections.dim1();
-    flows = Array2D<double>(dim, dim, -1.0);
+    flows = TNT::Array2D<double>(dim, dim, -1.0);
     for(unsigned int i = 0; i < dim; i++)
         for(unsigned int j = 0; j < dim; j++)
             if(i > j)
@@ -700,7 +701,7 @@ void RDSGraph::computeDescentsMatrix(Array2D<double> &flows, Array2D<double> &de
                 flows(i, j) = static_cast<double>(connections(i, j).size()) / corpusSize;
 
     // calculate D_R and D_L
-    descents = Array2D<double>(dim, dim, -1.0);
+    descents = TNT::Array2D<double>(dim, dim, -1.0);
     for(unsigned int i = 0; i < dim; i++)
         for(unsigned int j = 0; j < dim; j++)
             if(i > j)
@@ -715,7 +716,7 @@ void RDSGraph::computeDescentsMatrix(Array2D<double> &flows, Array2D<double> &de
 // Find significant patterns in the given connection, flows, and descents matrices.
 // Updates patterns and pvalues with the found patterns and their significance.
 // Returns true if any patterns were found, false otherwise.
-bool RDSGraph::findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const Array2D<double> &flows, const Array2D<double> &descents, double eta, double alpha)
+bool RDSGraph::findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, double eta, double alpha)
 {
     patterns.clear();
     pvalues.clear();
@@ -751,7 +752,7 @@ bool RDSGraph::findSignificantPatterns(std::vector<Range> &patterns, std::vector
     //for(unsigned int i = 0; i < candidatePatterns.size(); i++)
     //    std::cout << "Candidate Pattern " << i << " = " << candidatePatterns[i].first << " " << candidatePatterns[i].second << endl;
 
-    Array2D<double> pvalueCache(pathLength, pathLength, 2.0);
+    TNT::Array2D<double> pvalueCache(pathLength, pathLength, 2.0);
     for(unsigned int i = 0; i < candidatePatterns.size(); i++)
     {   //std::cout << "START+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
         //std::cout << "Testing pattern at [" << candidatePatterns[i].first << " -> " << candidatePatterns[i].second << "]" << endl;
@@ -951,7 +952,7 @@ void RDSGraph::updateAllConnections()
 // RDSGraph::computeRightSignificance
 // Compute the right significance for a given descent point using the connections and flows matrices.
 // Defensive: ensures valid row/column indices
-double RDSGraph::computeRightSignificance(const ConnectionMatrix &connections, const Array2D<double> &flows, const pair<unsigned int, unsigned int> &descentPoint, double eta) const
+double RDSGraph::computeRightSignificance(const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const pair<unsigned int, unsigned int> &descentPoint, double eta) const
 {
     unsigned int row = descentPoint.first;
     unsigned int col = descentPoint.second;
@@ -969,7 +970,7 @@ double RDSGraph::computeRightSignificance(const ConnectionMatrix &connections, c
 // RDSGraph::computeLeftSignificance
 // Compute the left significance for a given descent point using the connections and flows matrices.
 // Defensive: ensures valid row/column indices
-double RDSGraph::computeLeftSignificance(const ConnectionMatrix &connections, const Array2D<double> &flows, const pair<unsigned int, unsigned int> &descentPoint, double eta) const
+double RDSGraph::computeLeftSignificance(const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const pair<unsigned int, unsigned int> &descentPoint, double eta) const
 {
     unsigned int row = descentPoint.first;
     unsigned int col = descentPoint.second;
@@ -988,7 +989,7 @@ double RDSGraph::computeLeftSignificance(const ConnectionMatrix &connections, co
 // Find the best right descent column for a given pattern and descent context.
 // Updates bestColumn with the column index of the best descent.
 // Defensive: ensures valid pattern and descent context
-double RDSGraph::findBestRightDescentColumn(unsigned int &bestColumn, Array2D<double> &pvalueCache, const ConnectionMatrix &connections, const Array2D<double> &flows, const Array2D<double> &descents, const Range &pattern, double eta) const
+double RDSGraph::findBestRightDescentColumn(unsigned int &bestColumn, TNT::Array2D<double> &pvalueCache, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, const Range &pattern, double eta) const
 {
     double pvalue = 2.0;
     pair<unsigned int, unsigned int> descentPoint(pattern.second + 1, bestColumn);
@@ -1013,7 +1014,7 @@ double RDSGraph::findBestRightDescentColumn(unsigned int &bestColumn, Array2D<do
 // Find the best left descent column for a given pattern and descent context.
 // Updates bestColumn with the column index of the best descent.
 // Defensive: ensures valid pattern and descent context
-double RDSGraph::findBestLeftDescentColumn(unsigned int &bestColumn, Array2D<double> &pvalueCache, const ConnectionMatrix &connections, const Array2D<double> &flows, const Array2D<double> &descents, const Range &pattern, double eta) const
+double RDSGraph::findBestLeftDescentColumn(unsigned int &bestColumn, TNT::Array2D<double> &pvalueCache, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, const Range &pattern, double eta) const
 {
     double pvalue = 2.0;
     pair<unsigned int, unsigned int> descentPoint(pattern.first - 1, bestColumn);
@@ -1305,7 +1306,7 @@ std::string RDSGraph::printNodeName(unsigned int node) const
 }
 
 // Utility: Print connections, flows, and descents matrices for debugging
-void printInfo(const ConnectionMatrix &connections, const Array2D<double> &flows, const Array2D<double> &descents)
+void printInfo(const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents)
 {
     std::cout << "Connections:" << std::endl;
     for(int i = 0; i < connections.dim1(); i++)

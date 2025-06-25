@@ -11,18 +11,22 @@ file(GLOB SRC_FILES
     "src/maths/*.cpp"
 )
 file(GLOB HEADER_FILES
-    "src/*.h"
-    "src/utils/*.h"
-    "src/maths/*.h"
+    "include/madios/*.h"
+    "include/madios/utils/*.h"
+    "include/madios/maths/*.h"
+    "include/madios/maths/tnt/*.h"
 )
 
 # Include directories
 include_directories(
+    include
+    include/madios
+    include/madios/utils
+    include/madios/maths
+    include/madios/maths/tnt
     src
     src/utils
     src/maths
-    src/maths/tnt
-    ${CMAKE_SOURCE_DIR}/include
 )
 
 add_executable(madios ${SRC_FILES} ${HEADER_FILES})

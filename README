@@ -5,17 +5,12 @@ This project implements the ADIOS (Automatic DIstillation Of Structure) algorith
 
 ## Project Structure
 
-- `src/main.cpp` – Program entry point.
-- `src/RDSGraph.*` – Main graph structure for pattern discovery.
-- `src/RDSNode.*` – Nodes in the graph (words/patterns).
-- `src/BasicSymbol.*` – Handles basic symbols (tokens).
-- `src/SearchPath.*` – Manages search paths in the graph.
-- `src/SpecialLexicons.*` – Handles special lexicon entries.
-- `src/SignificantPattern.*` – Detects significant patterns.
-- `src/EquivalenceClass.*` – Groups similar patterns.
-- `src/maths/` – Math utilities.
-- `src/utils/` – Utility functions (string, time, misc).
-- `test/corpus.txt` – Example input corpus.
+- `src/` – All implementation files (C++ sources)
+- `include/madios/` – All public headers
+- `include/madios/utils/` – Utility headers
+- `include/madios/maths/` – Math headers
+- `include/madios/maths/tnt/` – Math library headers
+- `tests/` – All test code and test data
 
 ## Building
 

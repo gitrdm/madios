@@ -14,6 +14,15 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [ ] Ensure tests run in CI (if available)
 - [ ] Add/verify output comparison scripts (`compare_json.py`, `diff_grammar.py`)
 - [ ] Create `TESTING.md` with test suite instructions
+- [ ] Add tests for error handling and invalid input (malformed corpus, bad CLI args)
+  - [x] Error handling: malformed corpus input (`test_error_handling_malformed_corpus.cpp`)
+  - [x] Error handling: bad CLI arguments (`test_error_handling_bad_cli.cpp`)
+- [ ] Add tests for exception safety and memory errors
+  - [x] Exception safety: RDSGraph public API (`test_exception_safety_rdsgraph.cpp`)
+- [ ] Add tests for all public methods in new/utility code
+  - [x] Public API coverage: MiscUtils (`test_utils_api_coverage.cpp`)
+- [ ] (Optional) Add performance regression tests
+  - [x] Performance regression: RDSGraph (`test_performance_rdsgraph.cpp`)
 
 ## Phase 2: Filesystem and Project Structure Refactor
 - [ ] Propose and document new directory structure
@@ -23,6 +32,14 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [ ] Remove obsolete/duplicate files
 - [ ] Ensure all tests and builds pass after each move
 - [ ] Update `README.md` and add `CONTRIBUTING.md` with structure rationale
+- [ ] Filesystem restructuring: Move all public headers to include/madios/, update CMake, and validate build
+    - [x] Move headers and test data
+    - [x] Update CMakeLists.txt and README
+    - [x] Fix all include paths and header dependencies (TNT/Array2D, iostream, etc.)
+    - [x] Synchronize TNT/Array2D and related TNT headers from `src/maths/tnt/` to `include/madios/maths/tnt/` (public headers complete)
+    - [x] Validate build and tests after restructuring
+    - [x] Update all code to use fully qualified TNT types (e.g., `TNT::Array2D`, `TNT::Array1D`) globally
+    - [x] Validate build and tests after namespace fix
 
 ## Phase 3: Documentation Improvement
 - [ ] Add/improve Doxygen-style comments for all public classes/methods

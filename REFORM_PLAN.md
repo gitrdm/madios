@@ -5,7 +5,7 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
 
 ---
 
-## Phase 1: Robust Regression Test Suite
+## Phase 1: Regression Test Coverage (UPDATED)
 
 ### Goals
 - Ensure all current functionality is covered by automated tests.
@@ -27,9 +27,21 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
 4. **Document Test Suite**
    - Create a `TESTING.md` file describing how to run, extend, and interpret the test suite.
 
+### Additional Test Coverage Gaps (to address):
+- Error handling and invalid input (malformed corpus, bad CLI args)
+- Exception safety and memory errors
+- Full coverage of all public methods (especially new/utility code)
+- (Optional) Performance regressions
+
+### Next Steps:
+- Add new unit tests for error handling and invalid input
+- Add tests for exception safety and memory errors
+- Add tests for all public methods in new/utility code
+- (Optional) Add performance regression tests
+
 ---
 
-## Phase 2: Filesystem and Project Structure Refactor
+## Phase 2: Filesystem Restructuring (UPDATED)
 
 ### Goals
 - Adopt a modern, clear, and maintainable project structure.
@@ -46,19 +58,20 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
      /tests       # Unit and integration tests
      /utils       # Utility scripts (e.g., compare_json.py)
      /docs        # Documentation
-     CMakeLists.txt
-     README.md
-     ...
      ```
-2. **Move Files Incrementally**
-   - Move source and header files to appropriate directories.
-   - Update `CMakeLists.txt` and build scripts to match new layout.
-   - Ensure all tests and builds pass after each move.
-3. **Update Includes and Paths**
-   - Refactor `#include` directives and relative paths.
-   - Remove obsolete or duplicate files.
-4. **Document Structure**
-   - Update `README.md` and add a `CONTRIBUTING.md` with structure rationale and guidelines.
+2. **Move Files and Update Includes**
+   - Move all public headers to `include/madios/` and update all `#include` directives accordingly.
+   - Move test data to `tests/`.
+   - Update `CMakeLists.txt` and build scripts for new layout.
+   - **[DONE] Fix TNT/Array2D header and namespace usage in all relevant headers and sources.**
+   - **[DONE] Synchronize TNT/Array2D and related TNT headers from `src/maths/tnt/` to `include/madios/maths/tnt/` so public headers are complete.**
+   - **[x] Synchronize all TNT headers from `src/maths/tnt/` to `include/madios/maths/tnt/` (public headers complete)**
+3. **Validate Build and Tests**
+   - Ensure all header dependencies are correct and the build passes.
+   - Validate that all tests pass after restructuring and header fixes.
+   - **[x] Validate build and tests after restructuring**
+   - **[x] Update all code to use fully qualified TNT types (e.g., `TNT::Array2D`, `TNT::Array1D`) globally**
+   - **[x] Validate build and tests after namespace fix**
 
 ---
 
