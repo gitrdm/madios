@@ -1322,3 +1322,8 @@ void printInfo(const ConnectionMatrix &connections, const Array2D<double> &flows
     }
     std::cout << std::endl << std::endl;
 }
+
+std::vector<std::string> RDSGraph::generate() const {
+    // By convention, the start node is at index 0
+    return generate(0);
+}

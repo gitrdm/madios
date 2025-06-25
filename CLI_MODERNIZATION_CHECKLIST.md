@@ -1,13 +1,13 @@
 # C++ CLI Application Modernization Checklist
 
 ## 1. Command-Line Interface (CLI) Cleanup
-- [ ] Use a modern CLI parsing library (e.g., CLI11, cxxopts, argparse) for consistent option handling.
-- [ ] Define all options and arguments in a single place (e.g., main.cpp or a dedicated CLI module).
-- [ ] Use clear, descriptive names for all options (e.g., `--input`, `--output`, `--verbose`, `--help`).
-- [ ] Provide both short (`-i`) and long (`--input`) forms for options where appropriate.
-- [ ] Ensure all options have clear help descriptions.
-- [ ] Validate required arguments and provide helpful error messages for missing/invalid input.
-- [ ] Support a `--help`/`-h` flag that prints usage and exits cleanly.
+- [x] Use a modern CLI parsing library (e.g., CLI11, cxxopts, argparse) for consistent option handling.
+- [x] Define all options and arguments in a single place (e.g., main.cpp or a dedicated CLI module).
+- [x] Use clear, descriptive names for all options (e.g., `--input`, `--output`, `--verbose`, `--help`).
+- [x] Provide both short (`-i`) and long (`--input`) forms for options where appropriate.
+- [x] Ensure all options have clear help descriptions.
+- [x] Validate required arguments and provide helpful error messages for missing/invalid input.
+- [x] Support a `--help`/`-h` flag that prints usage and exits cleanly.
 - [ ] Output file name is optional; default is the root of the input file name plus the output file extension.
 - [ ] Output type is optional; default output is JSON.
 - [ ] Parameters are optional and default to reasonable values.

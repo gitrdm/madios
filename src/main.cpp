@@ -18,6 +18,7 @@
 #include "special.h"
 #include "TimeFuncs.h"
 #include "utils/json.hpp"
+#include "../ext/CLI11.hpp"
 
 #include <sstream>
 #include <iostream>
@@ -48,64 +49,69 @@ using std::endl;
  */
 int main(int argc, char *argv[])
 {
-    // Parse command-line arguments and detect JSON mode
+    CLI::App app{"madios: ADIOS grammar induction"};
+
+    std::string input_filename;
+    double eta = 0.9;
+    double alpha = 0.01;
+    int context_size = 5;
+    double coverage = 0.65;
+    std::string output_filename;
     bool json_mode = false;
     bool pcfg_mode = false;
-    std::string output_filename;
-    int positional_argc = 0;
-    for(int i = 1; i < argc; ++i) {
-        if(std::string(argv[i]) == "--json") {
-            json_mode = true;
-            break;
-        } else if(std::string(argv[i]) == "--pcfg") {
-            pcfg_mode = true;
-            break;
-        } else if(std::string(argv[i]) == "-o" && i + 1 < argc) {
-            output_filename = argv[i+1];
-            ++i; // skip filename
-        } else {
-            positional_argc++;
-        }
-    }
-    if(positional_argc < 5) {
-        std::cerr << "Usage:" << std::endl;
-        std::cerr << "madios <filename> <eta> <alpha> <context_size> <coverage> [-o <outputfile>] [--json] [--pcfg] [number_of_new_sequences]" << std::endl;
-        std::cerr << "  --json : output all results as JSON" << std::endl;
-        std::cerr << "  --pcfg : output only the learned grammar in standard PCFG format" << std::endl;
-        std::cerr << "  -o <outputfile> : write output to file instead of stdout" << std::endl;
-        return 1;
-    }
+    int num_new_sequences = 0;
+    bool verbose = false;
+    bool quiet = false;
+
+    // Positional arguments (required)
+    app.add_option("input", input_filename, "Input corpus file")->required();
+    app.add_option("eta", eta, "Divergence threshold (e.g., 0.9)")->required();
+    app.add_option("alpha", alpha, "Significance threshold (e.g., 0.01)")->required();
+    app.add_option("context_size", context_size, "Context window size (e.g., 5)")->required();
+    app.add_option("coverage", coverage, "Coverage threshold (e.g., 0.65)")->required();
+    // Optional positional
+    app.add_option("number_of_new_sequences", num_new_sequences, "Number of new sequences to generate");
+
+    // Named options
+    app.add_option("-o,--output", output_filename, "Output file (default: stdout)");
+    app.add_flag("--json", json_mode, "Output all results as JSON");
+    app.add_flag("--pcfg", pcfg_mode, "Output only the learned grammar in PCFG format");
+    app.add_flag("--verbose", verbose, "Enable verbose output");
+    app.add_flag("--quiet", quiet, "Suppress all non-error output");
+
+    CLI11_PARSE(app, argc, argv);
+
+    // Mutually exclusive: if both set, quiet wins
+    if (quiet) verbose = false;
+
+    // Simple logging utility
+    auto log_info = [&](const std::string& msg) {
+        if (verbose && !quiet) std::cout << msg << std::endl;
+    };
+
     // Defensive: Validate and open input file
-    std::ifstream infile(argv[1]);
+    log_info("[madios] Reading input file: " + input_filename);
+    std::ifstream infile(input_filename);
     if (!infile.good()) {
-        std::cerr << "[main] Error: Cannot open input file '" << argv[1] << "'." << std::endl;
+        std::cerr << "[main] Error: Cannot open input file '" << input_filename << "'." << std::endl;
         return 2;
     }
     infile.close();
-    // Defensive: Parse numeric arguments
-    double eta = 0.0, alpha = 0.0, coverage = 0.0;
-    int context_size = 0;
-    try {
-        eta = std::stod(argv[2]);
-        alpha = std::stod(argv[3]);
-        context_size = std::stoi(argv[4]);
-        coverage = std::stod(argv[5]);
-    } catch (const std::exception &e) {
-        std::cerr << "[main] Error: Invalid numeric argument. " << e.what() << std::endl;
-        return 3;
-    }
     // Read input sequences (robust to plain or ADIOS-style input)
-    vector<vector<string> > sequences = readSequencesFromFile(argv[1]);
+    log_info("[madios] Parsing sequences from file...");
+    vector<vector<string> > sequences = readSequencesFromFile(input_filename);
     if (sequences.empty()) {
-        std::cerr << "[main] Error: No sequences found in input file '" << argv[1] << "'." << std::endl;
+        std::cerr << "[main] Error: No sequences found in input file '" << input_filename << "'." << std::endl;
         return 4;
     }
-    // Build the initial graph
+    log_info("[madios] Building initial graph...");
     RDSGraph testGraph(sequences);
-    testGraph.setQuiet(json_mode || pcfg_mode); // Suppress verbose output if --json or --pcfg is set
+    testGraph.setQuiet(json_mode || pcfg_mode || quiet); // Suppress verbose output if --json, --pcfg, or --quiet is set
     double startTime = getTime();
+    log_info("[madios] Running distillation...");
     testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
     double endTime = getTime();
+    log_info("[madios] Distillation complete. Time elapsed: " + std::to_string(endTime - startTime) + " seconds");
     // Setup output stream
     std::ostream* out = &std::cout;
     std::ofstream outfile;
@@ -116,6 +122,14 @@ int main(int argc, char *argv[])
             return 5;
         }
         out = &outfile;
+    }
+    // Determine default output file if not specified
+    if (output_filename.empty()) {
+        if (json_mode) {
+            output_filename = "output.json";
+        } else if (pcfg_mode) {
+            output_filename = "output.pcfg";
+        }
     }
     // Output results in JSON, PCFG, or human-readable format
     if(json_mode) {
@@ -175,16 +189,14 @@ int main(int argc, char *argv[])
         (*out) << std::endl << "Time elapsed: " << endTime - startTime << " seconds" << std::endl << std::endl << std::endl << std::endl;
         testGraph.convert2PCFG(*out);
     }
-    // Optionally: generate new sequences if requested (not enabled by default)
-    /*
-    if(argc > 6)
-        for(unsigned int i = 0; i < static_cast<unsigned int>(atoi(argv[6])); i++)
-        {
+    // Optionally: generate new sequences if requested
+    if(num_new_sequences > 0) {
+        for(int i = 0; i < num_new_sequences; ++i) {
             vector<string> sequence = testGraph.generate();
-            for(unsigned int j = 0; j < sequence.size(); j++)
-                std::cout << sequence[j] << " ";
-            std::cout << endl;
+            for(const auto& token : sequence)
+                std::cout << token << " ";
+            std::cout << std::endl;
         }
-    */
+    }
     return 0;
 }

@@ -55,32 +55,36 @@ The resulting executable will be `madios` in the project root.
 - `--pcfg`: Output only the learned grammar in standard PCFG format (see below).
 - `[number_of_new_sequences]`: (Optional) Number of new sequences to generate from the grammar.
 
-### Example
+## Command-Line Options
+
+| Option/Arg                  | Description                                                                 | Default         |
+|-----------------------------|-----------------------------------------------------------------------------|-----------------|
+| `<filename>`                | Input corpus file (required)                                                | —               |
+| `<eta>`                     | Divergence threshold (e.g., 0.9, required)                                  | 0.9             |
+| `<alpha>`                   | Significance threshold (e.g., 0.01, required)                               | 0.01            |
+| `<context_size>`            | Context window size (e.g., 5, required)                                     | 5               |
+| `<coverage>`                | Coverage threshold (e.g., 0.65, required)                                   | 0.65            |
+| `[number_of_new_sequences]` | Number of new sequences to generate from the grammar                        | 0               |
+| `-o`, `--output`            | Output file (writes all output to file instead of stdout)                   | stdout          |
+| `--json`                    | Output all results as JSON (machine-readable)                               | off             |
+| `--pcfg`                    | Output only the learned grammar in PCFG format                              | off             |
+| `--verbose`                 | Enable verbose progress/info output                                         | off             |
+| `--quiet`                   | Suppress all non-error output (overrides --verbose)                         | off             |
+
+### Output Behavior
+- If `--json` is set and no output file is specified, output goes to `output.json`.
+- If `--pcfg` is set and no output file is specified, output goes to `output.pcfg`.
+- Otherwise, output is printed to stdout or the file specified by `-o`/`--output`.
+- Progress and info messages are printed only if `--verbose` is set and `--quiet` is not set.
+- Errors are always printed to stderr.
+
+### Example Usage
 
 ```sh
-./build/madios test/test_madios.txt 0.9 0.01 5 0.65 -o results.txt --pcfg
+./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --json
+./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --pcfg -o grammar.txt
+./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --verbose
 ```
-
-### CLI Options
-
-- `-o <outputfile>`: Write all output to the specified file instead of printing to the terminal.
-- `--json`: Outputs the corpus, lexicon, search paths, and grammar in JSON format. Example:
-  ```json
-  {
-    "corpus": [["A", "B"], ["A", "C"]],
-    "search_paths": [["*", "A", "B", "#"]],
-    "lexicon": [...],
-    "grammar": "E0 -> A [0.5]\nE0 -> B [0.5]",
-    "timing": 0.0123
-  }
-  ```
-- `--pcfg`: Outputs only the learned grammar in standard PCFG format (one rule per line):
-  ```
-  E0 -> A [0.5]
-  E0 -> B [0.5]
-  S -> A B [1.0]
-  ...
-  ```
 
 ## Input Corpus Format
 
