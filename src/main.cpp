@@ -38,16 +38,16 @@ using std::cout;
 using std::endl;
 
 /**
- * @brief Entry point for the madios program.
+ * @brief Run the CLI interface for the madios program.
  *
- * Handles argument parsing, input file reading, and program flow for grammar induction.
- * Provides robust error handling and clear output for both human and machine (JSON) consumption.
+ * This function handles argument parsing, input file reading, and program flow for grammar induction.
+ * It provides robust error handling and clear output for both human and machine (JSON) consumption.
  *
  * @param argc Number of command-line arguments
  * @param argv Array of command-line argument strings
  * @return int Exit code (0 for success, nonzero for error)
  */
-int main(int argc, char *argv[])
+int run_cli(int argc, char *argv[])
 {
     CLI::App app{"madios: ADIOS grammar induction"};
 
@@ -199,4 +199,16 @@ int main(int argc, char *argv[])
         }
     }
     return 0;
+}
+
+/**
+ * @brief Entry point for the madios program.
+ *
+ * @param argc Number of command-line arguments
+ * @param argv Array of command-line argument strings
+ * @return int Exit code (0 for success, nonzero for error)
+ */
+int main(int argc, char *argv[])
+{
+    return run_cli(argc, argv);
 }

@@ -29,5 +29,5 @@
 - [ ] Add or expand tests to cover argument parsing, error handling, and default behaviors.
 
 ## 8. General Codebase Modernization
-- [ ] Ensure the application exits with appropriate status codes.
-- [ ] Separate CLI/IO logic from core processing logic for easier testing and reuse.
+- [x] Ensure the application exits with appropriate status codes.
+- [x] Separate CLI/IO logic from core processing logic for easier testing and reuse.
