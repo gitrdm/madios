@@ -75,6 +75,23 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
 
 ---
 
+## Directory Structure Rationale
+
+The new directory structure separates public headers, source files, tests, and external dependencies for clarity and maintainability:
+
+- `include/madios/` — All public headers for library and CLI
+- `src/` — All implementation files (C++ sources)
+- `tests/` — All test sources, test data, and test scripts
+- `test/` — Symlinked or duplicated test data for legacy/test compatibility
+- `ext/` — External dependencies (e.g., CLI11, catch.hpp)
+- `build/` — Build artifacts (ignored by git)
+- `utils/` — Utility implementations (may be merged into src/ in future)
+- `maths/` — Math-specific code, now under `include/madios/maths/`
+
+This structure supports modern CMake, IDEs, and packaging. See README for more details.
+
+---
+
 ## Phase 3: Documentation Improvement
 
 ### Goals

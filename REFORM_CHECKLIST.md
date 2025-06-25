@@ -25,7 +25,7 @@ Use this checklist to track progress through the reform plan. Check off each ite
   - [x] Performance regression: RDSGraph (`test_performance_rdsgraph.cpp`)
 
 ## Phase 2: Filesystem and Project Structure Refactor
-- [ ] Propose and document new directory structure
+- [x] Propose and document new directory structure (see REFORM_PLAN.md and README)
 - [ ] Move source/header files to new locations
 - [ ] Update `CMakeLists.txt` and build scripts for new layout
 - [ ] Refactor `#include` directives and paths

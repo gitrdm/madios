@@ -1,4 +1,30 @@
-# madios
+# Madios
+
+Madios is a modern C++ implementation of the ADIOS grammar induction algorithm.
+
+## Directory Structure
+
+- `include/madios/` — Public headers for library and CLI
+- `src/` — Implementation files (C++ sources)
+- `tests/` — Test sources, test data, and scripts
+- `test/` — Test data for legacy/test compatibility
+- `ext/` — External dependencies
+- `build/` — Build artifacts (ignored by git)
+- `utils/` — Utility implementations
+- `maths/` — Math-specific code (now under `include/madios/maths/`)
+
+## Building
+
+```sh
+mkdir -p build
+cd build
+cmake ..
+make -j$(nproc)
+ctest --output-on-failure
+```
+
+## Contributing
+See `CONTRIBUTING.md` for guidelines and rationale.
 
 **Purpose:**
 This project implements the ADIOS (Automatic DIstillation Of Structure) algorithm for unsupervised grammar induction from text corpora. It reads a set of sentences and induces grammatical patterns, which can be used for natural language processing and parser development.
