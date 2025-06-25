@@ -24,6 +24,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <map>
 
 using std::min;
 using std::max;
@@ -170,12 +171,26 @@ void RDSGraph::convert2PCFG(ostream &out) const
             out << " [" << prob << "]" << std::endl;
         }
     }
-    for(unsigned int i = 0; i < paths.size(); i++)
-    {
-        out << "S ->";
+    // --- Normalize S rules ---
+    // Count occurrences of each unique S rule (RHS)
+    std::map<std::vector<std::string>, int> s_rule_counts;
+    int total_s_rule_count = 0;
+    for(unsigned int i = 0; i < paths.size(); i++) {
+        std::vector<std::string> rhs;
         for(unsigned int j = 1; j < paths[i].size()-1; j++)
-            out << " " << printNodeName(paths[i][j]);
-        out << " [1.0]" << std::endl;
+            rhs.push_back(printNodeName(paths[i][j]));
+        s_rule_counts[rhs]++;
+        total_s_rule_count++;
+    }
+    // Output S rules with normalized probabilities
+    for(const auto& pair : s_rule_counts) {
+        const std::vector<std::string>& rhs = pair.first;
+        int count = pair.second;
+        double prob = (total_s_rule_count > 0) ? (static_cast<double>(count) / total_s_rule_count) : 1.0;
+        out << "S ->";
+        for(const auto& sym : rhs)
+            out << " " << sym;
+        out << " [" << prob << "]" << std::endl;
     }
 }
 
@@ -364,7 +379,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
             all_general_ecs.push_back(ec);
         }
     }
-    if (!quiet) std::cout << all_general_paths.size() << " paths tested" << endl;
+    if (!quiet) std::cerr << all_general_paths.size() << " paths tested" << endl;
 
 
 
@@ -461,7 +476,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 
 
     // REWIRING STAGE
-    if (!quiet) std::cout << "STARTS REWIRING" << endl;
+    if (!quiet) std::cerr << "STARTS REWIRING" << endl;
     unsigned int old_num_nodes = nodes.size();
     unsigned int search_start = max(best_pattern.first, best_context.first);
     unsigned int search_finish = min(best_pattern.second, best_context.second);
@@ -481,13 +496,13 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 
             if(overlap_ratio < 1.0)            // true if the overlap with existing EC is less than 1.0, only use the subset that overlaps with it
             {
-                std::cout << "NEW OVERLAP EC USED: E[" << printEquivalenceClass(overlap_ec) << "]" << endl;
+                if (!quiet) std::cerr << "NEW OVERLAP EC USED: E[" << printEquivalenceClass(overlap_ec) << "]" << endl;
                 best_path[i] = nodes.size();
                 rewire(vector<Connection>(), EquivalenceClass(overlap_ec));
             }
             else
             {
-                if (!quiet) std::cout << "OLD OVERLAP EC USED: E[" << printNode(best_path[i]) << "]" << endl;
+                if (!quiet) std::cerr << "OLD OVERLAP EC USED: E[" << printNode(best_path[i]) << "]" << endl;
                 //rewire(vector<Connection>(), best_path[i]);
             }
         }
@@ -496,8 +511,8 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     computeConnectionMatrix(best_connections, best_path);
     vector<Connection> best_pattern_connections = getRewirableConnections(best_connections, best_pattern, params.alpha);
     rewire(best_pattern_connections, SignificantPattern(best_path(best_pattern.first, best_pattern.second)));
-    if (!quiet) std::cout << best_pattern_connections .size() << " occurences rewired" << endl;
-    if (!quiet) std::cout << "ENDS REWIRING" << endl;
+    if (!quiet) std::cerr << best_pattern_connections .size() << " occurences rewired" << endl;
+    if (!quiet) std::cerr << "ENDS REWIRING" << endl;
 
     return true;
 }
@@ -1159,7 +1174,7 @@ string RDSGraph::printSignificantPattern(const SignificantPattern &sp) const
         } else {
             sout << "[UNKNOWN_TYPE:" << tempIndex << "]";
         }
-        if(i < (sp.size() - 1)) sout << " - ";
+        // No dashes or spaces between elements
     }
     return sout.str();
 }
@@ -1188,7 +1203,7 @@ string RDSGraph::printEquivalenceClass(const EquivalenceClass &ec) const
         } else {
             sout << "[UNKNOWN_TYPE:" << tempIndex << "]";
         }
-        if(i < (ec.size() - 1)) sout << ", ";
+        if(i < (ec.size() - 1)) sout << ","; // No space after comma
     }
     return sout.str();
 }
