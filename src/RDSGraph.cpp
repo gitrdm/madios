@@ -291,6 +291,12 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
     if (search_path.empty()) {
         throw std::invalid_argument("RDSGraph::generate(SearchPath): search_path is empty");
     }
+    madios::Logger::trace("Entering RDSGraph::generate(SearchPath)");
+
+    std::vector<std::string> sequence;
+    for (unsigned int idx : search_path) {
+        if (idx >= nodes.size()) {
+            madios::Logger::error("[RDSGraph::generate(SearchPath)] node index out of bounds (" + std::to_string(idx) + "/" + std::to_string(nodes.size()) + ")");
             continue;
         }
         if (nodes[idx].type == LexiconTypes::Start)
@@ -321,8 +327,13 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
     return sequence;
 }
 
-// RDSGraph::distill
-// Look for possible significant pattern found with help of equivalence class
+/**
+ * @brief Look for and generalize a significant pattern in the given search path using equivalence classes.
+ * @param search_path The path to analyze.
+ * @param params ADIOS algorithm parameters.
+ * @return True if a significant pattern was found and generalized, false otherwise.
+ * @throws std::invalid_argument if the search path is empty.
+ */
 bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
 {
     if (search_path.empty()) {
@@ -355,9 +366,14 @@ bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
     return true;
 }
 
-// RDSGraph::generalise
-// Generalize the given search path by finding and applying equivalence classes.
-// Bootstrapping stage followed by generalization and distillation stages.
+/**
+ * @brief Generalize the given search path by finding and applying equivalence classes.
+ *        Performs bootstrapping, generalization, and distillation stages.
+ * @param search_path The path to generalize.
+ * @param params ADIOS algorithm parameters.
+ * @return True if generalization was successful, false otherwise.
+ * @throws std::invalid_argument if the search path is empty or contextSize is invalid.
+ */
 bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &params)
 {
     if (search_path.empty()) {
