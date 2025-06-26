@@ -1,5 +1,7 @@
 # Madios Refactor & Modernization Checklist
 
+**Note: As of 2025-06-26, the project migration is nearly complete, but some .cpp and .h files remain in the project root and require cleanup. Phase 2 filesystem tasks are not fully complete.**
+
 Use this checklist to track progress through the reform plan. Check off each item as you complete it. Update as needed.
 
 ---
@@ -61,13 +63,13 @@ Use this checklist to track progress through the reform plan. Check off each ite
 ## Phase 2: Filesystem and Project Structure Refactor
 - [x] Propose and document new directory structure (see REFORM_PLAN.md and README)
 - [ ] Move source/header files to new locations
-- [ ] Update `CMakeLists.txt` and build scripts for new layout
-- [ ] Refactor `#include` directives and paths
+- [x] Update `CMakeLists.txt` and build scripts for new layout
+- [x] Refactor `#include` directives and paths
 - [ ] Remove obsolete/duplicate files
-- [ ] Ensure all tests and builds pass after each move
-- [ ] Update `README.md` and add `CONTRIBUTING.md` with structure rationale
+- [x] Ensure all tests and builds pass after each move
+- [x] Update `README.md` and add `CONTRIBUTING.md` with structure rationale
 - [ ] Filesystem restructuring: Move all public headers to include/madios/, update CMake, and validate build
-    - [x] Move headers and test data
+    - [ ] Move headers and test data
     - [x] Update CMakeLists.txt and README
     - [x] Fix all include paths and header dependencies (TNT/Array2D, iostream, etc.)
     - [x] Synchronize TNT/Array2D and related TNT headers from `src/maths/tnt/` to `include/madios/maths/tnt/` (public headers complete)
