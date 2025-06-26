@@ -5,7 +5,7 @@
  * This file contains the main() function and the CLI logic for running the ADIOS grammar induction algorithm.
  * It handles argument parsing, input/output, error handling, and program flow.
  *
- * Usage: ./madios <filename> <eta> <alpha> <context_size> <coverage> [--json] [--pcfg] [number_of_new_sequences]
+ * Usage: ./madios <filename> <eta> <alpha> <context_size> <coverage> [--format <format>] [number_of_new_sequences]
  *
  * For more details, see the README and documentation for the ADIOS algorithm.
  */
@@ -58,7 +58,23 @@ int run_cli(int argc, char *argv[])
     madios::Logger::info("CLI arguments: " + cli_args.str());
 
     // --- Argument parsing using CLI11 ---
-    CLI::App app{"madios: ADIOS grammar induction"};
+    CLI::App app{"madios: ADIOS grammar induction\n\n"
+        "Usage: ./madios <input> <eta> <alpha> <context_size> <coverage> [options] [number_of_new_sequences]\n"
+        "Example: ./madios corpus.txt 0.9 0.01 5 0.65 --format json -o output.json\n\n"
+        "Arguments:\n"
+        "  input                Input corpus file (required)\n"
+        "  eta                  Divergence threshold (0 < eta <= 1, e.g., 0.9)\n"
+        "  alpha                Significance threshold (0 < alpha <= 1, e.g., 0.01)\n"
+        "  context_size         Context window size (1-100, e.g., 5)\n"
+        "  coverage             Coverage threshold (0 < coverage <= 1, e.g., 0.65)\n"
+        "  number_of_new_sequences  Number of new sequences to generate (optional)\n\n"
+        "Options:\n"
+        "  -o,--output FILE     Output file (default: stdout)\n"
+        "  --format FORMAT      Output format: json, pcfg, or text (default: text)\n"
+        "  --verbose            Enable verbose output\n"
+        "  --quiet              Suppress all non-error output\n"
+        "  --version            Show version and build info, then exit\n"
+    };
 
     std::string input_filename;
     double eta = 0.9;
@@ -66,33 +82,37 @@ int run_cli(int argc, char *argv[])
     int context_size = 5;
     double coverage = 0.65;
     std::string output_filename;
-    bool json_mode = false;
-    bool pcfg_mode = false;
-    int num_new_sequences = 0;
+    std::string format = "text"; // default output format
     bool verbose = false;
     bool quiet = false;
+    bool show_version = false;
+    int num_new_sequences = 0;
 
     // Positional arguments (required)
-    app.add_option("input", input_filename, "Input corpus file")->required();
-    app.add_option("eta", eta, "Divergence threshold (e.g., 0.9)")->required();
-    app.add_option("alpha", alpha, "Significance threshold (e.g., 0.01)")->required();
-    app.add_option("context_size", context_size, "Context window size (e.g., 5)")->required();
-    app.add_option("coverage", coverage, "Coverage threshold (e.g., 0.65)")->required();
-    // Optional positional
-    app.add_option("number_of_new_sequences", num_new_sequences, "Number of new sequences to generate");
-
-    // Named options
+    app.add_option("input", input_filename, "Input corpus file (required)")->required();
+    app.add_option("eta", eta, "Divergence threshold (0 < eta <= 1, e.g., 0.9)")->required();
+    app.add_option("alpha", alpha, "Significance threshold (0 < alpha <= 1, e.g., 0.01)")->required();
+    app.add_option("context_size", context_size, "Context window size (1-100, e.g., 5)")->required();
+    app.add_option("coverage", coverage, "Coverage threshold (0 < coverage <= 1, e.g., 0.65)")->required();
+    app.add_option("number_of_new_sequences", num_new_sequences, "Number of new sequences to generate (optional)");
     app.add_option("-o,--output", output_filename, "Output file (default: stdout)");
-    app.add_flag("--json", json_mode, "Output all results as JSON");
-    app.add_flag("--pcfg", pcfg_mode, "Output only the learned grammar in PCFG format");
+    app.add_option("--format", format, "Output format: json, pcfg, or text (default: text)")
+        ->check(CLI::IsMember({"json", "pcfg", "text"}));
     app.add_flag("--verbose", verbose, "Enable verbose output");
     app.add_flag("--quiet", quiet, "Suppress all non-error output");
+    app.add_flag("--version", show_version, "Show version and build info, then exit");
 
     try {
         CLI11_PARSE(app, argc, argv);
     } catch (const std::exception &e) {
         madios::Logger::error(std::string("Error parsing command line: ") + e.what());
         return 1;
+    }
+    if (show_version) {
+        std::cout << "madios version: " << MADIOS_VERSION << std::endl;
+        std::cout << "git commit: " << MADIOS_GIT_COMMIT << std::endl;
+        std::cout << "build date: " << __DATE__ << std::endl;
+        return 0;
     }
 
     madios::Logger::trace("Parsing CLI arguments");
@@ -125,7 +145,7 @@ int run_cli(int argc, char *argv[])
     // --- Build the initial ADIOS graph ---
     log_info("[madios] Building initial graph...");
     RDSGraph testGraph(sequences);
-    testGraph.setQuiet(json_mode || pcfg_mode || quiet); // Suppress verbose output if --json, --pcfg, or --quiet is set
+    testGraph.setQuiet(format != "text" || quiet); // Suppress verbose output if not text or if quiet
     double startTime = getTime();
     // --- Run the ADIOS grammar induction algorithm ---
     log_info("[madios] Running distillation...");
@@ -146,14 +166,14 @@ int run_cli(int argc, char *argv[])
     }
     // Determine default output file if not specified
     if (output_filename.empty()) {
-        if (json_mode) {
+        if (format == "json") {
             output_filename = "output.json";
-        } else if (pcfg_mode) {
+        } else if (format == "pcfg") {
             output_filename = "output.pcfg";
         }
     }
     // Output results in JSON, PCFG, or human-readable format
-    if(json_mode) {
+    if(format == "json") {
         nlohmann::json j;
         j["corpus"] = sequences;
         // --- Output search paths ---
@@ -187,7 +207,7 @@ int run_cli(int argc, char *argv[])
         j["timing"] = endTime - startTime;
         (*out) << std::setw(2) << j << std::endl;
         return 0;
-    } else if(pcfg_mode) {
+    } else if(format == "pcfg") {
         // Output only the learned grammar in PCFG format
         testGraph.convert2PCFG(*out);
         return 0;
