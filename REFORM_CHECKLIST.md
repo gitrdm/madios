@@ -62,7 +62,8 @@ Use this checklist to track progress through the reform plan. Check off each ite
 
 ## Phase 2: Filesystem and Project Structure Refactor
 - [x] Propose and document new directory structure (see REFORM_PLAN.md and README)
-- [ ] Move source/header files to new locations
+- [x] Move source/header files to new locations
+    - [x] Remove empty/obsolete files (all remaining .cpp/.h files in project root were empty and deleted; real code is in src/ or include/madios/)
 - [x] Update `CMakeLists.txt` and build scripts for new layout
 - [x] Refactor `#include` directives and paths
 - [ ] Remove obsolete/duplicate files
