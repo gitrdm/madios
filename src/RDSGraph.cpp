@@ -60,6 +60,7 @@ bool operator<(const SignificancePair &a, const SignificancePair &b)
     return maxA < maxB;
 }
 
+// ===================== ADIOSParams =====================
 ADIOSParams::ADIOSParams(double eta, double alpha, unsigned int contextSize, double overlapThreshold)
 {
     assert((eta >= 0.0) && (eta <= 1.0));
@@ -383,7 +384,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
         throw std::invalid_argument("RDSGraph::generalise: contextSize must be >= 2");
     }
     // === BOOTSTRAPPING STAGE ===
-    // bootstrapping variables
+    // Bootstrapping: find initial equivalence classes based on overlaps in the search path.
     vector<Range> all_boosted_contexts;
     vector<SearchPath> all_boosted_paths;
     vector<vector<EquivalenceClass> > all_encountered_ecs;
@@ -407,7 +408,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 
 
     // === GENERALISATION STAGE ===
-    // generalisation variables
+    // Generalisation: try all possible slots and create new generalised paths using ECs.
     vector<unsigned int> general2boost;
     vector<unsigned int> all_general_slots;
     vector<SearchPath> all_general_paths;
@@ -593,6 +594,9 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     return true;
 }
 
+// ===================== Utility and Core Methods =====================
+
+// Print a string representation of the graph and its search paths.
 string RDSGraph::toString() const
 {
     ostringstream sout;
@@ -668,7 +672,6 @@ void RDSGraph::buildInitialGraph(const vector<vector<string> > &sequences)
 
 // RDSGraph::computeConnectionMatrix
 // Calculate the connection matrix for a given search path.
-// Dimensionality: len(search_path) x len(search_path)
 // Defensive: handles empty search paths and updates connections matrix in place
 void RDSGraph::computeConnectionMatrix(ConnectionMatrix &connections, const SearchPath &search_path) const
 {
@@ -1452,6 +1455,7 @@ unsigned int RDSGraph::getRewiringCount() const {
 }
 
 std::unique_ptr<RDSGraph> RDSGraph::clone() const {
+    // Deep copy the RDSGraph, including all nodes, paths, and parse trees.
     auto new_graph = std::make_unique<RDSGraph>();
     new_graph->corpusSize = corpusSize;
     new_graph->quiet = quiet;
