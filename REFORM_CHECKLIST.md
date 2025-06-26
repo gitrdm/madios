@@ -127,6 +127,23 @@ Use this checklist to track progress through the reform plan. Check off each ite
 
 ---
 
+## Public Header Doxygen Documentation (2025-06-26)
+- [x] All major public headers in `include/madios/` reviewed and modernized with Doxygen-style documentation.
+- [x] Each change followed by a clean build and test cycle.
+- [x] Headers already well-documented were confirmed and left unchanged.
+- [x] Empty or placeholder headers were noted and skipped.
+- [x] Documentation for version macros and other small headers was added for completeness.
+
+### Recommendations for Further Comments/Docs
+- Add file-level comments to all `.cpp` implementation files describing their purpose.
+- Add Doxygen comments for any non-trivial, public, or complex functions in `.cpp` files, especially those not already documented in headers.
+- Add inline comments for complex algorithms or logic branches.
+- Review and document any internal headers (not in `include/madios/`) if used across multiple `.cpp` files.
+- Add a section to the README or a new `DEVELOPER.md` about documentation standards and expectations for new code.
+- Ensure all scripts in `scripts/` and utility code in `utils/` have at least a file-level comment and function docstrings (for Python scripts).
+- Consider more granular trace logs for data mutations and branch decisions.
+- Add brief file-level comments to test files describing their focus.
+
 ## Ongoing
 - [x] Deep copy/clone and simulation logic for RDSGraph is robust and tested (2025-06-26)
 - [ ] Update this checklist and the reform plan as tasks are completed or requirements change

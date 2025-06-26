@@ -276,7 +276,13 @@ vector<string> RDSGraph::generate(unsigned int node) const
     return sequence;
 }
 
-// Generate a sequence from a specific search path
+/**
+ * @brief Generate a sequence from a specific search path.
+ * @param search_path The path (sequence of node indices) to generate from.
+ * @return A vector of strings representing the generated sequence.
+ * @throws std::runtime_error if the graph is empty.
+ * @throws std::invalid_argument if the search path is empty.
+ */
 std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
 {
     if (nodes.empty()) {
@@ -285,12 +291,6 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
     if (search_path.empty()) {
         throw std::invalid_argument("RDSGraph::generate(SearchPath): search_path is empty");
     }
-    madios::Logger::trace("Entering RDSGraph::generate(SearchPath)");
-
-    std::vector<std::string> sequence;
-    for (unsigned int idx : search_path) {
-        if (idx >= nodes.size()) {
-            madios::Logger::error("[RDSGraph::generate(SearchPath)] node index out of bounds (" + std::to_string(idx) + "/" + std::to_string(nodes.size()) + ")");
             continue;
         }
         if (nodes[idx].type == LexiconTypes::Start)
