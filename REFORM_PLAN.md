@@ -39,6 +39,31 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
 - Add tests for all public methods in new/utility code
 - (Optional) Add performance regression tests
 
+### Phase 1 Status (2025-06-25)
+- All regression and output comparison tests pass with the new PCFG probability output format.
+- Baseline is set and documented; all future work will use this as the reference for regression.
+- Documentation, scripts, and test suite are aligned with the new output format.
+
+---
+
+## Logging/Tracing Infrastructure (Pre-Phase 2)
+
+### Rationale
+Adding a minimal logging/tracing system before major refactoring provides runtime visibility, helps catch regressions or wiring errors during file moves, and makes debugging easier. It also ensures that logging is consistently integrated and only needs to be updated once as the codebase structure changes.
+
+### Steps
+1. **Design and Implement Logging Utility**
+   - Create a simple, extensible logger (header + implementation) for use throughout the codebase.
+2. **Integrate Logging**
+   - Add logging to key modules, entry points, and error paths.
+3. **Document Logging Usage**
+   - Add usage instructions to README and code comments.
+4. **Leverage Logging During Refactor**
+   - Use logs to verify correct behavior after each major move or change.
+5. **Capture Known Good Baseline Logs**
+   - Run CLI and test workflows with logging enabled; save logs as baseline artifacts (e.g., logs/baseline_run.log).
+   - Document the process for comparing future logs to this baseline to catch regressions or unexpected changes.
+
 ---
 
 ## Phase 2: Filesystem Restructuring (UPDATED)

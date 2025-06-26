@@ -19,6 +19,7 @@
 #include "logging.h"
 #include "utils/TimeFuncs.h"
 #include "madios/maths/tnt/array2d.h"
+#include "madios/Logger.h"
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -114,7 +115,7 @@ void RDSGraph::distill(const ADIOSParams &params)
         {
             if (!quiet) {
                 if (i >= counts.size()) {
-                    std::cerr << "[RDSGraph::distill] Warning: i out of bounds for counts (" << i << "/" << counts.size() << ")" << std::endl;
+                    madios::Logger::warn("[RDSGraph::distill] i out of bounds for counts (" + std::to_string(i) + "/" + std::to_string(counts.size()) + ")");
                     continue;
                 }
                 std::cout << printNodeName(i);
@@ -201,7 +202,7 @@ void RDSGraph::convert2PCFG(ostream &out) const
 vector<string> RDSGraph::generate(unsigned int node) const
 {
     if (node >= nodes.size()) {
-        std::cerr << "[RDSGraph::generate] Error: node index out of bounds (" << node << "/" << nodes.size() << ")" << std::endl;
+        madios::Logger::error("[RDSGraph::generate] node index out of bounds (" + std::to_string(node) + "/" + std::to_string(nodes.size()) + ")");
         return {};
     }
     vector<string> sequence;
@@ -240,7 +241,7 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
     std::vector<std::string> sequence;
     for (unsigned int idx : search_path) {
         if (idx >= nodes.size()) {
-            std::cerr << "[RDSGraph::generate(SearchPath)] Error: node index out of bounds (" << idx << "/" << nodes.size() << ")" << std::endl;
+            madios::Logger::error("[RDSGraph::generate(SearchPath)] node index out of bounds (" + std::to_string(idx) + "/" + std::to_string(nodes.size()) + ")");
             continue;
         }
         if (nodes[idx].type == LexiconTypes::Start)

@@ -9,12 +9,14 @@ file(GLOB SRC_FILES
     "src/*.cpp"
     "src/utils/*.cpp"
     "src/maths/*.cpp"
+    "src/Logger.cpp" # Logging implementation
 )
 file(GLOB HEADER_FILES
     "include/madios/*.h"
     "include/madios/utils/*.h"
     "include/madios/maths/*.h"
     "include/madios/maths/tnt/*.h"
+    "include/madios/Logger.h" # Logging header
 )
 
 # Include directories
@@ -57,7 +59,7 @@ add_executable(tests_basic
     src/SearchPath.cpp
     src/SignificantPattern.cpp
     src/SpecialLexicons.cpp
-    src/logging.cpp
+    src/Logger.cpp # Ensure Logger is linked
     src/utils/MiscUtils.cpp
     src/utils/Stringable.cpp
     src/utils/TimeFuncs.cpp
@@ -72,6 +74,12 @@ add_test(NAME tests_basic COMMAND tests_basic)
 add_test(NAME integration_test
   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/tests/test_integration.cmake
 )
+
+# Add logger test
+add_executable(test_logger tests/test_logger.cpp src/Logger.cpp)
+target_include_directories(test_logger PRIVATE include)
+target_link_libraries(test_logger PRIVATE pthread)
+add_test(NAME test_logger COMMAND test_logger)
 
 # Install rule for the madios binary (user-local install)
 install(TARGETS madios DESTINATION bin)

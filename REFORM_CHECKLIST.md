@@ -5,24 +5,33 @@ Use this checklist to track progress through the reform plan. Check off each ite
 ---
 
 ## Phase 1: Robust Regression Test Suite
-- [ ] Audit all existing tests in `tests/` directory
-- [ ] Identify and document test coverage gaps
-- [ ] Add unit tests for uncovered logic (e.g., `RDSGraph`, `EquivalenceClass`, `SignificantPattern`)
-- [ ] Add integration tests for CLI, output formats, and error conditions
-- [ ] Ensure tests cover edge cases and invalid input
-- [ ] Integrate all tests with CTest
-- [ ] Ensure tests run in CI (if available)
-- [ ] Add/verify output comparison scripts (`compare_json.py`, `diff_grammar.py`)
-- [ ] Create `TESTING.md` with test suite instructions
-- [ ] Add tests for error handling and invalid input (malformed corpus, bad CLI args)
+- [x] Audit all existing tests in `tests/` directory
+- [x] Identify and document test coverage gaps
+- [x] Add unit tests for uncovered logic (e.g., `RDSGraph`, `EquivalenceClass`, `SignificantPattern`)
+- [x] Add integration tests for CLI, output formats, and error conditions
+- [x] Ensure tests cover edge cases and invalid input
+- [x] Integrate all tests with CTest
+- [x] Ensure tests run in CI (if available)
+- [x] Add/verify output comparison scripts (`compare_json.py`, `diff_grammar.py`)
+- [x] Create `TESTING.md` with test suite instructions
+- [x] Add tests for error handling and invalid input (malformed corpus, bad CLI args)
   - [x] Error handling: malformed corpus input (`test_error_handling_malformed_corpus.cpp`)
   - [x] Error handling: bad CLI arguments (`test_error_handling_bad_cli.cpp`)
-- [ ] Add tests for exception safety and memory errors
+- [x] Add tests for exception safety and memory errors
   - [x] Exception safety: RDSGraph public API (`test_exception_safety_rdsgraph.cpp`)
-- [ ] Add tests for all public methods in new/utility code
+- [x] Add tests for all public methods in new/utility code
   - [x] Public API coverage: MiscUtils (`test_utils_api_coverage.cpp`)
-- [ ] (Optional) Add performance regression tests
+- [x] (Optional) Add performance regression tests
   - [x] Performance regression: RDSGraph (`test_performance_rdsgraph.cpp`)
+- [x] Confirm PCFG output is normalized to probabilities and matches regression baseline
+
+## Logging/Tracing Infrastructure (Pre-Phase 2)
+- [ ] Design and implement minimal logging/tracing utility (header + implementation)
+- [ ] Integrate logging into key modules and entry points
+- [ ] Document logging usage in README and code comments
+- [ ] Use logging to verify correctness during and after refactor
+- [ ] Capture and save known good baseline logs from CLI and test runs
+- [ ] Document baseline log comparison process in TESTING.md
 
 ## Phase 2: Filesystem and Project Structure Refactor
 - [x] Propose and document new directory structure (see REFORM_PLAN.md and README)

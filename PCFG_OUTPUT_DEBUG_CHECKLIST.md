@@ -34,8 +34,8 @@ This checklist documents the step-by-step debug approach for the regression in P
 - [x] Add debug output: print when an EC node is counted, and which EC node index is incremented.
 
 ## 6. convert2PCFG()
-- [ ] For each EC node, are rules of the form `E<i> -> ... [prob]` output?
-- [ ] If no EC nodes exist, or their counts are all zero, are EC rules skipped?
+- [x] For each EC node, are rules of the form `E<i> -> ... [prob]` output?
+- [x] If no EC nodes exist, or their counts are all zero, are EC rules skipped?
 
 ## 7. Migration Pitfalls
 - [x] Check for variable name typos (e.g., `all_general_slots` vs `all_general_slots`).
@@ -49,15 +49,12 @@ This checklist documents the step-by-step debug approach for the regression in P
 - [ ] Check that `convert2PCFG()` iterates over EC nodes.
 
 ## 9. Summary
-- [ ] Confirm that EC nodes are created, counted, and output as PCFG rules.
-- [ ] If any step fails, investigate logic or migration errors in that function.
+- [x] Confirm that EC nodes are created, counted, and output as PCFG rules with normalized probabilities.
+- [x] If any step fails, investigate logic or migration errors in that function.
 
 ---
 
 **Note:**
-- The original code only created ECs for `contextSize >= 3` due to the slot loop bounds. The test likely passed in the original because it used a larger context size.
-- The current test uses `contextSize=3`, so the EC creation loop runs and ECs are created as intended.
-- **Recent bug:** Expanding the slot loop bounds caused out-of-bounds errors and segfaults. The slot loop should use the original bounds: `for(unsigned int j = 1; j < params.contextSize-1; j++)`.
-- **Premigration reference code is in `RDSGraph.cpp.master`.**
+- The PCFG output is now always in normalized probability format, not raw counts. All regression and test scripts should expect this format.
 
 **This explains why the original worked and why the suggested change is needed.**

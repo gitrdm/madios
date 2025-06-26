@@ -19,6 +19,7 @@
 #include "TimeFuncs.h"
 #include "utils/json.hpp"
 #include "../ext/CLI11.hpp"
+#include "madios/Logger.h"
 
 #include <sstream>
 #include <iostream>
@@ -49,6 +50,7 @@ using std::endl;
  */
 int run_cli(int argc, char *argv[])
 {
+    madios::Logger::info("madios CLI started");
     CLI::App app{"madios: ADIOS grammar induction"};
 
     std::string input_filename;
@@ -79,7 +81,12 @@ int run_cli(int argc, char *argv[])
     app.add_flag("--verbose", verbose, "Enable verbose output");
     app.add_flag("--quiet", quiet, "Suppress all non-error output");
 
-    CLI11_PARSE(app, argc, argv);
+    try {
+        CLI11_PARSE(app, argc, argv);
+    } catch (const std::exception &e) {
+        madios::Logger::error(std::string("Error parsing command line: ") + e.what());
+        return 1;
+    }
 
     // Mutually exclusive: if both set, quiet wins
     if (quiet) verbose = false;
@@ -94,6 +101,7 @@ int run_cli(int argc, char *argv[])
     std::ifstream infile(input_filename);
     if (!infile.good()) {
         std::cerr << "[main] Error: Cannot open input file '" << input_filename << "'." << std::endl;
+        madios::Logger::error(std::string("Error opening input file: ") + input_filename);
         return 2;
     }
     infile.close();
@@ -198,6 +206,7 @@ int run_cli(int argc, char *argv[])
             std::cout << std::endl;
         }
     }
+    madios::Logger::info("madios CLI finished");
     return 0;
 }
 

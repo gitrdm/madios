@@ -1,253 +1,3 @@
-eta = 0.9
-alpha = 0.01
-contextSize = 5
-overlapThreshold = 0.65
---------------------------- working on Path 0 of length 12 ----------------------------------
-[START - Cindy - believes - that - Joe - believes - that - to - please - is - easy - END]
-11 paths tested
-6 patterns found
-STARTS REWIRING
-26 valid_connections
-26 occurences rewired
-ENDS REWIRING
---------------------------- working on Path 1 of length 10 ----------------------------------
-[START - Cindy - P28 - Cindy - P28 - to - read - is - tough - END]
-9 paths tested
-10 patterns found
-STARTS REWIRING
-13 valid_connections
-13 occurences rewired
-ENDS REWIRING
---------------------------- working on Path 2 of length 7 ----------------------------------
-[START - Pam - P28 - Jim - P30 - tough - END]
-3 paths tested
-1 patterns found
-STARTS REWIRING
-10 valid_connections
-10 occurences rewired
-ENDS REWIRING
---------------------------- working on Path 3 of length 7 ----------------------------------
-[START - Beth - P28 - George - P30 - easy - END]
-3 paths tested
---------------------------- working on Path 4 of length 5 ----------------------------------
-[START - Pam - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 5 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 6 of length 10 ----------------------------------
-[START - that - Cindy - is - easy - to - read - annoys - Cindy - END]
-5 paths tested
---------------------------- working on Path 7 of length 12 ----------------------------------
-[START - that - the - cat - is - eager - to - please - disturbs - the - cat - END]
-4 paths tested
-1 patterns found
-STARTS REWIRING
-10 valid_connections
-10 occurences rewired
-ENDS REWIRING
---------------------------- working on Path 8 of length 10 ----------------------------------
-[START - that - P34 - is - easy - to - read - annoys - P34 - END]
-9 paths tested
---------------------------- working on Path 9 of length 10 ----------------------------------
-[START - that - Cindy - is - eager - to - please - bothers - P34 - END]
-7 paths tested
-1 patterns found
-STARTS REWIRING
-OLD OVERLAP EC USED: E[E[read | please]]
-7 valid_connections
-7 occurences rewired
-ENDS REWIRING
---------------------------- working on Path 10 of length 9 ----------------------------------
-[START - that - P34 - is - easy - P35 - annoys - Jim - END]
-5 paths tested
---------------------------- working on Path 11 of length 5 ----------------------------------
-[START - Pam - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 12 of length 9 ----------------------------------
-[START - that - P34 - is - easy - P35 - worries - P34 - END]
-6 paths tested
---------------------------- working on Path 13 of length 7 ----------------------------------
-[START - Cindy - P28 - George - P30 - easy - END]
-3 paths tested
---------------------------- working on Path 14 of length 7 ----------------------------------
-[START - Pam - P28 - Pam - P30 - easy - END]
-2 paths tested
---------------------------- working on Path 15 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 16 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 17 of length 9 ----------------------------------
-[START - that - P34 - is - tough - P35 - disturbs - P34 - END]
-4 paths tested
---------------------------- working on Path 18 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 19 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 0 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 1 of length 5 ----------------------------------
-[START - Cindy - P32 - tough - END]
-3 paths tested
---------------------------- working on Path 2 of length 5 ----------------------------------
-[START - Pam - P32 - tough - END]
-3 paths tested
---------------------------- working on Path 3 of length 7 ----------------------------------
-[START - Beth - P28 - George - P30 - easy - END]
-3 paths tested
---------------------------- working on Path 4 of length 5 ----------------------------------
-[START - Pam - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 5 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 6 of length 9 ----------------------------------
-[START - that - Cindy - is - easy - P35 - annoys - Cindy - END]
-5 paths tested
---------------------------- working on Path 7 of length 9 ----------------------------------
-[START - that - P34 - is - eager - P35 - disturbs - P34 - END]
-8 paths tested
---------------------------- working on Path 8 of length 9 ----------------------------------
-[START - that - P34 - is - easy - P35 - annoys - P34 - END]
-7 paths tested
---------------------------- working on Path 9 of length 9 ----------------------------------
-[START - that - Cindy - is - eager - P35 - bothers - P34 - END]
-6 paths tested
-1 patterns found
-STARTS REWIRING
-6 valid_connections
-6 occurences rewired
-ENDS REWIRING
---------------------------- working on Path 10 of length 7 ----------------------------------
-[START - that - P34 - P37 - annoys - Jim - END]
-3 paths tested
---------------------------- working on Path 11 of length 5 ----------------------------------
-[START - Pam - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 12 of length 7 ----------------------------------
-[START - that - P34 - P37 - worries - P34 - END]
-3 paths tested
---------------------------- working on Path 13 of length 7 ----------------------------------
-[START - Cindy - P28 - George - P30 - easy - END]
-3 paths tested
---------------------------- working on Path 14 of length 7 ----------------------------------
-[START - Pam - P28 - Pam - P30 - easy - END]
-2 paths tested
---------------------------- working on Path 15 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 16 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 17 of length 9 ----------------------------------
-[START - that - P34 - is - tough - P35 - disturbs - P34 - END]
-1 paths tested
---------------------------- working on Path 18 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 19 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 0 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 1 of length 5 ----------------------------------
-[START - Cindy - P32 - tough - END]
-3 paths tested
---------------------------- working on Path 2 of length 5 ----------------------------------
-[START - Pam - P32 - tough - END]
-3 paths tested
---------------------------- working on Path 3 of length 7 ----------------------------------
-[START - Beth - P28 - George - P30 - easy - END]
-3 paths tested
---------------------------- working on Path 4 of length 5 ----------------------------------
-[START - Pam - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 5 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 6 of length 7 ----------------------------------
-[START - that - Cindy - P37 - annoys - Cindy - END]
-2 paths tested
---------------------------- working on Path 7 of length 7 ----------------------------------
-[START - that - P34 - P37 - disturbs - P34 - END]
-3 paths tested
---------------------------- working on Path 8 of length 7 ----------------------------------
-[START - that - P34 - P37 - annoys - P34 - END]
-5 paths tested
---------------------------- working on Path 9 of length 7 ----------------------------------
-[START - that - Cindy - P37 - bothers - P34 - END]
-1 paths tested
---------------------------- working on Path 10 of length 7 ----------------------------------
-[START - that - P34 - P37 - annoys - Jim - END]
-3 paths tested
---------------------------- working on Path 11 of length 5 ----------------------------------
-[START - Pam - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 12 of length 7 ----------------------------------
-[START - that - P34 - P37 - worries - P34 - END]
-3 paths tested
---------------------------- working on Path 13 of length 7 ----------------------------------
-[START - Cindy - P28 - George - P30 - easy - END]
-3 paths tested
---------------------------- working on Path 14 of length 7 ----------------------------------
-[START - Pam - P28 - Pam - P30 - easy - END]
-2 paths tested
---------------------------- working on Path 15 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 16 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
---------------------------- working on Path 17 of length 9 ----------------------------------
-[START - that - P34 - is - tough - P35 - disturbs - P34 - END]
-1 paths tested
---------------------------- working on Path 18 of length 5 ----------------------------------
-[START - Beth - P32 - tough - END]
-2 paths tested
---------------------------- working on Path 19 of length 5 ----------------------------------
-[START - Cindy - P32 - easy - END]
-3 paths tested
-
-
-
-E27 ---> [19 | 7]
-E29 ---> [10 | 10]
-E31 ---> [4 | 1 | 1 | 4]
-E33 ---> [3 | 1 | 4 | 2]
-E36 ---> [4 | 2]
-
-
-
-0 ---> 423510688
-	1 ---> 0
-	2 ---> 2
-	20 ---> 32
-		16 ---> 28
-			15 ---> 27
-				3 ---> 3
-			4 ---> 4
-		19 ---> 31
-			5 ---> 5
-		18 ---> 30
-			14 ---> 28
-				13 ---> 27
-					6 ---> 3
-				7 ---> 4
-			8 ---> 6
-			17 ---> 29
-				9 ---> 7
-			10 ---> 8
-	11 ---> 9
-	12 ---> 1
-
-
-
 {
   "corpus": [
     [
@@ -487,18 +237,18 @@ E36 ---> [4 | 2]
       "easy"
     ]
   ],
-  "grammar": "S _\n19 E27 --> believes\n7 E27 --> thinks\n26 P28 --> E27 that\n10 E29 --> read\n10 E29 --> please\n13 P30 --> P28 to E29 is\n4 E31 --> Cindy\n1 E31 --> Jim\n1 E31 --> Beth\n4 E31 --> Joe\n10 P32 --> P28 E31 P30\n3 E33 --> cat\n1 E33 --> cow\n4 E33 --> horse\n2 E33 --> dog\n10 P34 --> the E33\n7 P35 --> to E29\n4 E36 --> easy\n2 E36 --> eager\n6 P37 --> is E36 P35\n1 S --> Cindy P32 easy\n1 S --> Cindy P32 tough\n1 S --> Pam P32 tough\n1 S --> Beth P28 George P30 easy\n1 S --> Pam P32 easy\n1 S --> Beth P32 tough\n1 S --> that Cindy P37 annoys Cindy\n1 S --> that P34 P37 disturbs P34\n1 S --> that P34 P37 annoys P34\n1 S --> that Cindy P37 bothers P34\n1 S --> that P34 P37 annoys Jim\n1 S --> Pam P32 easy\n1 S --> that P34 P37 worries P34\n1 S --> Cindy P28 George P30 easy\n1 S --> Pam P28 Pam P30 easy\n1 S --> Beth P32 tough\n1 S --> Cindy P32 easy\n1 S --> that P34 is tough P35 disturbs P34\n1 S --> Beth P32 tough\n1 S --> Cindy P32 easy\n",
+  "grammar": "E27 -> believes [0.730769]\nE27 -> thinks [0.269231]\nP28 -> E27 that [1]\nE29 -> read [0.5]\nE29 -> please [0.5]\nP30 -> P28 to E29 is [1]\nE31 -> Cindy [0.4]\nE31 -> Jim [0.1]\nE31 -> Beth [0.1]\nE31 -> Joe [0.4]\nP32 -> P28 E31 P30 [1]\nE33 -> cat [0.3]\nE33 -> cow [0.1]\nE33 -> horse [0.4]\nE33 -> dog [0.2]\nP34 -> the E33 [1]\nP35 -> to E29 [1]\nE36 -> easy [0.666667]\nE36 -> eager [0.333333]\nP37 -> is E36 P35 [1]\nS -> Beth P28 George P30 easy [0.05]\nS -> Beth P32 tough [0.15]\nS -> Cindy P28 George P30 easy [0.05]\nS -> Cindy P32 easy [0.15]\nS -> Cindy P32 tough [0.05]\nS -> Pam P28 Pam P30 easy [0.05]\nS -> Pam P32 easy [0.1]\nS -> Pam P32 tough [0.05]\nS -> that Cindy P37 annoys Cindy [0.05]\nS -> that Cindy P37 bothers P34 [0.05]\nS -> that P34 P37 annoys Jim [0.05]\nS -> that P34 P37 annoys P34 [0.05]\nS -> that P34 P37 disturbs P34 [0.05]\nS -> that P34 P37 worries P34 [0.05]\nS -> that P34 is tough P35 disturbs P34 [0.05]\n",
   "lexicon": [
     {
       "id": 0,
       "parents": [],
-      "string": "START",
+      "string": "*",
       "type": 0
     },
     {
       "id": 1,
       "parents": [],
-      "string": "END",
+      "string": "#",
       "type": 1
     },
     {
@@ -694,7 +444,7 @@ E36 ---> [4 | 2]
       "parents": [
         28
       ],
-      "string": "E[believes | thinks]",
+      "string": "E[believes,thinks]",
       "type": 4
     },
     {
@@ -703,7 +453,7 @@ E36 ---> [4 | 2]
         30,
         32
       ],
-      "string": "P[E27 - that]",
+      "string": "P[E27that]",
       "type": 3
     },
     {
@@ -712,7 +462,7 @@ E36 ---> [4 | 2]
         30,
         35
       ],
-      "string": "E[read | please]",
+      "string": "E[read,please]",
       "type": 4
     },
     {
@@ -720,7 +470,7 @@ E36 ---> [4 | 2]
       "parents": [
         32
       ],
-      "string": "P[P28 - to - E29 - is]",
+      "string": "P[P28toE29is]",
       "type": 3
     },
     {
@@ -728,13 +478,13 @@ E36 ---> [4 | 2]
       "parents": [
         32
       ],
-      "string": "E[Cindy | Jim | Beth | Joe]",
+      "string": "E[Cindy,Jim,Beth,Joe]",
       "type": 4
     },
     {
       "id": 32,
       "parents": [],
-      "string": "P[P28 - E31 - P30]",
+      "string": "P[P28E31P30]",
       "type": 3
     },
     {
@@ -742,13 +492,13 @@ E36 ---> [4 | 2]
       "parents": [
         34
       ],
-      "string": "E[cat | cow | horse | dog]",
+      "string": "E[cat,cow,horse,dog]",
       "type": 4
     },
     {
       "id": 34,
       "parents": [],
-      "string": "P[the - E33]",
+      "string": "P[theE33]",
       "type": 3
     },
     {
@@ -756,7 +506,7 @@ E36 ---> [4 | 2]
       "parents": [
         37
       ],
-      "string": "P[to - E29]",
+      "string": "P[toE29]",
       "type": 3
     },
     {
@@ -764,156 +514,156 @@ E36 ---> [4 | 2]
       "parents": [
         37
       ],
-      "string": "E[easy | eager]",
+      "string": "E[easy,eager]",
       "type": 4
     },
     {
       "id": 37,
       "parents": [],
-      "string": "P[is - E36 - P35]",
+      "string": "P[isE36P35]",
       "type": 3
     }
   ],
   "search_paths": [
     [
-      "START",
+      "*",
       "Cindy",
       "P32",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Cindy",
       "P32",
       "tough",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Pam",
       "P32",
       "tough",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Beth",
       "P28",
       "George",
       "P30",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Pam",
       "P32",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Beth",
       "P32",
       "tough",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "Cindy",
       "P37",
       "annoys",
       "Cindy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "P34",
       "P37",
       "disturbs",
       "P34",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "P34",
       "P37",
       "annoys",
       "P34",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "Cindy",
       "P37",
       "bothers",
       "P34",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "P34",
       "P37",
       "annoys",
       "Jim",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Pam",
       "P32",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "P34",
       "P37",
       "worries",
       "P34",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Cindy",
       "P28",
       "George",
       "P30",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Pam",
       "P28",
       "Pam",
       "P30",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Beth",
       "P32",
       "tough",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Cindy",
       "P32",
       "easy",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "that",
       "P34",
       "is",
@@ -921,22 +671,22 @@ E36 ---> [4 | 2]
       "P35",
       "disturbs",
       "P34",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Beth",
       "P32",
       "tough",
-      "END"
+      "#"
     ],
     [
-      "START",
+      "*",
       "Cindy",
       "P32",
       "easy",
-      "END"
+      "#"
     ]
   ],
-  "timing": 0.044992923736572266
+  "timing": 0.021121978759765625
 }
