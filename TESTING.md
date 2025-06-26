@@ -73,6 +73,39 @@ cd tests
 
 ---
 
+## Baseline Log Generation and Comparison
+
+To ensure traceable, reproducible regression testing, a baseline log is generated and versioned. This log captures the output of a known good run of the madios CLI and is used for future comparison.
+
+### 1. Generate the Baseline Log
+
+From the project root (after building):
+
+```bash
+./scripts/gen_baseline_log.sh [madios_cli_args]
+```
+- This runs the madios CLI with the provided arguments and saves all output to `logs/baseline_run.log`.
+- Example:
+  ```bash
+  ./scripts/gen_baseline_log.sh --help
+  ```
+- The script will print the location of the saved log.
+
+### 2. Compare Logs for Regression Detection
+
+- Use standard diff tools or custom scripts in `scripts/` to compare the current log to the baseline:
+  ```bash
+  diff logs/baseline_run.log logs/previous_baseline.log
+  ```
+- If the log differs unexpectedly, investigate the changes for regressions or new issues.
+
+### 3. Update the Baseline Log
+
+- After intentional changes or refactors, regenerate the baseline log and commit the new version to the repository.
+- Document the reason for the update in the commit message or `CHANGELOG.md`.
+
+---
+
 ### New Test Stubs for Coverage Gaps
 
 The following test stubs have been created to address the identified coverage gaps:

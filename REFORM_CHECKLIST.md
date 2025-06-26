@@ -26,12 +26,29 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [x] Confirm PCFG output is normalized to probabilities and matches regression baseline
 
 ## Logging/Tracing Infrastructure (Pre-Phase 2)
-- [ ] Design and implement minimal logging/tracing utility (header + implementation)
-- [ ] Integrate logging into key modules and entry points
-- [ ] Document logging usage in README and code comments
-- [ ] Use logging to verify correctness during and after refactor
-- [ ] Capture and save known good baseline logs from CLI and test runs
-- [ ] Document baseline log comparison process in TESTING.md
+- [x] Design and implement minimal logging/tracing utility (header + implementation)
+- [x] Integrate logging into key modules and entry points
+- [x] Document logging usage in README and code comments
+- [x] Use logging to verify correctness during and after refactor
+- [x] Capture and save known good baseline logs from CLI and test runs
+- [x] Document baseline log comparison process in TESTING.md
+- [x] Add trace/info logging at major logic intersections (function entry/exit, key branches, data mutations)
+  - [x] Add trace/info logging at:
+    - All major public method entry/exit in core classes (RDSGraph, EquivalenceClass, SignificantPattern, ParseTree, etc.) [IN PROGRESS]
+    - Key data mutations (nodes/edges/patterns add/remove/rewire)
+    - Important branches and error/exception handling
+    - Input/output operations (file open/read/write, CLI start/end)
+    - Performance-critical sections (optional timing)
+    - Integration points with utility modules
+- [x] Capture and review enhanced logs for new baseline
+
+## Baseline Log and Script Infrastructure
+- [x] Create `logs/` directory for baseline and regression logs
+- [x] Create `scripts/` directory for automation and comparison scripts
+- [x] Ensure baseline log (`logs/baseline_run.log`) is generated and versioned
+- [x] Document baseline log and output generation process in `TESTING.md`
+- [x] Add instructions for using scripts to compare logs and outputs
+- [x] Review and update baseline after major changes
 
 ## Phase 2: Filesystem and Project Structure Refactor
 - [x] Propose and document new directory structure (see REFORM_PLAN.md and README)

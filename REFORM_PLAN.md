@@ -63,6 +63,17 @@ Adding a minimal logging/tracing system before major refactoring provides runtim
 5. **Capture Known Good Baseline Logs**
    - Run CLI and test workflows with logging enabled; save logs as baseline artifacts (e.g., logs/baseline_run.log).
    - Document the process for comparing future logs to this baseline to catch regressions or unexpected changes.
+6. **Add Logging at Major Logic Intersections**
+   - Instrument function entry/exit, key branches, and data mutations with trace/info logs for deeper data flow visibility.
+   - Capture and review enhanced logs for new baseline and future comparison.
+7. **Concrete Logging Targets**
+   - Add trace/info logging at:
+     - All major public method entry/exit in core classes (RDSGraph, EquivalenceClass, SignificantPattern, ParseTree, etc.)
+     - Key data mutations (nodes/edges/patterns add/remove/rewire)
+     - Important branches and error/exception handling
+     - Input/output operations (file open/read/write, CLI start/end)
+     - Performance-critical sections (optional timing)
+     - Integration points with utility modules
 
 ---
 
@@ -197,6 +208,33 @@ This structure supports modern CMake, IDEs, and packaging. See README for more d
 - [ ] Propose and discuss new filesystem structure (Phase 2)
 - [ ] Begin documentation improvements (Phase 3)
 - [ ] Plan first refactor target (Phase 4)
+
+---
+
+## Baseline Log and Script Infrastructure (NEW)
+
+### Goals
+- Ensure reproducible, traceable regression testing and output comparison.
+- Provide a clear, versioned baseline for logs and outputs.
+- Automate baseline generation and comparison for future reforms.
+
+### Steps
+1. **Create Directories**
+   - Ensure `logs/` exists for baseline and regression logs.
+   - Ensure `scripts/` exists for automation and comparison scripts.
+2. **Generate and Version Baseline Log**
+   - Run CLI and test workflows with logging enabled.
+   - Save the resulting log as `logs/baseline_run.log` and version it in the repository.
+3. **Document Baseline Generation and Comparison**
+   - Add instructions to `TESTING.md` for generating baseline logs and outputs.
+   - Add instructions for using scripts in `scripts/` to compare logs and outputs for regression detection.
+4. **Review and Update Baseline**
+   - After major changes, regenerate and review the baseline log and outputs.
+   - Update documentation and scripts as needed to reflect new expectations.
+
+### Status (2025-06-25)
+- Baseline log and output comparison infrastructure is in place and documented.
+- All future regression detection will use these as reference artifacts.
 
 ---
 

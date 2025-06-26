@@ -5,6 +5,7 @@
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 
 #include "MiscUtils.h"
+#include "madios/Logger.h"
 
 #include <sstream>
 #include <algorithm>
@@ -27,6 +28,7 @@ vector<vector<string> > readSequencesFromFile(const string &filename) {
     string token;
     std::ifstream in(filename.c_str(), std::ios::in);
     if(!in.is_open()) {
+        madios::Logger::error("Unable to open file: " + filename);
         std::cerr << "Unable to open file: " << filename << std::endl;
         exit(1);
     }

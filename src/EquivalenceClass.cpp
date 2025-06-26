@@ -13,6 +13,7 @@
 //   - Used throughout the ADIOS algorithm for pattern generalization
 
 #include "EquivalenceClass.h"
+#include "madios/Logger.h"
 
 #include <algorithm>
 
@@ -25,6 +26,7 @@ using std::ostringstream;
  */
 EquivalenceClass::EquivalenceClass()
 {
+    madios::Logger::trace("EquivalenceClass default constructor");
 }
 
 /**
@@ -34,6 +36,7 @@ EquivalenceClass::EquivalenceClass()
 EquivalenceClass::EquivalenceClass(const vector<unsigned int> &units)
 :vector<unsigned int>(units)
 {
+    madios::Logger::trace("EquivalenceClass constructed from vector, size: " + std::to_string(units.size()));
 }
 
 /**

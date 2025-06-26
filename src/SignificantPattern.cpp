@@ -13,6 +13,7 @@
 //   - Used throughout the ADIOS algorithm for significant pattern management
 
 #include "SignificantPattern.h"
+#include "madios/Logger.h"
 
 #include <cassert>
 
@@ -25,6 +26,7 @@ using std::ostringstream;
  */
 SignificantPattern::SignificantPattern()
 {
+    madios::Logger::trace("SignificantPattern default constructor");
 }
 
 /**
@@ -33,6 +35,7 @@ SignificantPattern::SignificantPattern()
  */
 SignificantPattern::SignificantPattern(const vector<unsigned int> &sequence)
 {
+    madios::Logger::trace("SignificantPattern constructed from vector, size: " + std::to_string(sequence.size()));
     clear();
     for(unsigned int i = 0; i < sequence.size(); i++)
         push_back(sequence[i]);

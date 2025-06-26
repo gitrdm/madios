@@ -15,6 +15,13 @@
 //   - All output is guarded by the 'quiet' flag for flexible verbosity
 //   - All major steps are documented inline for maintainability
 
+// === Variable Naming Reference ===
+// all_general_slots   // CORRECT
+// some_patterns       // CORRECT
+// DO NOT use: all_generalSlots, somePatterns, etc.
+//
+// Add new variables here if naming is critical for refactor or LLM editing.
+
 #include "RDSGraph.h"
 #include "logging.h"
 #include "utils/TimeFuncs.h"
@@ -78,6 +85,8 @@ RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
 // Robust to empty/invalid parse trees and out-of-bounds access.
 void RDSGraph::distill(const ADIOSParams &params)
 {
+    madios::Logger::trace("Entering RDSGraph::distill");
+
     if (!quiet) {
         std::cout << "eta = " << params.eta << endl;
         std::cout << "alpha = " << params.alpha << endl;
@@ -139,12 +148,15 @@ void RDSGraph::distill(const ADIOSParams &params)
         }
         std::cout << endl << endl << endl;
     }
+    madios::Logger::trace("Exiting RDSGraph::distill");
 }
 
 // RDSGraph::convert2PCFG
 // Output the learned PCFG rules in a standard format.
 void RDSGraph::convert2PCFG(ostream &out) const
 {
+    madios::Logger::trace("Entering RDSGraph::convert2PCFG");
+
     // Output the learned PCFG rules in standard format: LHS -> RHS [probability]
     // Probabilities are normalized over all rules with the same LHS.
     for(unsigned int i = 0; i < nodes.size(); i++)
@@ -194,6 +206,8 @@ void RDSGraph::convert2PCFG(ostream &out) const
             out << " " << sym;
         out << " [" << prob << "]" << std::endl;
     }
+
+    madios::Logger::trace("Exiting RDSGraph::convert2PCFG");
 }
 
 // RDSGraph::generate
@@ -201,6 +215,8 @@ void RDSGraph::convert2PCFG(ostream &out) const
 // Robust to out-of-bounds node indices.
 vector<string> RDSGraph::generate(unsigned int node) const
 {
+    madios::Logger::trace("Entering RDSGraph::generate(unsigned int)");
+
     if (node >= nodes.size()) {
         madios::Logger::error("[RDSGraph::generate] node index out of bounds (" + std::to_string(node) + "/" + std::to_string(nodes.size()) + ")");
         return {};
@@ -232,12 +248,15 @@ vector<string> RDSGraph::generate(unsigned int node) const
     else
         assert(false);
     assert(sequence.size() > 0);
+    madios::Logger::trace("Exiting RDSGraph::generate(unsigned int)");
     return sequence;
 }
 
 // Generate a sequence from a specific search path
 std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
 {
+    madios::Logger::trace("Entering RDSGraph::generate(SearchPath)");
+
     std::vector<std::string> sequence;
     for (unsigned int idx : search_path) {
         if (idx >= nodes.size()) {
@@ -268,6 +287,7 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
             }
         }
     }
+    madios::Logger::trace("Exiting RDSGraph::generate(SearchPath)");
     return sequence;
 }
 

@@ -1,0 +1,692 @@
+{
+  "corpus": [
+    [
+      "Cindy",
+      "believes",
+      "that",
+      "Joe",
+      "believes",
+      "that",
+      "to",
+      "please",
+      "is",
+      "easy"
+    ],
+    [
+      "Cindy",
+      "believes",
+      "that",
+      "Cindy",
+      "believes",
+      "that",
+      "to",
+      "read",
+      "is",
+      "tough"
+    ],
+    [
+      "Pam",
+      "thinks",
+      "that",
+      "Jim",
+      "believes",
+      "that",
+      "to",
+      "please",
+      "is",
+      "tough"
+    ],
+    [
+      "Beth",
+      "believes",
+      "that",
+      "George",
+      "believes",
+      "that",
+      "to",
+      "please",
+      "is",
+      "easy"
+    ],
+    [
+      "Pam",
+      "believes",
+      "that",
+      "Cindy",
+      "believes",
+      "that",
+      "to",
+      "read",
+      "is",
+      "easy"
+    ],
+    [
+      "Beth",
+      "thinks",
+      "that",
+      "Beth",
+      "thinks",
+      "that",
+      "to",
+      "read",
+      "is",
+      "tough"
+    ],
+    [
+      "that",
+      "Cindy",
+      "is",
+      "easy",
+      "to",
+      "read",
+      "annoys",
+      "Cindy"
+    ],
+    [
+      "that",
+      "the",
+      "cat",
+      "is",
+      "eager",
+      "to",
+      "please",
+      "disturbs",
+      "the",
+      "cat"
+    ],
+    [
+      "that",
+      "the",
+      "cow",
+      "is",
+      "easy",
+      "to",
+      "read",
+      "annoys",
+      "the",
+      "horse"
+    ],
+    [
+      "that",
+      "Cindy",
+      "is",
+      "eager",
+      "to",
+      "please",
+      "bothers",
+      "the",
+      "dog"
+    ],
+    [
+      "that",
+      "the",
+      "horse",
+      "is",
+      "easy",
+      "to",
+      "please",
+      "annoys",
+      "Jim"
+    ],
+    [
+      "Pam",
+      "thinks",
+      "that",
+      "Cindy",
+      "thinks",
+      "that",
+      "to",
+      "please",
+      "is",
+      "easy"
+    ],
+    [
+      "that",
+      "the",
+      "dog",
+      "is",
+      "easy",
+      "to",
+      "read",
+      "worries",
+      "the",
+      "horse"
+    ],
+    [
+      "Cindy",
+      "believes",
+      "that",
+      "George",
+      "believes",
+      "that",
+      "to",
+      "read",
+      "is",
+      "easy"
+    ],
+    [
+      "Pam",
+      "thinks",
+      "that",
+      "Pam",
+      "believes",
+      "that",
+      "to",
+      "read",
+      "is",
+      "easy"
+    ],
+    [
+      "Beth",
+      "believes",
+      "that",
+      "Joe",
+      "believes",
+      "that",
+      "to",
+      "read",
+      "is",
+      "tough"
+    ],
+    [
+      "Cindy",
+      "believes",
+      "that",
+      "Cindy",
+      "believes",
+      "that",
+      "to",
+      "please",
+      "is",
+      "easy"
+    ],
+    [
+      "that",
+      "the",
+      "horse",
+      "is",
+      "tough",
+      "to",
+      "please",
+      "disturbs",
+      "the",
+      "cat"
+    ],
+    [
+      "Beth",
+      "believes",
+      "that",
+      "Joe",
+      "believes",
+      "that",
+      "to",
+      "read",
+      "is",
+      "tough"
+    ],
+    [
+      "Cindy",
+      "thinks",
+      "that",
+      "Joe",
+      "believes",
+      "that",
+      "to",
+      "please",
+      "is",
+      "easy"
+    ]
+  ],
+  "grammar": "E27 -> believes [0.730769]\nE27 -> thinks [0.269231]\nP28 -> E27 that [1]\nE29 -> read [0.5]\nE29 -> please [0.5]\nP30 -> P28 to E29 is [1]\nE31 -> Cindy [0.4]\nE31 -> Jim [0.1]\nE31 -> Beth [0.1]\nE31 -> Joe [0.4]\nP32 -> P28 E31 P30 [1]\nE33 -> cat [0.3]\nE33 -> cow [0.1]\nE33 -> horse [0.4]\nE33 -> dog [0.2]\nP34 -> the E33 [1]\nP35 -> to E29 [1]\nE36 -> easy [0.666667]\nE36 -> eager [0.333333]\nP37 -> is E36 P35 [1]\nS -> Beth P28 George P30 easy [0.05]\nS -> Beth P32 tough [0.15]\nS -> Cindy P28 George P30 easy [0.05]\nS -> Cindy P32 easy [0.15]\nS -> Cindy P32 tough [0.05]\nS -> Pam P28 Pam P30 easy [0.05]\nS -> Pam P32 easy [0.1]\nS -> Pam P32 tough [0.05]\nS -> that Cindy P37 annoys Cindy [0.05]\nS -> that Cindy P37 bothers P34 [0.05]\nS -> that P34 P37 annoys Jim [0.05]\nS -> that P34 P37 annoys P34 [0.05]\nS -> that P34 P37 disturbs P34 [0.05]\nS -> that P34 P37 worries P34 [0.05]\nS -> that P34 is tough P35 disturbs P34 [0.05]\n",
+  "lexicon": [
+    {
+      "id": 0,
+      "parents": [],
+      "string": "*",
+      "type": 0
+    },
+    {
+      "id": 1,
+      "parents": [],
+      "string": "#",
+      "type": 1
+    },
+    {
+      "id": 2,
+      "parents": [
+        31
+      ],
+      "string": "Cindy",
+      "type": 2
+    },
+    {
+      "id": 3,
+      "parents": [
+        27
+      ],
+      "string": "believes",
+      "type": 2
+    },
+    {
+      "id": 4,
+      "parents": [
+        28
+      ],
+      "string": "that",
+      "type": 2
+    },
+    {
+      "id": 5,
+      "parents": [
+        31
+      ],
+      "string": "Joe",
+      "type": 2
+    },
+    {
+      "id": 6,
+      "parents": [
+        30,
+        35
+      ],
+      "string": "to",
+      "type": 2
+    },
+    {
+      "id": 7,
+      "parents": [
+        29
+      ],
+      "string": "please",
+      "type": 2
+    },
+    {
+      "id": 8,
+      "parents": [
+        30,
+        37
+      ],
+      "string": "is",
+      "type": 2
+    },
+    {
+      "id": 9,
+      "parents": [
+        36
+      ],
+      "string": "easy",
+      "type": 2
+    },
+    {
+      "id": 10,
+      "parents": [
+        29
+      ],
+      "string": "read",
+      "type": 2
+    },
+    {
+      "id": 11,
+      "parents": [],
+      "string": "tough",
+      "type": 2
+    },
+    {
+      "id": 12,
+      "parents": [],
+      "string": "Pam",
+      "type": 2
+    },
+    {
+      "id": 13,
+      "parents": [
+        27
+      ],
+      "string": "thinks",
+      "type": 2
+    },
+    {
+      "id": 14,
+      "parents": [
+        31
+      ],
+      "string": "Jim",
+      "type": 2
+    },
+    {
+      "id": 15,
+      "parents": [
+        31
+      ],
+      "string": "Beth",
+      "type": 2
+    },
+    {
+      "id": 16,
+      "parents": [],
+      "string": "George",
+      "type": 2
+    },
+    {
+      "id": 17,
+      "parents": [],
+      "string": "annoys",
+      "type": 2
+    },
+    {
+      "id": 18,
+      "parents": [
+        34
+      ],
+      "string": "the",
+      "type": 2
+    },
+    {
+      "id": 19,
+      "parents": [
+        33
+      ],
+      "string": "cat",
+      "type": 2
+    },
+    {
+      "id": 20,
+      "parents": [
+        36
+      ],
+      "string": "eager",
+      "type": 2
+    },
+    {
+      "id": 21,
+      "parents": [],
+      "string": "disturbs",
+      "type": 2
+    },
+    {
+      "id": 22,
+      "parents": [
+        33
+      ],
+      "string": "cow",
+      "type": 2
+    },
+    {
+      "id": 23,
+      "parents": [
+        33
+      ],
+      "string": "horse",
+      "type": 2
+    },
+    {
+      "id": 24,
+      "parents": [],
+      "string": "bothers",
+      "type": 2
+    },
+    {
+      "id": 25,
+      "parents": [
+        33
+      ],
+      "string": "dog",
+      "type": 2
+    },
+    {
+      "id": 26,
+      "parents": [],
+      "string": "worries",
+      "type": 2
+    },
+    {
+      "id": 27,
+      "parents": [
+        28
+      ],
+      "string": "E[believes,thinks]",
+      "type": 4
+    },
+    {
+      "id": 28,
+      "parents": [
+        30,
+        32
+      ],
+      "string": "P[E27that]",
+      "type": 3
+    },
+    {
+      "id": 29,
+      "parents": [
+        30,
+        35
+      ],
+      "string": "E[read,please]",
+      "type": 4
+    },
+    {
+      "id": 30,
+      "parents": [
+        32
+      ],
+      "string": "P[P28toE29is]",
+      "type": 3
+    },
+    {
+      "id": 31,
+      "parents": [
+        32
+      ],
+      "string": "E[Cindy,Jim,Beth,Joe]",
+      "type": 4
+    },
+    {
+      "id": 32,
+      "parents": [],
+      "string": "P[P28E31P30]",
+      "type": 3
+    },
+    {
+      "id": 33,
+      "parents": [
+        34
+      ],
+      "string": "E[cat,cow,horse,dog]",
+      "type": 4
+    },
+    {
+      "id": 34,
+      "parents": [],
+      "string": "P[theE33]",
+      "type": 3
+    },
+    {
+      "id": 35,
+      "parents": [
+        37
+      ],
+      "string": "P[toE29]",
+      "type": 3
+    },
+    {
+      "id": 36,
+      "parents": [
+        37
+      ],
+      "string": "E[easy,eager]",
+      "type": 4
+    },
+    {
+      "id": 37,
+      "parents": [],
+      "string": "P[isE36P35]",
+      "type": 3
+    }
+  ],
+  "search_paths": [
+    [
+      "*",
+      "Cindy",
+      "P32",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "Cindy",
+      "P32",
+      "tough",
+      "#"
+    ],
+    [
+      "*",
+      "Pam",
+      "P32",
+      "tough",
+      "#"
+    ],
+    [
+      "*",
+      "Beth",
+      "P28",
+      "George",
+      "P30",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "Pam",
+      "P32",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "Beth",
+      "P32",
+      "tough",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "Cindy",
+      "P37",
+      "annoys",
+      "Cindy",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "P34",
+      "P37",
+      "disturbs",
+      "P34",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "P34",
+      "P37",
+      "annoys",
+      "P34",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "Cindy",
+      "P37",
+      "bothers",
+      "P34",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "P34",
+      "P37",
+      "annoys",
+      "Jim",
+      "#"
+    ],
+    [
+      "*",
+      "Pam",
+      "P32",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "P34",
+      "P37",
+      "worries",
+      "P34",
+      "#"
+    ],
+    [
+      "*",
+      "Cindy",
+      "P28",
+      "George",
+      "P30",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "Pam",
+      "P28",
+      "Pam",
+      "P30",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "Beth",
+      "P32",
+      "tough",
+      "#"
+    ],
+    [
+      "*",
+      "Cindy",
+      "P32",
+      "easy",
+      "#"
+    ],
+    [
+      "*",
+      "that",
+      "P34",
+      "is",
+      "tough",
+      "P35",
+      "disturbs",
+      "P34",
+      "#"
+    ],
+    [
+      "*",
+      "Beth",
+      "P32",
+      "tough",
+      "#"
+    ],
+    [
+      "*",
+      "Cindy",
+      "P32",
+      "easy",
+      "#"
+    ]
+  ],
+  "timing": 0.021121978759765625
+}

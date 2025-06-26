@@ -88,6 +88,8 @@ int run_cli(int argc, char *argv[])
         return 1;
     }
 
+    madios::Logger::trace("Parsing CLI arguments");
+
     // Mutually exclusive: if both set, quiet wins
     if (quiet) verbose = false;
 
@@ -98,6 +100,7 @@ int run_cli(int argc, char *argv[])
 
     // Defensive: Validate and open input file
     log_info("[madios] Reading input file: " + input_filename);
+    madios::Logger::trace("Opening input file: " + input_filename);
     std::ifstream infile(input_filename);
     if (!infile.good()) {
         std::cerr << "[main] Error: Cannot open input file '" << input_filename << "'." << std::endl;
@@ -117,6 +120,7 @@ int run_cli(int argc, char *argv[])
     testGraph.setQuiet(json_mode || pcfg_mode || quiet); // Suppress verbose output if --json, --pcfg, or --quiet is set
     double startTime = getTime();
     log_info("[madios] Running distillation...");
+    madios::Logger::trace("Running ADIOS grammar induction");
     testGraph.distill(ADIOSParams(eta, alpha, context_size, coverage));
     double endTime = getTime();
     log_info("[madios] Distillation complete. Time elapsed: " + std::to_string(endTime - startTime) + " seconds");
@@ -207,6 +211,7 @@ int run_cli(int argc, char *argv[])
         }
     }
     madios::Logger::info("madios CLI finished");
+    madios::Logger::trace("CLI execution complete");
     return 0;
 }
 

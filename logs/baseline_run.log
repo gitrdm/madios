@@ -1,4 +1,520 @@
-[2025-06-25 19:07:57] [INFO] madios CLI started
+[2025-06-25 19:39:38] [INFO] madios CLI started
+eta = 0.9
+alpha = 0.01
+contextSize = 5
+overlapThreshold = 0.65
+--------------------------- working on Path 0 of length 12 ----------------------------------
+[* Cindy believes that Joe believes that to please is easy #]
+11 paths tested
+6 patterns found
+STARTS REWIRING
+26 valid_connections
+26 occurences rewired
+ENDS REWIRING
+--------------------------- working on Path 1 of length 10 ----------------------------------
+[* Cindy P28 Cindy P28 to read is tough #]
+9 paths tested
+10 patterns found
+STARTS REWIRING
+13 valid_connections
+13 occurences rewired
+ENDS REWIRING
+--------------------------- working on Path 2 of length 7 ----------------------------------
+[* Pam P28 Jim P30 tough #]
+3 paths tested
+1 patterns found
+STARTS REWIRING
+10 valid_connections
+10 occurences rewired
+ENDS REWIRING
+--------------------------- working on Path 3 of length 7 ----------------------------------
+[* Beth P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 4 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 5 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 6 of length 10 ----------------------------------
+[* that Cindy is easy to read annoys Cindy #]
+5 paths tested
+--------------------------- working on Path 7 of length 12 ----------------------------------
+[* that the cat is eager to please disturbs the cat #]
+4 paths tested
+1 patterns found
+STARTS REWIRING
+10 valid_connections
+10 occurences rewired
+ENDS REWIRING
+--------------------------- working on Path 8 of length 10 ----------------------------------
+[* that P34 is easy to read annoys P34 #]
+9 paths tested
+--------------------------- working on Path 9 of length 10 ----------------------------------
+[* that Cindy is eager to please bothers P34 #]
+7 paths tested
+1 patterns found
+STARTS REWIRING
+OLD OVERLAP EC USED: E[E[read,please]]
+7 valid_connections
+7 occurences rewired
+ENDS REWIRING
+--------------------------- working on Path 10 of length 9 ----------------------------------
+[* that P34 is easy P35 annoys Jim #]
+5 paths tested
+--------------------------- working on Path 11 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 12 of length 9 ----------------------------------
+[* that P34 is easy P35 worries P34 #]
+6 paths tested
+--------------------------- working on Path 13 of length 7 ----------------------------------
+[* Cindy P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 14 of length 7 ----------------------------------
+[* Pam P28 Pam P30 easy #]
+2 paths tested
+--------------------------- working on Path 15 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 16 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 17 of length 9 ----------------------------------
+[* that P34 is tough P35 disturbs P34 #]
+4 paths tested
+--------------------------- working on Path 18 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 19 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 0 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 1 of length 5 ----------------------------------
+[* Cindy P32 tough #]
+3 paths tested
+--------------------------- working on Path 2 of length 5 ----------------------------------
+[* Pam P32 tough #]
+3 paths tested
+--------------------------- working on Path 3 of length 7 ----------------------------------
+[* Beth P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 4 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 5 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 6 of length 9 ----------------------------------
+[* that Cindy is easy P35 annoys Cindy #]
+5 paths tested
+--------------------------- working on Path 7 of length 9 ----------------------------------
+[* that P34 is eager P35 disturbs P34 #]
+8 paths tested
+--------------------------- working on Path 8 of length 9 ----------------------------------
+[* that P34 is easy P35 annoys P34 #]
+7 paths tested
+--------------------------- working on Path 9 of length 9 ----------------------------------
+[* that Cindy is eager P35 bothers P34 #]
+6 paths tested
+1 patterns found
+STARTS REWIRING
+6 valid_connections
+6 occurences rewired
+ENDS REWIRING
+--------------------------- working on Path 10 of length 7 ----------------------------------
+[* that P34 P37 annoys Jim #]
+3 paths tested
+--------------------------- working on Path 11 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 12 of length 7 ----------------------------------
+[* that P34 P37 worries P34 #]
+3 paths tested
+--------------------------- working on Path 13 of length 7 ----------------------------------
+[* Cindy P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 14 of length 7 ----------------------------------
+[* Pam P28 Pam P30 easy #]
+2 paths tested
+--------------------------- working on Path 15 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 16 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 17 of length 9 ----------------------------------
+[* that P34 is tough P35 disturbs P34 #]
+1 paths tested
+--------------------------- working on Path 18 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 19 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 0 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 1 of length 5 ----------------------------------
+[* Cindy P32 tough #]
+3 paths tested
+--------------------------- working on Path 2 of length 5 ----------------------------------
+[* Pam P32 tough #]
+3 paths tested
+--------------------------- working on Path 3 of length 7 ----------------------------------
+[* Beth P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 4 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 5 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 6 of length 7 ----------------------------------
+[* that Cindy P37 annoys Cindy #]
+2 paths tested
+--------------------------- working on Path 7 of length 7 ----------------------------------
+[* that P34 P37 disturbs P34 #]
+3 paths tested
+--------------------------- working on Path 8 of length 7 ----------------------------------
+[* that P34 P37 annoys P34 #]
+5 paths tested
+--------------------------- working on Path 9 of length 7 ----------------------------------
+[* that Cindy P37 bothers P34 #]
+1 paths tested
+--------------------------- working on Path 10 of length 7 ----------------------------------
+[* that P34 P37 annoys Jim #]
+3 paths tested
+--------------------------- working on Path 11 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 12 of length 7 ----------------------------------
+[* that P34 P37 worries P34 #]
+3 paths tested
+--------------------------- working on Path 13 of length 7 ----------------------------------
+[* Cindy P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 14 of length 7 ----------------------------------
+[* Pam P28 Pam P30 easy #]
+2 paths tested
+--------------------------- working on Path 15 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 16 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 17 of length 9 ----------------------------------
+[* that P34 is tough P35 disturbs P34 #]
+1 paths tested
+--------------------------- working on Path 18 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 19 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+
+
+
+E27 ---> [19 | 7]
+E29 ---> [10 | 10]
+E31 ---> [4 | 1 | 1 | 4]
+E33 ---> [3 | 1 | 4 | 2]
+E36 ---> [4 | 2]
+
+
+
+
+
+
+0 ---> 654738704
+	1 ---> 0
+	2 ---> 2
+	20 ---> 32
+		16 ---> 28
+			15 ---> 27
+				3 ---> 3
+			4 ---> 4
+		19 ---> 31
+			5 ---> 5
+		18 ---> 30
+			14 ---> 28
+				13 ---> 27
+					6 ---> 3
+				7 ---> 4
+			8 ---> 6
+			17 ---> 29
+				9 ---> 7
+			10 ---> 8
+	11 ---> 9
+	12 ---> 1
+
+
+
+eta = 0.9
+alpha = 0.01
+contextSize = 5
+overlapThreshold = 0.65
+BEGIN CORPUS ----------
+Cindy believes that Joe believes that to please is easy 
+Cindy believes that Cindy believes that to read is tough 
+Pam thinks that Jim believes that to please is tough 
+Beth believes that George believes that to please is easy 
+Pam believes that Cindy believes that to read is easy 
+Beth thinks that Beth thinks that to read is tough 
+that Cindy is easy to read annoys Cindy 
+that the cat is eager to please disturbs the cat 
+that the cow is easy to read annoys the horse 
+that Cindy is eager to please bothers the dog 
+that the horse is easy to please annoys Jim 
+Pam thinks that Cindy thinks that to please is easy 
+that the dog is easy to read worries the horse 
+Cindy believes that George believes that to read is easy 
+Pam thinks that Pam believes that to read is easy 
+Beth believes that Joe believes that to read is tough 
+Cindy believes that Cindy believes that to please is easy 
+that the horse is tough to please disturbs the cat 
+Beth believes that Joe believes that to read is tough 
+Cindy thinks that Joe believes that to please is easy 
+END CORPUS ----------
+
+
+Search Paths
+[* Cindy P32 easy #]
+[* Cindy P32 tough #]
+[* Pam P32 tough #]
+[* Beth P28 George P30 easy #]
+[* Pam P32 easy #]
+[* Beth P32 tough #]
+[* that Cindy P37 annoys Cindy #]
+[* that P34 P37 disturbs P34 #]
+[* that P34 P37 annoys P34 #]
+[* that Cindy P37 bothers P34 #]
+[* that P34 P37 annoys Jim #]
+[* Pam P32 easy #]
+[* that P34 P37 worries P34 #]
+[* Cindy P28 George P30 easy #]
+[* Pam P28 Pam P30 easy #]
+[* Beth P32 tough #]
+[* Cindy P32 easy #]
+[* that P34 is tough P35 disturbs P34 #]
+[* Beth P32 tough #]
+[* Cindy P32 easy #]
+
+RDS Graph Nodes 38
+Lexicon 0: *   ------->  0  []
+Lexicon 1: #   ------->  0  []
+Lexicon 2: Cindy   ------->  1  [31]
+Lexicon 3: believes   ------->  1  [27]
+Lexicon 4: that   ------->  1  [28]
+Lexicon 5: Joe   ------->  1  [31]
+Lexicon 6: to   ------->  2  [30   35]
+Lexicon 7: please   ------->  1  [29]
+Lexicon 8: is   ------->  2  [30   37]
+Lexicon 9: easy   ------->  1  [36]
+Lexicon 10: read   ------->  1  [29]
+Lexicon 11: tough   ------->  0  []
+Lexicon 12: Pam   ------->  0  []
+Lexicon 13: thinks   ------->  1  [27]
+Lexicon 14: Jim   ------->  1  [31]
+Lexicon 15: Beth   ------->  1  [31]
+Lexicon 16: George   ------->  0  []
+Lexicon 17: annoys   ------->  0  []
+Lexicon 18: the   ------->  1  [34]
+Lexicon 19: cat   ------->  1  [33]
+Lexicon 20: eager   ------->  1  [36]
+Lexicon 21: disturbs   ------->  0  []
+Lexicon 22: cow   ------->  1  [33]
+Lexicon 23: horse   ------->  1  [33]
+Lexicon 24: bothers   ------->  0  []
+Lexicon 25: dog   ------->  1  [33]
+Lexicon 26: worries   ------->  0  []
+Lexicon 27: E[believes,thinks]   ------->  1  [28]
+Lexicon 28: P[E27that]   ------->  2  [30   32]
+Lexicon 29: E[read,please]   ------->  2  [30   35]
+Lexicon 30: P[P28toE29is]   ------->  1  [32]
+Lexicon 31: E[Cindy,Jim,Beth,Joe]   ------->  1  [32]
+Lexicon 32: P[P28E31P30]   ------->  0  []
+Lexicon 33: E[cat,cow,horse,dog]   ------->  1  [34]
+Lexicon 34: P[theE33]   ------->  0  []
+Lexicon 35: P[toE29]   ------->  1  [37]
+Lexicon 36: E[easy,eager]   ------->  1  [37]
+Lexicon 37: P[isE36P35]   ------->  0  []
+
+BEGIN DISTILLATION ----------
+eta = 0.9
+alpha = 0.01
+contextSize = 5
+overlapThreshold = 0.65
+--------------------------- working on Path 0 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 1 of length 5 ----------------------------------
+[* Cindy P32 tough #]
+3 paths tested
+--------------------------- working on Path 2 of length 5 ----------------------------------
+[* Pam P32 tough #]
+3 paths tested
+--------------------------- working on Path 3 of length 7 ----------------------------------
+[* Beth P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 4 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 5 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 6 of length 7 ----------------------------------
+[* that Cindy P37 annoys Cindy #]
+2 paths tested
+--------------------------- working on Path 7 of length 7 ----------------------------------
+[* that P34 P37 disturbs P34 #]
+3 paths tested
+--------------------------- working on Path 8 of length 7 ----------------------------------
+[* that P34 P37 annoys P34 #]
+5 paths tested
+--------------------------- working on Path 9 of length 7 ----------------------------------
+[* that Cindy P37 bothers P34 #]
+1 paths tested
+--------------------------- working on Path 10 of length 7 ----------------------------------
+[* that P34 P37 annoys Jim #]
+3 paths tested
+--------------------------- working on Path 11 of length 5 ----------------------------------
+[* Pam P32 easy #]
+3 paths tested
+--------------------------- working on Path 12 of length 7 ----------------------------------
+[* that P34 P37 worries P34 #]
+3 paths tested
+--------------------------- working on Path 13 of length 7 ----------------------------------
+[* Cindy P28 George P30 easy #]
+3 paths tested
+--------------------------- working on Path 14 of length 7 ----------------------------------
+[* Pam P28 Pam P30 easy #]
+2 paths tested
+--------------------------- working on Path 15 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 16 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+--------------------------- working on Path 17 of length 9 ----------------------------------
+[* that P34 is tough P35 disturbs P34 #]
+1 paths tested
+--------------------------- working on Path 18 of length 5 ----------------------------------
+[* Beth P32 tough #]
+2 paths tested
+--------------------------- working on Path 19 of length 5 ----------------------------------
+[* Cindy P32 easy #]
+3 paths tested
+
+
+
+E27 ---> [19 | 7]
+E29 ---> [10 | 10]
+E31 ---> [4 | 1 | 1 | 4]
+E33 ---> [3 | 1 | 4 | 2]
+E36 ---> [4 | 2]
+
+
+
+
+
+
+0 ---> 654738704
+	1 ---> 0
+	2 ---> 2
+	20 ---> 32
+		16 ---> 28
+			15 ---> 27
+				3 ---> 3
+			4 ---> 4
+		19 ---> 31
+			5 ---> 5
+		18 ---> 30
+			14 ---> 28
+				13 ---> 27
+					6 ---> 3
+				7 ---> 4
+			8 ---> 6
+			17 ---> 29
+				9 ---> 7
+			10 ---> 8
+	11 ---> 9
+	12 ---> 1
+
+
+
+END DISTILLATION ----------
+
+Search Paths
+[* Cindy P32 easy #]
+[* Cindy P32 tough #]
+[* Pam P32 tough #]
+[* Beth P28 George P30 easy #]
+[* Pam P32 easy #]
+[* Beth P32 tough #]
+[* that Cindy P37 annoys Cindy #]
+[* that P34 P37 disturbs P34 #]
+[* that P34 P37 annoys P34 #]
+[* that Cindy P37 bothers P34 #]
+[* that P34 P37 annoys Jim #]
+[* Pam P32 easy #]
+[* that P34 P37 worries P34 #]
+[* Cindy P28 George P30 easy #]
+[* Pam P28 Pam P30 easy #]
+[* Beth P32 tough #]
+[* Cindy P32 easy #]
+[* that P34 is tough P35 disturbs P34 #]
+[* Beth P32 tough #]
+[* Cindy P32 easy #]
+
+RDS Graph Nodes 38
+Lexicon 0: *   ------->  0  []
+Lexicon 1: #   ------->  0  []
+Lexicon 2: Cindy   ------->  1  [31]
+Lexicon 3: believes   ------->  1  [27]
+Lexicon 4: that   ------->  1  [28]
+Lexicon 5: Joe   ------->  1  [31]
+Lexicon 6: to   ------->  2  [30   35]
+Lexicon 7: please   ------->  1  [29]
+Lexicon 8: is   ------->  2  [30   37]
+Lexicon 9: easy   ------->  1  [36]
+Lexicon 10: read   ------->  1  [29]
+Lexicon 11: tough   ------->  0  []
+Lexicon 12: Pam   ------->  0  []
+Lexicon 13: thinks   ------->  1  [27]
+Lexicon 14: Jim   ------->  1  [31]
+Lexicon 15: Beth   ------->  1  [31]
+Lexicon 16: George   ------->  0  []
+Lexicon 17: annoys   ------->  0  []
+Lexicon 18: the   ------->  1  [34]
+Lexicon 19: cat   ------->  1  [33]
+Lexicon 20: eager   ------->  1  [36]
+Lexicon 21: disturbs   ------->  0  []
+Lexicon 22: cow   ------->  1  [33]
+Lexicon 23: horse   ------->  1  [33]
+Lexicon 24: bothers   ------->  0  []
+Lexicon 25: dog   ------->  1  [33]
+Lexicon 26: worries   ------->  0  []
+Lexicon 27: E[believes,thinks]   ------->  1  [28]
+Lexicon 28: P[E27that]   ------->  2  [30   32]
+Lexicon 29: E[read,please]   ------->  2  [30   35]
+Lexicon 30: P[P28toE29is]   ------->  1  [32]
+Lexicon 31: E[Cindy,Jim,Beth,Joe]   ------->  1  [32]
+Lexicon 32: P[P28E31P30]   ------->  0  []
+Lexicon 33: E[cat,cow,horse,dog]   ------->  1  [34]
+Lexicon 34: P[theE33]   ------->  0  []
+Lexicon 35: P[toE29]   ------->  1  [37]
+Lexicon 36: E[easy,eager]   ------->  1  [37]
+Lexicon 37: P[isE36P35]   ------->  0  []
+
+
+
+Time elapsed: 0.0264242 seconds
+
+
+
 E27 -> believes [0.730769]
 E27 -> thinks [0.269231]
 P28 -> E27 that [1]
@@ -34,3 +550,4 @@ S -> that P34 P37 annoys P34 [0.05]
 S -> that P34 P37 disturbs P34 [0.05]
 S -> that P34 P37 worries P34 [0.05]
 S -> that P34 is tough P35 disturbs P34 [0.05]
+[2025-06-25 19:39:38] [INFO] madios CLI finished
