@@ -382,7 +382,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     if (params.contextSize < 2) {
         throw std::invalid_argument("RDSGraph::generalise: contextSize must be >= 2");
     }
-    // BOOTSTRAPPING STAGE
+    // === BOOTSTRAPPING STAGE ===
     // bootstrapping variables
     vector<Range> all_boosted_contexts;
     vector<SearchPath> all_boosted_paths;
@@ -406,7 +406,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 
 
 
-    // GENERALISATION STAGE
+    // === GENERALISATION STAGE ===
     // generalisation variables
     vector<unsigned int> general2boost;
     vector<unsigned int> all_general_slots;
@@ -432,16 +432,16 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
         {
             EquivalenceClass ec = computeEquivalenceClass(boosted_part, j);
 
-            // test that the found equivalence class actually has more than one element
+            // Only generalize if the equivalence class has more than one element
             SearchPath general_path = all_boosted_paths[i];
-            if(ec.size() > 1)   // check if found equivalence class is very similar to an existing EC, need to double check
+            if(ec.size() > 1)
                 general_path[context_start+j] = findExistingEquivalenceClass(ec);
 
-            // if general_path is the same as the original search path, no need to test it
+            // Skip if the generalization is identical to the original path
             if(general_path == search_path)
                 continue;
 
-            // if general_path is already one of the path found for this boosted path, no need to test it
+            // Skip if this generalization is already present
             bool repeated = false;
             for(unsigned int k = start_index; k < all_general_paths.size(); k++)
                 if(general_path == all_general_paths[k])
@@ -451,7 +451,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
                 }
             if(repeated) continue;
 
-            // added the generalised path sto the list to be tested
+            // Add the generalised path to the list to be tested
             general2boost.push_back(i);  // add the boosted path number corresponding to the general path
             all_general_slots.push_back(context_start+j);  // stores the slot that was generalised
             all_general_paths.push_back(general_path);
@@ -460,10 +460,9 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     }
     if (!quiet) std::cerr << all_general_paths.size() << " paths tested" << endl;
 
-
-
-    // DISTILLATION STAGE
-    // significant pattern variables
+    // === DISTILLATION STAGE ===
+    // For each generalized path, simulate rewiring and look for significant patterns.
+    // Only accept patterns that introduce new equivalence classes.
     vector<Range> all_patterns;
     vector<SignificancePair> all_pvalues;
     vector<unsigned int> pattern2general;
