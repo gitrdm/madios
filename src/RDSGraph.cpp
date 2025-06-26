@@ -648,8 +648,9 @@ void RDSGraph::computeConnectionMatrix(ConnectionMatrix &connections, const Sear
 // Defensive: checks slot index bounds and ensures valid equivalence class construction
 EquivalenceClass RDSGraph::computeEquivalenceClass(const SearchPath &search_path, unsigned int slotIndex) const
 {
-    assert(0 < slotIndex);
-    assert(slotIndex < (search_path.size()-1));
+    if (!(0 < slotIndex && slotIndex < (search_path.size()-1))) {
+        throw std::out_of_range("RDSGraph::computeEquivalenceClass: slotIndex out of valid range");
+    }
 
     // get the candidate connections
     vector<Connection> equivalenceConnections = getAllNodeConnections(search_path[0]);
@@ -843,7 +844,9 @@ vector<Connection> RDSGraph::getRewirableConnections(const ConnectionMatrix &con
 // Overloaded for different rewire targets (EC, SP, or node index).
 void RDSGraph::rewire(const std::vector<Connection> &connections, unsigned int ec)
 {
-    assert(nodes[ec].type == LexiconTypes::EC);
+    if (ec >= nodes.size() || nodes[ec].type != LexiconTypes::EC) {
+        throw std::invalid_argument("RDSGraph::rewire: ec index invalid or not an EC node");
+    }
 
     for(unsigned int i = 0; i < connections.size(); i++)
         paths[connections[i].first][connections[i].second] = ec;
@@ -1114,6 +1117,9 @@ vector<Connection> RDSGraph::filterConnections(const vector<Connection> &init_co
 // Defensive: ensures valid node index and handles empty connection sets
 vector<Connection> RDSGraph::getAllNodeConnections(unsigned int nodeIndex) const
 {
+    if (nodeIndex >= nodes.size()) {
+        throw std::out_of_range("RDSGraph::getAllNodeConnections: nodeIndex out of bounds");
+    }
     vector<Connection> connections = nodes[nodeIndex].getConnections();
 
     //get all connections belonging to the nodes in the equivalence class
@@ -1134,7 +1140,8 @@ vector<Connection> RDSGraph::getAllNodeConnections(unsigned int nodeIndex) const
 // Find an existing equivalence class that is a subset of the given equivalence class.
 // Returns the index of the found equivalence class, or nodes.size() if none found.
 unsigned int RDSGraph::findExistingEquivalenceClass(const EquivalenceClass &ec) const
-{   // look for the existing ec that is a subset of the given ec
+{
+    // look for the existing ec that is a subset of the given ec
     for(unsigned int i = 0; i < nodes.size(); i++)
         if(nodes[i].type == LexiconTypes::EC)
         {

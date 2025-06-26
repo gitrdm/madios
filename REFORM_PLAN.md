@@ -38,6 +38,8 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
 - Add tests for exception safety and memory errors
 - Add tests for all public methods in new/utility code
 - (Optional) Add performance regression tests
+- Deep copy/clone logic for RDSGraph is robust and tested via dedicated test wrappers (2025-06-26)
+- [NEXT] Replace assert/manual checks with exceptions or error codes in public APIs for safer, more user-friendly error handling
 
 ---
 

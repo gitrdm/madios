@@ -103,7 +103,9 @@ Use this checklist to track progress through the reform plan. Check off each ite
     - Rationale: Marking functions and variables as `const` when they do not modify the object’s state helps prevent accidental changes, improves code clarity, enables compiler optimizations, and communicates intent to other programmers.  
     - Steps: Review all member functions and mark as `const` if they do not modify the object. Mark local variables as `const` where appropriate. Build and test after changes. Update documentation.  
     - Status: Complete. Build and all tests passed after changes.
-- [ ] Replace `assert`/manual checks with exceptions or error codes
+- [ ] Replace `assert`/manual checks with exceptions or error codes [NEXT]
+    - Rationale: Exceptions and error codes provide safer, more user-friendly error handling than asserts, especially in public APIs. This helps users and contributors understand and recover from errors.
+    - Steps: Review all public methods, replace assert with exceptions or error codes, add clear error messages, update tests as needed.
 - [ ] Add robust input validation and error messages
 - [ ] Profile and optimize hot paths if needed
 - [ ] Avoid unnecessary copies/allocations
@@ -122,6 +124,7 @@ Use this checklist to track progress through the reform plan. Check off each ite
 ---
 
 ## Ongoing
+- [x] Deep copy/clone and simulation logic for RDSGraph is robust and tested (2025-06-26)
 - [ ] Update this checklist and the reform plan as tasks are completed or requirements change
 - [ ] Use issue tracker or project board for detailed tracking if desired
 
