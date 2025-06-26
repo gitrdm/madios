@@ -18,7 +18,7 @@
 // === Variable Naming Reference ===
 // all_general_slots   // CORRECT
 // some_patterns       // CORRECT
-// DO NOT use: all_generalSlots, somePatterns, etc.
+// DO NOT use: all_general_slots, some_patterns, etc.
 //
 // Add new variables here if naming is critical for refactor or LLM editing.
 
@@ -130,7 +130,7 @@ void RDSGraph::distill(const ADIOSParams &params)
             if (!quiet) {
                 std::cout << printNodeName(&countVec - &counts[0]);
                 std::cout <<  " ---> [";
-                for(size_t j = 0; j < countVec.size(); j++) {
+                for(auto j = 0u; j < countVec.size(); j++) { // use auto for index
                     std::cout << countVec[j];
                     if(j < countVec.size() - 1)
                         std::cout << " | ";
@@ -164,24 +164,24 @@ void RDSGraph::convert2PCFG(ostream &out) const
     {
         if(node.type == LexiconTypes::EC)
         {
-            EquivalenceClass *ec = static_cast<EquivalenceClass *>(node.lexicon.get());
+            auto ec = static_cast<EquivalenceClass *>(node.lexicon.get()); // use auto
             double total = 0.0;
-            for(unsigned int j = 0; j < ec->size(); j++)
+            for(auto j = 0u; j < ec->size(); j++)
                 total += counts[&node - &nodes[0]][j];
             if (total == 0.0) total = 1.0; // avoid division by zero
-            for(unsigned int j = 0; j < ec->size(); j++) {
+            for(auto j = 0u; j < ec->size(); j++) {
                 double prob = counts[&node - &nodes[0]][j] / total;
                 out << "E" << (&node - &nodes[0]) << " -> " << printNodeName((*ec)[j]) << " [" << prob << "]" << std::endl;
             }
         }
         else if(node.type == LexiconTypes::SP)
         {
-            SignificantPattern *sp = static_cast<SignificantPattern *>(node.lexicon.get());
+            auto sp = static_cast<SignificantPattern *>(node.lexicon.get()); // use auto
             double total = counts[&node - &nodes[0]][0];
             if (total == 0.0) total = 1.0;
             double prob = counts[&node - &nodes[0]][0] / total;
             out << "P" << &node - &nodes[0] << " ->";
-            for(unsigned int j = 0; j < sp->size(); j++)
+            for(auto j = 0u; j < sp->size(); j++)
                 out << " " << printNodeName((*sp)[j]);
             out << " [" << prob << "]" << std::endl;
         }
@@ -190,16 +190,16 @@ void RDSGraph::convert2PCFG(ostream &out) const
     // Count occurrences of each unique S rule (RHS)
     std::map<std::vector<std::string>, int> s_rule_counts;
     int total_s_rule_count = 0;
-    for(unsigned int i = 0; i < paths.size(); i++) {
+    for(auto i = 0u; i < paths.size(); i++) {
         std::vector<std::string> rhs;
-        for(unsigned int j = 1; j < paths[i].size()-1; j++)
+        for(auto j = 1u; j < paths[i].size()-1; j++)
             rhs.push_back(printNodeName(paths[i][j]));
         s_rule_counts[rhs]++;
         total_s_rule_count++;
     }
     // Output S rules with normalized probabilities
     for(const auto& pair : s_rule_counts) {
-        const std::vector<std::string>& rhs = pair.first;
+        const auto& rhs = pair.first;
         int count = pair.second;
         double prob = (total_s_rule_count > 0) ? (static_cast<double>(count) / total_s_rule_count) : 1.0;
         out << "S ->";
@@ -586,7 +586,7 @@ void RDSGraph::buildInitialGraph(const vector<vector<string> > &sequences)
         //create the main part of the graph
         for(unsigned int j = 0; j < sequences[i].size(); j++)
         {
-            vector<string>::iterator foundPosition = find(lexicon.begin(), lexicon.end(), sequences[i][j]);
+            auto foundPosition = find(lexicon.begin(), lexicon.end(), sequences[i][j]);
             if(foundPosition == lexicon.end())
             {
                 lexicon.push_back(sequences[i][j]);

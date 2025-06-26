@@ -96,7 +96,7 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [x] Plan and document first refactor target (RDSNode smart pointer migration)
 - [x] Refactor in small, tested steps (RDSNode and related code)
 - [x] Replace raw pointers with smart pointers where appropriate (RDSNode, RDSGraph, tests)
-- [ ] Use `auto`, range-based for loops, STL algorithms [NEXT]
+- [x] Use `auto`, range-based for loops, STL algorithms [NEXT]
 - [ ] Remove unnecessary `using namespace` and global variables
 - [ ] Apply `const` correctness and immutability
 - [ ] Replace `assert`/manual checks with exceptions or error codes
