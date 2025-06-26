@@ -3,7 +3,7 @@
 set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_LIST_DIR}/../build")
 set(CMAKE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/..")
 execute_process(
-  COMMAND ${CMAKE_BINARY_DIR}/madios ${CMAKE_SOURCE_DIR}/test/corpus.txt 0.9 0.01 5 0.65 --json
+  COMMAND ${CMAKE_BINARY_DIR}/madios ${CMAKE_SOURCE_DIR}/test/corpus.txt 0.9 0.01 5 0.65 --format json
   RESULT_VARIABLE result
   OUTPUT_VARIABLE output
   ERROR_VARIABLE error

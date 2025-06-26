@@ -57,3 +57,16 @@ TEST_CASE("RDSNode: deep copy", "[core]") {
     REQUIRE(node2.parents.size() == 1);
     REQUIRE(node2.lexicon->toString() == "bar");
 }
+
+// Test error handling for RDSNode (invalid input)
+TEST_CASE("RDSNode: error handling for invalid input", "[core]") {
+    // Test construction with null lexicon pointer
+    REQUIRE_THROWS_AS(RDSNode(nullptr, LexiconTypes::Symbol), std::invalid_argument);
+    // Test addConnection with invalid indices
+    RDSNode node(std::make_unique<BasicSymbol>("err"), LexiconTypes::Symbol);
+    Connection bad = {static_cast<unsigned int>(-1), 2};
+    REQUIRE_THROWS_AS(node.addConnection(bad), std::invalid_argument);
+    // Test addParent with invalid indices
+    Connection bad_parent = {1, static_cast<unsigned int>(-1)};
+    REQUIRE_THROWS_AS(node.addParent(bad_parent), std::invalid_argument);
+}
