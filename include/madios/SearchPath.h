@@ -2,6 +2,8 @@
 // Purpose: Declares the SearchPath class, which manages search paths through the ADIOS graph for parsing or pattern finding.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 
+#pragma once
+
 #ifndef SEARCHPATH_H
 #define SEARCHPATH_H
 

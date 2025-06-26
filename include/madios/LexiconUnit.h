@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef LEXICONUNIT_H
 #define LEXICONUNIT_H
 

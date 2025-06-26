@@ -9,8 +9,7 @@
 //   - These are used as unique markers in the graph to denote sequence boundaries.
 //   - Both provide copy and string conversion methods for use in graph construction and output.
 
-#ifndef SPECIALLEXICONS_H
-#define SPECIALLEXICONS_H
+#pragma once
 
 #include "LexiconUnit.h"
 #include <string>
@@ -72,5 +71,3 @@ public:
      */
     std::string toString() const override;
 };
-
-#endif // SPECIALLEXICONS_H

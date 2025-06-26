@@ -1,3 +1,4 @@
+#pragma once
 // File: SignificantPattern.h
 // Purpose: Declares the SignificantPattern class, which detects and manages significant patterns in the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.

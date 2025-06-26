@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef ADIOSUTILS_H
 #define ADIOSUTILS_H
 

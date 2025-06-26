@@ -1,3 +1,5 @@
+#pragma once
+
 extern unsigned int g_deterministic_seed;
 
 unsigned int getDeterministicSeed();

@@ -2,6 +2,8 @@
 // Purpose: Declares the RDSNode class, representing nodes (words or patterns) in the ADIOS graph.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
 
+#pragma once
+
 #ifndef RDSNODE_H
 #define RDSNODE_H
 

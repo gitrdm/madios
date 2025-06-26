@@ -1,3 +1,4 @@
+#pragma once
 // File: EquivalenceClass.h
 // Purpose: Declares the EquivalenceClass class, which groups similar patterns or nodes for generalization in the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.

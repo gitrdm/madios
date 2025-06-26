@@ -1,3 +1,4 @@
+#pragma once
 // File: RDSGraph.h
 // Purpose: Declares the RDSGraph class, which implements the main graph structure for pattern discovery in the ADIOS algorithm.
 // Part of the ADIOS grammar induction project. See README for usage and structure.
