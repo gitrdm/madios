@@ -2,7 +2,8 @@
  * @file SignificantPattern.h
  * @brief Declares the SignificantPattern class for detecting and managing significant patterns in the ADIOS algorithm.
  *
- * Inherits from LexiconUnit and std::vector<unsigned int>.
+ * The SignificantPattern class inherits from LexiconUnit and std::vector<unsigned int>
+ * and provides methods for pattern management in the ADIOS algorithm.
  */
 #pragma once
 
@@ -18,6 +19,7 @@
  * @brief Detects and manages significant patterns in the ADIOS algorithm.
  *
  * Inherits from LexiconUnit and std::vector<unsigned int>.
+ * Provides methods for construction, copying, searching, and string representation.
  */
 class SignificantPattern: public LexiconUnit, public std::vector<unsigned int>
 {
@@ -27,7 +29,7 @@ class SignificantPattern: public LexiconUnit, public std::vector<unsigned int>
          */
         SignificantPattern();
         /**
-         * @brief Construct from a sequence of units.
+         * @brief Constructs a significant pattern from a sequence of unit indices.
          * @param sequence Vector of unit indices to initialize the pattern.
          */
         explicit SignificantPattern(const std::vector<unsigned int> &sequence);
