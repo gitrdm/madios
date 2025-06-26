@@ -7,6 +7,9 @@
 // Design:
 //   - StartSymbol and EndSymbol inherit from LexiconUnit and represent the start and end of a sequence, respectively.
 //   - Both provide copy and string conversion methods for use in graph construction and output.
+//
+// For a novice C++ programmer: These classes are simple wrappers for special tokens used to mark the beginning and end of input sequences.
+// They are used throughout the graph to ensure correct parsing and output.
 
 #include "madios/BasicSymbol.h"
 #include "SpecialLexicons.h"
