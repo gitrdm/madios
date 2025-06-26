@@ -180,18 +180,21 @@ This structure supports modern CMake, IDEs, and packaging. See README for more d
 
 ## Phase 4: Code Logic Refactor and Modernization
 
-### Goals
-- Improve code readability, maintainability, and performance.
-- Adopt modern C++ best practices (C++17/20 where possible).
-- Reduce technical debt and eliminate code smells.
+### Status (2025-06-26)
+- Project upgraded to C++14 for modern smart pointer and STL usage.
+- All RDSNode and related code/tests migrated to std::unique_ptr and std::make_unique.
+- All pointer casts and construction in tests and codebase updated.
+- Variable name and syntax errors in RDSGraph.cpp fixed.
+- All tests pass after migration.
+- Next: range-based for loops, auto, const correctness, Doxygen, STL algorithms, error handling.
 
 ### Steps
 1. **Refactor in Small, Tested Steps**
    - Use the regression test suite to validate each change.
    - Refactor one module/class at a time (e.g., `RDSGraph`, `EquivalenceClass`).
 2. **Modernize C++ Usage**
-   - Replace raw pointers with smart pointers where appropriate.
-   - Use `auto`, range-based for loops, and STL algorithms.
+   - Replace raw pointers with smart pointers where appropriate. [DONE for RDSNode]
+   - Use `auto`, range-based for loops, and STL algorithms. [NEXT]
    - Remove unnecessary `using namespace` and global variables.
    - Prefer `const` correctness and immutability.
 3. **Improve Error Handling**

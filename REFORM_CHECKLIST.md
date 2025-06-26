@@ -66,17 +66,23 @@ Use this checklist to track progress through the reform plan. Check off each ite
     - [x] Remove empty/obsolete files (all remaining .cpp/.h files in project root were empty and deleted; real code is in src/ or include/madios/)
 - [x] Update `CMakeLists.txt` and build scripts for new layout
 - [x] Refactor `#include` directives and paths
-- [ ] Remove obsolete/duplicate files
+- [x] Remove obsolete/duplicate files
 - [x] Ensure all tests and builds pass after each move
 - [x] Update `README.md` and add `CONTRIBUTING.md` with structure rationale
-- [ ] Filesystem restructuring: Move all public headers to include/madios/, update CMake, and validate build
-    - [ ] Move headers and test data
+- [x] Filesystem restructuring: Move all public headers to include/madios/, update CMake, and validate build
+    - [x] Move headers and test data
     - [x] Update CMakeLists.txt and README
     - [x] Fix all include paths and header dependencies (TNT/Array2D, iostream, etc.)
     - [x] Synchronize TNT/Array2D and related TNT headers from `src/maths/tnt/` to `include/madios/maths/tnt/` (public headers complete)
     - [x] Validate build and tests after restructuring
     - [x] Update all code to use fully qualified TNT types (e.g., `TNT::Array2D`, `TNT::Array1D`) globally
     - [x] Validate build and tests after namespace fix
+- [x] Upgrade project to C++14 for modern smart pointer and STL usage
+- [x] Migrate all RDSNode and related code/tests to use std::unique_ptr and std::make_unique
+- [x] Build and test after smart pointer migration
+- [x] Fix all pointer casts and construction in tests and codebase
+- [x] Fix variable name and syntax errors in RDSGraph.cpp
+- [x] Confirm all tests pass after migration
 
 ## Phase 3: Documentation Improvement
 - [ ] Add/improve Doxygen-style comments for all public classes/methods
@@ -87,10 +93,10 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [ ] Add architecture diagrams/flowcharts as needed
 
 ## Phase 4: Code Logic Refactor and Modernization
-- [ ] Plan and document first refactor target (e.g., `RDSGraph`)
-- [ ] Refactor in small, tested steps (one module/class at a time)
-- [ ] Replace raw pointers with smart pointers where appropriate
-- [ ] Use `auto`, range-based for loops, STL algorithms
+- [x] Plan and document first refactor target (RDSNode smart pointer migration)
+- [x] Refactor in small, tested steps (RDSNode and related code)
+- [x] Replace raw pointers with smart pointers where appropriate (RDSNode, RDSGraph, tests)
+- [ ] Use `auto`, range-based for loops, STL algorithms [NEXT]
 - [ ] Remove unnecessary `using namespace` and global variables
 - [ ] Apply `const` correctness and immutability
 - [ ] Replace `assert`/manual checks with exceptions or error codes
@@ -117,4 +123,4 @@ Use this checklist to track progress through the reform plan. Check off each ite
 
 ---
 
-*Keep this checklist up to date as you progress through the refactor and modernization process.*
+*Checklist updated after C++14 upgrade and smart pointer migration (2025-06-26). Next: range-based for, auto, const, Doxygen, STL, error handling.*
