@@ -1,4 +1,6 @@
-[2025-06-25 19:42:26] [INFO] madios CLI started
+[2025-06-25 20:02:10] [INFO] madios CLI started
+[2025-06-25 20:02:10] [INFO] madios version: 1.0.0, git commit: UNKNOWN, build date: Jun 25 2025
+[2025-06-25 20:02:10] [INFO] CLI arguments: ../scripts/../build/madios ../test/corpus.txt 0.9 0.01 5 0.65 --json 
 {
   "corpus": [
     [
@@ -689,5 +691,5 @@
       "#"
     ]
   ],
-  "timing": 0.027741193771362305
+  "timing": 0.02257704734802246
 }

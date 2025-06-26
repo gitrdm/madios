@@ -1365,3 +1365,12 @@ std::vector<std::string> RDSGraph::generate() const {
     // By convention, the start node is at index 0
     return generate(0);
 }
+
+unsigned int RDSGraph::getPatternCount() const {
+    // Return the number of significant patterns currently in the graph
+    return significant_patterns.size();
+}
+unsigned int RDSGraph::getRewiringCount() const {
+    // Return the number of rewiring operations performed (tracked by rewiring_ops)
+    return rewiring_ops;
+}

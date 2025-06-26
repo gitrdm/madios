@@ -20,6 +20,7 @@
 #include "utils/json.hpp"
 #include "../ext/CLI11.hpp"
 #include "madios/Logger.h"
+#include "madios/version.h"
 
 #include <sstream>
 #include <iostream>
@@ -28,6 +29,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <sys/resource.h>
 
 using std::vector;
 using std::pair;
@@ -51,6 +53,11 @@ using std::endl;
 int run_cli(int argc, char *argv[])
 {
     madios::Logger::info("madios CLI started");
+    madios::Logger::info(std::string("madios version: ") + MADIOS_VERSION + ", git commit: " + MADIOS_GIT_COMMIT + ", build date: " + __DATE__);
+    std::ostringstream cli_args;
+    for (int i = 0; i < argc; ++i) cli_args << argv[i] << " ";
+    madios::Logger::info("CLI arguments: " + cli_args.str());
+
     CLI::App app{"madios: ADIOS grammar induction"};
 
     std::string input_filename;
@@ -210,6 +217,14 @@ int run_cli(int argc, char *argv[])
             std::cout << std::endl;
         }
     }
+    madios::Logger::info("Input file: " + input_filename);
+    if (!output_filename.empty()) madios::Logger::info("Output file: " + output_filename);
+    madios::Logger::info("Random seed: " + std::to_string(getDeterministicSeed()));
+    // At the end, log summary statistics and resource usage
+    madios::Logger::info("Summary: patterns found = " + std::to_string(testGraph.getPatternCount()) + ", rewiring ops = " + std::to_string(testGraph.getRewiringCount()) + ", final graph size = " + std::to_string(testGraph.getNodes().size()));
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    madios::Logger::info("Peak memory usage: " + std::to_string(usage.ru_maxrss) + " KB");
     madios::Logger::info("madios CLI finished");
     madios::Logger::trace("CLI execution complete");
     return 0;

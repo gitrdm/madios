@@ -41,6 +41,13 @@ Use this checklist to track progress through the reform plan. Check off each ite
     - Performance-critical sections (optional timing)
     - Integration points with utility modules
 - [x] Capture and review enhanced logs for new baseline
+- [x] Log madios version, git commit hash, and build date at CLI start
+- [x] Log full CLI command/arguments used for the run
+- [x] Log input and output file names/paths
+- [x] Log deterministic random seed for reproducibility
+- [x] Log summary statistics at end (patterns found, rewiring ops, final graph size, etc.)
+- [x] Log all error/warning events
+- [ ] Add more granular trace logs for data mutations and branch decisions during refactor
 
 ## Baseline Log and Script Infrastructure
 - [x] Create `logs/` directory for baseline and regression logs

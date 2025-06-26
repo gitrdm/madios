@@ -77,6 +77,33 @@ Adding a minimal logging/tracing system before major refactoring provides runtim
 
 ---
 
+## Enhanced Logging for Traceability (Pre-Refactor)
+
+### Goals
+- Maximize reproducibility and traceability for all regression baselines.
+- Ensure all critical run context and summary information is captured in logs before major refactor.
+
+### Steps
+1. **Log Version and Build Info**
+   - Log madios version, git commit hash, and build date at CLI start.
+2. **Log CLI Arguments and File Names**
+   - Log the full CLI command/arguments used for the run.
+   - Log input and output file names/paths.
+3. **Log Random Seed**
+   - Log the deterministic random seed used for reproducibility.
+4. **Log Summary Statistics**
+   - At the end of each run, log summary stats (patterns found, rewiring ops, final graph size, etc.).
+5. **Log Error/Warning Events**
+   - Log all error/warning events explicitly.
+6. **(During Refactor) Add Fine-Grained Trace Logs**
+   - Add more granular trace logs for data mutations and branch decisions in core algorithms.
+
+### Status (2025-06-25)
+- All critical run context and summary information is now logged for baseline runs.
+- Fine-grained trace logging will be expanded during the refactor phase.
+
+---
+
 ## Phase 2: Filesystem Restructuring (UPDATED)
 
 ### Goals

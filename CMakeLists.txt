@@ -81,5 +81,14 @@ target_include_directories(test_logger PRIVATE include)
 target_link_libraries(test_logger PRIVATE pthread)
 add_test(NAME test_logger COMMAND test_logger)
 
+# Version and git commit macros for logging
+execute_process(
+  COMMAND git rev-parse --short HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_COMMIT_HASH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+add_definitions(-DMADIOS_VERSION=\"2.0.0-pre\")
+add_definitions(-DMADIOS_GIT_COMMIT=\"${GIT_COMMIT_HASH}\")
 # Install rule for the madios binary (user-local install)
 install(TARGETS madios DESTINATION bin)

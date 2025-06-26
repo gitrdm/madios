@@ -45,6 +45,8 @@ class RDSGraph: public Stringable
 
         void setQuiet(bool q) { quiet = q; }
         bool isQuiet() const { return quiet; }
+        unsigned int getPatternCount() const;
+        unsigned int getRewiringCount() const;
 
     private:
         unsigned int corpusSize;
@@ -53,6 +55,10 @@ class RDSGraph: public Stringable
         std::vector<ParseTree<unsigned int> > trees;
         std::vector<std::vector<unsigned int> > counts;
         bool quiet = false; // Suppress verbose output if true
+
+        // Track significant patterns and rewiring operations for logging
+        std::vector<SignificantPattern> significant_patterns;
+        unsigned int rewiring_ops = 0;
 
         void buildInitialGraph(const std::vector<std::vector<std::string> > &sequences);
         bool distill(const SearchPath &search_path, const ADIOSParams &params);
