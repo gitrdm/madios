@@ -23,30 +23,95 @@ bool operator<(const SignificancePair &a, const SignificancePair &b);
 class RDSGraph: public Stringable
 {
     public:
+        /**
+         * @brief Default constructor. Creates an empty RDSGraph.
+         */
         RDSGraph();
+        /**
+         * @brief Constructs an RDSGraph from a set of input sequences.
+         * @param sequences A vector of input sequences (each sequence is a vector of strings).
+         */
         explicit RDSGraph(const std::vector<std::vector<std::string> > &sequences);
-        // Copy constructor to ensure 'quiet' is copied
-        RDSGraph(const RDSGraph& other)
-            : corpusSize(other.corpusSize), nodes(other.nodes), paths(other.paths), trees(other.trees), counts(other.counts), quiet(other.quiet) {}
+        /**
+         * @brief Copy constructor. Copies all graph data and the quiet flag.
+         */
+        RDSGraph(const RDSGraph& other);
 
+        /**
+         * @brief Generate a random sequence from the learned grammar, starting from the default start node.
+         * @return A vector of strings representing the generated sequence.
+         */
         std::vector<std::string> generate() const;
+        /**
+         * @brief Generate a sequence from a specific search path.
+         * @param search_path The search path to generate from.
+         * @return A vector of strings representing the generated sequence.
+         */
         std::vector<std::string> generate(const SearchPath &search_path) const;
+        /**
+         * @brief Generate a random sequence from the learned grammar, starting from a given node.
+         * @param node The index of the node to start from.
+         * @return A vector of strings representing the generated sequence.
+         */
         std::vector<std::string> generate(unsigned int node) const;
+        /**
+         * @brief Main distillation loop: iteratively finds and generalizes patterns until convergence.
+         * @param params ADIOS algorithm parameters (eta, alpha, contextSize, overlapThreshold)
+         */
         void distill(const ADIOSParams &params);
-
+        /**
+         * @brief Output the learned PCFG rules in a standard format.
+         * Probabilities are normalized over all rules with the same LHS.
+         * @param out Output stream to write PCFG rules.
+         */
         void convert2PCFG(std::ostream &out) const;
-
+        /**
+         * @brief Returns a string representation of the RDSGraph (for debugging).
+         * @return A string describing the graph structure.
+         */
         virtual std::string toString() const;
-
         // Expose for JSON output
+        /**
+         * @brief Get the search paths in the graph.
+         * @return A const reference to the vector of search paths.
+         */
         const std::vector<SearchPath>& getPaths() const { return paths; }
+        /**
+         * @brief Get the nodes in the graph.
+         * @return A const reference to the vector of nodes.
+         */
         const std::vector<RDSNode>& getNodes() const { return nodes; }
+        /**
+         * @brief Get a string representation of a node.
+         * @param node The node index.
+         * @return A string describing the node.
+         */
         std::string getNodeString(unsigned int node) const { return printNode(node); }
+        /**
+         * @brief Get the name of a node (for debugging/output).
+         * @param node The node index.
+         * @return The node name as a string.
+         */
         std::string getNodeName(unsigned int node) const { return printNodeName(node); }
-
+        /**
+         * @brief Set the quiet flag (suppress verbose output if true).
+         * @param q True to suppress output, false for verbose.
+         */
         void setQuiet(bool q) { quiet = q; }
+        /**
+         * @brief Check if the graph is in quiet mode.
+         * @return True if quiet, false otherwise.
+         */
         bool isQuiet() const { return quiet; }
+        /**
+         * @brief Get the number of significant patterns currently in the graph.
+         * @return The number of significant patterns.
+         */
         unsigned int getPatternCount() const;
+        /**
+         * @brief Get the number of rewiring operations performed.
+         * @return The number of rewiring operations.
+         */
         unsigned int getRewiringCount() const;
 
     private:
@@ -66,13 +131,13 @@ class RDSGraph: public Stringable
         bool generalise(const SearchPath &search_path, const ADIOSParams &params);
 
         // generalise and bootstrap
-        EquivalenceClass computeEquivalenceClass(const SearchPath &search_path, unsigned int slotIndex);
+        EquivalenceClass computeEquivalenceClass(const SearchPath &search_path, unsigned int slotIndex) const;
         SearchPath bootstrap(std::vector<EquivalenceClass> &encountered_ecs, const SearchPath &search_path, double overlapThreshold) const;
 
         // compute matrix and pattern searching function
         void computeConnectionMatrix(ConnectionMatrix &connections, const SearchPath &search_path) const;
         void computeDescentsMatrix(TNT::Array2D<double> &flows, TNT::Array2D<double> &descents, const ConnectionMatrix &connections) const;
-        bool findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, double eta, double alpha);
+        bool findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, double eta, double alpha) const;
 
         // rewiring and update functions
         void updateAllConnections();
@@ -88,7 +153,7 @@ class RDSGraph: public Stringable
         // auxilliary functions
         std::vector<Connection> filterConnections(const std::vector<Connection> &init_cons, unsigned int start_offset, const SearchPath &search_path) const;
         std::vector<Connection> getAllNodeConnections(unsigned int nodeIndex) const;
-        unsigned int findExistingEquivalenceClass(const EquivalenceClass &ec);
+        unsigned int findExistingEquivalenceClass(const EquivalenceClass &ec) const;
 
         // counts the occurences of each lexicon unit
         void estimateProbabilities();
