@@ -16,10 +16,30 @@
 #include <string>
 #include <sstream>
 
-// true, if both pvalues are less than alpha
+/**
+ * @brief Check if both p-values in a SignificancePair are less than alpha.
+ * @param pvalues The pair of significance values.
+ * @param alpha The significance threshold.
+ * @return True if both p-values are less than alpha, false otherwise.
+ */
 bool isPatternSignificant(const SignificancePair &pvalues, double alpha);
+
+/**
+ * @brief Less-than operator for SignificancePair.
+ * @param a First significance pair.
+ * @param b Second significance pair.
+ * @return True if a < b, false otherwise.
+ */
 bool operator<(const SignificancePair &a, const SignificancePair &b);
 
+/**
+ * @class RDSGraph
+ * @brief Implements the main graph structure for pattern discovery in the ADIOS algorithm.
+ *
+ * RDSGraph manages nodes, search paths, and significant patterns for grammar induction.
+ * It provides methods for distillation, pattern generalization, PCFG conversion, and sequence generation.
+ * Copying is disabled due to unique_ptr members; use clone() for deep copies.
+ */
 class RDSGraph: public Stringable
 {
     public:
@@ -70,7 +90,6 @@ class RDSGraph: public Stringable
          * @return A string describing the graph structure.
          */
         virtual std::string toString() const;
-        // Expose for JSON output
         /**
          * @brief Get the search paths in the graph.
          * @return A const reference to the vector of search paths.
@@ -133,31 +152,54 @@ class RDSGraph: public Stringable
 #endif
 
     private:
+        /**
+         * @brief The number of input sequences in the corpus.
+         */
         unsigned int corpusSize;
+        /**
+         * @brief The nodes in the graph.
+         */
         std::vector<RDSNode> nodes;
+        /**
+         * @brief The search paths in the graph.
+         */
         std::vector<SearchPath> paths;
+        /**
+         * @brief Parse trees for each input sequence.
+         */
         std::vector<ParseTree<unsigned int> > trees;
+        /**
+         * @brief Occurrence counts for each node/edge.
+         */
         std::vector<std::vector<unsigned int> > counts;
-        bool quiet = false; // Suppress verbose output if true
-
-        // Track significant patterns and rewiring operations for logging
+        /**
+         * @brief Suppress verbose output if true.
+         */
+        bool quiet = false;
+        /**
+         * @brief List of significant patterns discovered in the graph.
+         */
         std::vector<SignificantPattern> significant_patterns;
+        /**
+         * @brief Number of rewiring operations performed.
+         */
         unsigned int rewiring_ops = 0;
 
+        // Internal graph construction and pattern discovery methods
         void buildInitialGraph(const std::vector<std::vector<std::string> > &sequences);
         bool distill(const SearchPath &search_path, const ADIOSParams &params);
         bool generalise(const SearchPath &search_path, const ADIOSParams &params);
 
-        // generalise and bootstrap
+        // Pattern generalization and bootstrapping
         EquivalenceClass computeEquivalenceClass(const SearchPath &search_path, unsigned int slotIndex) const;
         SearchPath bootstrap(std::vector<EquivalenceClass> &encountered_ecs, const SearchPath &search_path, double overlapThreshold) const;
 
-        // compute matrix and pattern searching function
+        // Matrix computation and pattern search
         void computeConnectionMatrix(ConnectionMatrix &connections, const SearchPath &search_path) const;
         void computeDescentsMatrix(TNT::Array2D<double> &flows, TNT::Array2D<double> &descents, const ConnectionMatrix &connections) const;
         bool findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, double eta, double alpha) const;
 
-        // rewiring and update functions
+        // Rewiring and update functions
         void updateAllConnections();
         void rewire(const std::vector<Connection> &connections, unsigned int ec);
         void rewire(const std::vector<Connection> &connections, const EquivalenceClass &ec);
@@ -168,15 +210,15 @@ class RDSGraph: public Stringable
         double findBestRightDescentColumn(unsigned int &bestColumn, TNT::Array2D<double> &pvalueCache, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, const Range &pattern, double eta) const;
         double findBestLeftDescentColumn(unsigned int &bestColumn, TNT::Array2D<double> &pvalueCache, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, const Range &pattern, double eta) const;
 
-        // auxilliary functions
+        // Auxiliary functions
         std::vector<Connection> filterConnections(const std::vector<Connection> &init_cons, unsigned int start_offset, const SearchPath &search_path) const;
         std::vector<Connection> getAllNodeConnections(unsigned int nodeIndex) const;
         unsigned int findExistingEquivalenceClass(const EquivalenceClass &ec) const;
 
-        // counts the occurences of each lexicon unit
+        // Counts the occurrences of each lexicon unit
         void estimateProbabilities();
 
-        // print functions
+        // Print functions
         std::string printSignificantPattern(const SignificantPattern &sp) const;
         std::string printEquivalenceClass(const EquivalenceClass &ec) const;
         std::string printNode(unsigned int node) const;
@@ -184,6 +226,12 @@ class RDSGraph: public Stringable
         std::string printNodeName(unsigned int node) const;
 };
 
+/**
+ * @brief Print information about the connection, flow, and descent matrices (for debugging).
+ * @param connections The connection matrix.
+ * @param flows The flow matrix.
+ * @param descents The descent matrix.
+ */
 void printInfo(const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents);
 
 #endif

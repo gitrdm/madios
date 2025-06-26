@@ -1,13 +1,9 @@
-// File: SpecialLexicons.h
-// Purpose: Declares special lexicon unit classes (StartSymbol, EndSymbol) for the ADIOS grammar induction algorithm.
-// These classes represent special boundary markers in the input sequence graph.
-//
-// Part of the ADIOS grammar induction project. See README for usage and structure.
-//
-// Design:
-//   - StartSymbol and EndSymbol inherit from LexiconUnit and represent the start and end of a sequence, respectively.
-//   - These are used as unique markers in the graph to denote sequence boundaries.
-//   - Both provide copy and string conversion methods for use in graph construction and output.
+/**
+ * @file SpecialLexicons.h
+ * @brief Declares special lexicon unit classes (StartSymbol, EndSymbol) for the ADIOS grammar induction algorithm.
+ *
+ * These classes represent special boundary markers in the input sequence graph.
+ */
 
 #pragma once
 
@@ -17,6 +13,7 @@
 /**
  * @class StartSymbol
  * @brief Represents the special start-of-sequence marker in the ADIOS graph.
+ *
  * Inherits from LexiconUnit. Used to mark the beginning of a sequence.
  */
 class StartSymbol : public LexiconUnit {
@@ -46,6 +43,7 @@ public:
 /**
  * @class EndSymbol
  * @brief Represents the special end-of-sequence marker in the ADIOS graph.
+ *
  * Inherits from LexiconUnit. Used to mark the end of a sequence.
  */
 class EndSymbol : public LexiconUnit {
