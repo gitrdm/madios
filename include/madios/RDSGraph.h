@@ -32,10 +32,10 @@ class RDSGraph: public Stringable
          * @param sequences A vector of input sequences (each sequence is a vector of strings).
          */
         explicit RDSGraph(const std::vector<std::vector<std::string> > &sequences);
-        /**
-         * @brief Copy constructor. Copies all graph data and the quiet flag.
-         */
-        RDSGraph(const RDSGraph& other);
+
+        // Copying is not allowed for RDSGraph due to unique_ptr members
+        RDSGraph(const RDSGraph& other) = delete;
+        RDSGraph& operator=(const RDSGraph& other) = delete;
 
         /**
          * @brief Generate a random sequence from the learned grammar, starting from the default start node.
@@ -113,6 +113,24 @@ class RDSGraph: public Stringable
          * @return The number of rewiring operations.
          */
         unsigned int getRewiringCount() const;
+        /**
+         * @brief Create a deep copy of this RDSGraph (for safe simulation/experimentation).
+         * @return A unique_ptr to a new RDSGraph that is a deep copy of this one.
+         */
+        std::unique_ptr<RDSGraph> clone() const;
+
+#ifdef MADIOS_TESTING
+    public:
+        /**
+         * @brief Test-only wrapper for generalise, for unit testing.
+         * @param search_path The search path to generalise.
+         * @param params The ADIOS parameters.
+         * @return True if generalisation succeeded, false otherwise.
+         */
+        bool testGeneralise(const SearchPath &search_path, const ADIOSParams &params) {
+            return generalise(search_path, params);
+        }
+#endif
 
     private:
         unsigned int corpusSize;

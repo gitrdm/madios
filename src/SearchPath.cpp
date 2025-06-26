@@ -13,6 +13,7 @@
 //   - Used throughout the ADIOS algorithm for search and pattern management
 
 #include "SearchPath.h"
+#include "madios/BasicSymbol.h"
 
 #include <cassert>
 

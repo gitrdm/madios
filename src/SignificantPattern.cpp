@@ -14,6 +14,7 @@
 
 #include "SignificantPattern.h"
 #include "madios/Logger.h"
+#include "madios/BasicSymbol.h"
 
 #include <cassert>
 

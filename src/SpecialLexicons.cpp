@@ -8,6 +8,7 @@
 //   - StartSymbol and EndSymbol inherit from LexiconUnit and represent the start and end of a sequence, respectively.
 //   - Both provide copy and string conversion methods for use in graph construction and output.
 
+#include "madios/BasicSymbol.h"
 #include "SpecialLexicons.h"
 #include <stdexcept>
 #include <string>

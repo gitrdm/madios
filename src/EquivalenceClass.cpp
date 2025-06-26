@@ -14,6 +14,7 @@
 
 #include "EquivalenceClass.h"
 #include "madios/Logger.h"
+#include "madios/BasicSymbol.h"
 
 #include <algorithm>
 

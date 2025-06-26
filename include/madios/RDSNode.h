@@ -10,6 +10,7 @@
 #include "madios/maths/tnt/array2d.h"
 #include "LexiconUnit.h"
 #include "ADIOSUtils.h"
+#include <memory>
 
 typedef std::pair<unsigned int, unsigned int> Connection;
 typedef TNT::Array2D<std::vector<Connection> > ConnectionMatrix;
@@ -19,13 +20,13 @@ typedef std::pair<unsigned int, unsigned int> Range;
 class RDSNode
 {
     public:
-        LexiconUnit *lexicon;
+        std::unique_ptr<LexiconUnit> lexicon;
         LexiconTypes::LexiconEnum type;
         std::vector<Connection> connections;
         std::vector<Connection> parents;
 
         RDSNode();
-        explicit RDSNode(LexiconUnit *lexicon, LexiconTypes::LexiconEnum type);
+        explicit RDSNode(std::unique_ptr<LexiconUnit> lexicon, LexiconTypes::LexiconEnum type);
         RDSNode(const RDSNode &other);
         ~RDSNode();
 

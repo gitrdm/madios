@@ -426,23 +426,17 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
     vector<SignificancePair> all_pvalues;
     vector<unsigned int> pattern2general;
 
-    // BEGIN WORKAROUND: Copying RDSGraph is not supported due to unique_ptr usage.
-    // The following code previously used a temporary copy of the graph for simulation:
-    //   RDSGraph temp_graph(*this);
-    // This is now commented out. The logic below may need to be refactored for full correctness.
-    // TODO: If you need to simulate changes, consider redesigning this part to avoid copying the graph.
-    // END WORKAROUND
-    //for(unsigned int i = 0; i < all_general_paths.size(); i++)
+    // Re-enable simulation using a temporary graph clone for new ECs
     for(unsigned int i = 0; i < all_general_paths.size(); i++)
     {
         ConnectionMatrix connections;
         unsigned int slot_index = all_general_slots[i];
-        if(all_general_paths[i][slot_index] >= nodes.size()) // if a new EC is expected, previously used temp_graph
+        if(all_general_paths[i][slot_index] >= nodes.size()) // if a new EC is expected, simulate with a temp graph
         {
-            // Skipping simulation of temporary rewiring due to lack of copy support
-            // This may affect the accuracy of pattern finding for new ECs
-            // TODO: Refactor this logic if simulation is required
-            continue;
+            // Use a temporary graph clone to simulate rewiring for new ECs
+            auto temp_graph = this->clone();
+            temp_graph->rewire(vector<Connection>(), EquivalenceClass(all_general_ecs[i]));
+            temp_graph->computeConnectionMatrix(connections, all_general_paths[i]);
         }
         else
             computeConnectionMatrix(connections, all_general_paths[i]);
@@ -459,8 +453,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 
         // add them to the list
         for(unsigned int j = 0; j < some_patterns.size(); j++)
-//         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
-        {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
+        {   // only accept the pattern if any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
                 if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
                     continue;
@@ -1401,4 +1394,27 @@ unsigned int RDSGraph::getPatternCount() const {
 unsigned int RDSGraph::getRewiringCount() const {
     // Return the number of rewiring operations performed (tracked by rewiring_ops)
     return rewiring_ops;
+}
+
+std::unique_ptr<RDSGraph> RDSGraph::clone() const {
+    auto new_graph = std::make_unique<RDSGraph>();
+    new_graph->corpusSize = corpusSize;
+    new_graph->quiet = quiet;
+    new_graph->counts = counts;
+    new_graph->significant_patterns = significant_patterns;
+    new_graph->rewiring_ops = rewiring_ops;
+
+    // Deep copy nodes
+    new_graph->nodes.reserve(nodes.size());
+    for (const auto& node : nodes) {
+        new_graph->nodes.emplace_back(node); // RDSNode copy constructor does deep copy
+    }
+
+    // Copy paths (vector<SearchPath> is copyable)
+    new_graph->paths = paths;
+
+    // Copy parse trees (assume ParseTree<unsigned int> is copyable)
+    new_graph->trees = trees;
+
+    return new_graph;
 }

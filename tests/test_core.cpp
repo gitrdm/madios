@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "BasicSymbol.h"
+#include "madios/BasicSymbol.h"
 #include "RDSNode.h"
 #include "RDSGraph.h"
 
@@ -12,8 +12,8 @@ TEST_CASE("BasicSymbol: construction and equality", "[core]") {
 }
 
 TEST_CASE("RDSNode: construction", "[core]") {
-    BasicSymbol* sym = new BasicSymbol("test");
-    RDSNode node(sym, LexiconTypes::Symbol);
+    auto sym = std::make_unique<BasicSymbol>("test");
+    RDSNode node(std::move(sym), LexiconTypes::Symbol);
     REQUIRE(node.lexicon->toString() == "test");
     REQUIRE(node.type == LexiconTypes::Symbol);
 }
@@ -26,7 +26,7 @@ TEST_CASE("RDSGraph: construction", "[core]") {
 }
 
 TEST_CASE("RDSNode: addConnection and addParent", "[core]") {
-    RDSNode node(new BasicSymbol("foo"), LexiconTypes::Symbol);
+    RDSNode node(std::make_unique<BasicSymbol>("foo"), LexiconTypes::Symbol);
     Connection c1 = {1, 2};
     node.addConnection(c1);
     REQUIRE(node.getConnections().size() == 1);
@@ -35,7 +35,7 @@ TEST_CASE("RDSNode: addConnection and addParent", "[core]") {
 }
 
 TEST_CASE("RDSNode: deep copy", "[core]") {
-    RDSNode node1(new BasicSymbol("bar"), LexiconTypes::Symbol);
+    RDSNode node1(std::make_unique<BasicSymbol>("bar"), LexiconTypes::Symbol);
     node1.addConnection({3, 4});
     node1.addParent({5, 6});
     RDSNode node2 = node1;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(madios)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Source and header files
@@ -81,6 +81,27 @@ target_include_directories(test_logger PRIVATE include)
 target_link_libraries(test_logger PRIVATE pthread)
 add_test(NAME test_logger COMMAND test_logger)
 
+# Add a dedicated test for clone path in RDSGraph
+target_include_directories(tests_basic PRIVATE include)
+
+add_executable(test_rdsgraph_clone tests/test_rdsgraph_clone.cpp
+    src/BasicSymbol.cpp
+    src/EquivalenceClass.cpp
+    src/RDSGraph.cpp
+    src/RDSNode.cpp
+    src/SearchPath.cpp
+    src/SignificantPattern.cpp
+    src/SpecialLexicons.cpp
+    src/Logger.cpp
+    src/utils/MiscUtils.cpp
+    src/utils/Stringable.cpp
+    src/utils/TimeFuncs.cpp
+    src/maths/special.cpp
+)
+target_include_directories(test_rdsgraph_clone PRIVATE include)
+target_link_libraries(test_rdsgraph_clone PRIVATE pthread)
+add_test(NAME test_rdsgraph_clone COMMAND test_rdsgraph_clone)
+
 # Version and git commit macros for logging
 execute_process(
   COMMAND git rev-parse --short HEAD
@@ -92,3 +113,19 @@ add_definitions(-DMADIOS_VERSION=\"2.0.0-pre\")
 add_definitions(-DMADIOS_GIT_COMMIT=\"${GIT_COMMIT_HASH}\")
 # Install rule for the madios binary (user-local install)
 install(TARGETS madios DESTINATION bin)
+
+add_library(madioslib
+    src/BasicSymbol.cpp
+    src/EquivalenceClass.cpp
+    src/RDSGraph.cpp
+    src/RDSNode.cpp
+    src/SearchPath.cpp
+    src/SignificantPattern.cpp
+    src/SpecialLexicons.cpp
+    src/utils/MiscUtils.cpp
+    src/utils/Stringable.cpp
+    src/utils/TimeFuncs.cpp
+    src/maths/special.cpp
+)
+
+target_include_directories(madioslib PUBLIC include)

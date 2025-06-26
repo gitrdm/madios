@@ -21,6 +21,7 @@
 #include "../ext/CLI11.hpp"
 #include "madios/Logger.h"
 #include "madios/version.h"
+#include "madios/BasicSymbol.h"
 
 #include <sstream>
 #include <iostream>

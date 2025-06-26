@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include "catch.hpp"
 #include "RDSGraph.h"
+#include "madios/BasicSymbol.h"
 #include <sstream>
 #include <vector>
 #include <string>

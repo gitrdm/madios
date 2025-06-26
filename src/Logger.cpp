@@ -1,4 +1,5 @@
 #include "madios/Logger.h"
+#include "madios/BasicSymbol.h"
 #include <iostream>
 #include <chrono>
 #include <ctime>

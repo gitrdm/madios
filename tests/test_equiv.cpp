@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "EquivalenceClass.h"
+#include "madios/BasicSymbol.h"
 #include <vector>
 
 TEST_CASE("EquivalenceClass: construction and add/has", "[equiv]") {
