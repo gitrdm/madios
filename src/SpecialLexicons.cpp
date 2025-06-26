@@ -16,6 +16,11 @@
 using std::string;
 
 /**
+ * @class StartSymbol
+ * @brief Special lexicon unit representing the start of a sequence.
+ * Inherits from LexiconUnit.
+ */
+/**
  * @brief Create a heap-allocated copy of this StartSymbol.
  * @return LexiconUnit* pointer to a new StartSymbol instance.
  */
@@ -32,6 +37,11 @@ string StartSymbol::toString() const {
     return "START";
 }
 
+/**
+ * @class EndSymbol
+ * @brief Special lexicon unit representing the end of a sequence.
+ * Inherits from LexiconUnit.
+ */
 /**
  * @brief Create a heap-allocated copy of this EndSymbol.
  * @return LexiconUnit* pointer to a new EndSymbol instance.
