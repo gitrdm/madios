@@ -86,35 +86,38 @@ RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
 void RDSGraph::distill(const ADIOSParams &params)
 {
     madios::Logger::trace("Entering RDSGraph::distill");
-
     if (!quiet) {
         std::cout << "eta = " << params.eta << endl;
         std::cout << "alpha = " << params.alpha << endl;
         std::cout << "contextSize = " << params.contextSize << endl;
         std::cout << "overlapThreshold = " << params.overlapThreshold << endl;
     }
+    unsigned int iteration = 0;
     while(true)
     {
+        madios::Logger::trace("RDSGraph::distill iteration " + std::to_string(iteration));
         bool foundPattern = false;
         for(unsigned int i = 0; i < paths.size(); i++)
         {
-            if (!quiet) {
-                std::cout << "--------------------------- working on Path " << i << " of length " << paths[i].size() << " ----------------------------------" << endl;
-                std::cout << printPath(paths[i]) << endl;
-            }
+            madios::Logger::trace("RDSGraph::distill: working on Path " + std::to_string(i) + " of length " + std::to_string(paths[i].size()));
             if((params.contextSize < 3) || (paths[i].size() < params.contextSize))
             {
+                madios::Logger::trace("RDSGraph::distill: using distill(SearchPath) for path " + std::to_string(i));
                 bool foundAnotherPattern = distill(paths[i], params);
                 foundPattern = foundAnotherPattern || foundPattern;
             }
             else
             {
+                madios::Logger::trace("RDSGraph::distill: using generalise(SearchPath) for path " + std::to_string(i));
                 bool foundAnotherPattern = generalise(paths[i], params);
                 foundPattern = foundAnotherPattern || foundPattern;
             }
         }
-        if(!foundPattern)
+        if(!foundPattern) {
+            madios::Logger::trace("RDSGraph::distill: no new patterns found, breaking loop");
             break;
+        }
+        iteration++;
     }
     estimateProbabilities();
     // Output node counts for debugging, with robust guards
@@ -295,20 +298,22 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
 // Look for possible significant pattern found with help of equivalence class
 bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
 {
+    madios::Logger::trace("RDSGraph::distill(SearchPath) called");
     ConnectionMatrix connections;
     TNT::Array2D<double> flows, descents;
     computeConnectionMatrix(connections, search_path);
     computeDescentsMatrix(flows, descents, connections);
-
     vector<Range> patterns;
     vector<SignificancePair> pvalues;
-    if(!findSignificantPatterns(patterns, pvalues, connections, flows, descents, params.eta, params.alpha))
+    if(!findSignificantPatterns(patterns, pvalues, connections, flows, descents, params.eta, params.alpha)) {
+        madios::Logger::trace("RDSGraph::distill(SearchPath): no significant patterns found");
         return false;
-
+    }
     SignificantPattern bestPattern(search_path(patterns.front().first, patterns.front().second));
+    madios::Logger::trace("RDSGraph::distill(SearchPath): best pattern found, range = [" + std::to_string(patterns.front().first) + ", " + std::to_string(patterns.front().second) + "]");
     vector<Connection> connectionsToRewire = getRewirableConnections(connections, patterns.front(), params.alpha);
+    madios::Logger::trace("RDSGraph::distill(SearchPath): rewiring " + std::to_string(connectionsToRewire.size()) + " connections");
     rewire(connectionsToRewire, SignificantPattern(bestPattern));
-
     if (!quiet) {
         std::cout << "BEST PATTERN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
         std::cout << "RANGE = [" << patterns.front().first << " " << patterns.front().second << "]" << endl;

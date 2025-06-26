@@ -68,7 +68,9 @@ EquivalenceClass EquivalenceClass::computeOverlapEC(const EquivalenceClass &othe
  */
 bool EquivalenceClass::has(unsigned int unit) const
 {
-    return (find(begin(), end(), unit) != end());
+    bool present = (find(begin(), end(), unit) != end());
+    madios::Logger::trace("EquivalenceClass::has(" + std::to_string(unit) + ") => " + (present ? "true" : "false"));
+    return present;
 }
 
 /**
@@ -78,10 +80,12 @@ bool EquivalenceClass::has(unsigned int unit) const
  */
 bool EquivalenceClass::add(unsigned int unit)
 {
-    if(has(unit))
+    if(has(unit)) {
+        madios::Logger::trace("EquivalenceClass::add(" + std::to_string(unit) + ") skipped (already present)");
         return false;
-
+    }
     push_back(unit);
+    madios::Logger::trace("EquivalenceClass::add(" + std::to_string(unit) + ") added");
     return true;
 }
 
@@ -91,6 +95,7 @@ bool EquivalenceClass::add(unsigned int unit)
  */
 LexiconUnit* EquivalenceClass::makeCopy() const
 {
+    madios::Logger::trace("EquivalenceClass::makeCopy() called");
     return new EquivalenceClass(*this);
 }
 
@@ -100,6 +105,7 @@ LexiconUnit* EquivalenceClass::makeCopy() const
  */
 string EquivalenceClass::toString() const
 {
+    madios::Logger::trace("EquivalenceClass::toString() called");
     ostringstream sout;
 
     sout << "E[";

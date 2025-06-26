@@ -47,7 +47,8 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [x] Log deterministic random seed for reproducibility
 - [x] Log summary statistics at end (patterns found, rewiring ops, final graph size, etc.)
 - [x] Log all error/warning events
-- [ ] Add more granular trace logs for data mutations and branch decisions during refactor
+- [x] All staged code and logs committed and pushed (2025-06-25)
+- [ ] Add more granular trace logs for data mutations and branch decisions during refactor [CONTINUING]
 
 ## Baseline Log and Script Infrastructure
 - [x] Create `logs/` directory for baseline and regression logs

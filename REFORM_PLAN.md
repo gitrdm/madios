@@ -42,6 +42,8 @@ This document outlines a comprehensive plan to modernize, refactor, and improve 
 ### Phase 1 Status (2025-06-25)
 - All regression and output comparison tests pass with the new PCFG probability output format.
 - Baseline is set and documented; all future work will use this as the reference for regression.
+- Logging, baseline, and traceability infrastructure are complete; all staged code and logs are committed and pushed (2025-06-25).
+- Fine-grained trace logging will continue during the refactor phase.
 - Documentation, scripts, and test suite are aligned with the new output format.
 
 ---
@@ -100,7 +102,9 @@ Adding a minimal logging/tracing system before major refactoring provides runtim
 
 ### Status (2025-06-25)
 - All critical run context and summary information is now logged for baseline runs.
-- Fine-grained trace logging will be expanded during the refactor phase.
+- Logging, baseline, and traceability infrastructure are complete; all staged code and logs are committed and pushed (2025-06-25).
+- Fine-grained trace logging will continue during the refactor phase.
+- Baseline log and output comparison infrastructure is in place and documented.
 
 ---
 

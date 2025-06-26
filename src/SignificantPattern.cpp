@@ -56,10 +56,11 @@ SignificantPattern::~SignificantPattern()
  */
 unsigned int SignificantPattern::find(unsigned int unit) const
 {
+    madios::Logger::trace("SignificantPattern::find(" + std::to_string(unit) + ") called");
     for(unsigned int i = 0; i < size(); i++)
         if(at(i) == unit)
             return i;
-
+    madios::Logger::error("SignificantPattern::find(" + std::to_string(unit) + ") not found, triggering assert");
     assert(false); // Defensive: should always find the unit if used correctly
 }
 
@@ -69,6 +70,7 @@ unsigned int SignificantPattern::find(unsigned int unit) const
  */
 LexiconUnit* SignificantPattern::makeCopy() const
 {
+    madios::Logger::trace("SignificantPattern::makeCopy() called");
     return new SignificantPattern(*this);
 }
 
@@ -78,6 +80,7 @@ LexiconUnit* SignificantPattern::makeCopy() const
  */
 string SignificantPattern::toString() const
 {
+    madios::Logger::trace("SignificantPattern::toString() called");
     ostringstream sout;
 
     sout << "P[";
