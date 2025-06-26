@@ -55,8 +55,8 @@ inline bool isPatternSignificant(const SignificancePair &pvalues, double alpha)
 // Utility: Comparison for significance pairs (used for sorting/selecting best patterns)
 bool operator<(const SignificancePair &a, const SignificancePair &b)
 {
-    double maxA = max(a.first, a.second);
-    double maxB = max(b.first, b.second);
+    const double maxA = max(a.first, a.second);
+    const double maxB = max(b.first, b.second);
     return maxA < maxB;
 }
 
@@ -71,11 +71,18 @@ ADIOSParams::ADIOSParams(double eta, double alpha, unsigned int contextSize, dou
     this->overlapThreshold = overlapThreshold;
 }
 
+/**
+ * @brief Constructs an empty RDSGraph.
+ */
 RDSGraph::RDSGraph()
 {
     corpusSize = 0;
 }
 
+/**
+ * @brief Constructs an RDSGraph from a set of input sequences.
+ * @param sequences A vector of input sequences (each sequence is a vector of strings).
+ */
 RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
 {
     srand(getSeedFromTime());
@@ -450,7 +457,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 //         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
         {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
-                if((all_general_slots[i] < some_patterns[j].first) || (all_generalSlots[i] > some_patterns[j].second))
+                if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
                     continue;
 
             all_patterns.push_back(some_patterns[j]);
@@ -640,7 +647,7 @@ void RDSGraph::computeConnectionMatrix(ConnectionMatrix &connections, const Sear
 // RDSGraph::computeEquivalenceClass
 // Compute the equivalence class for a given search path and slot index.
 // Defensive: checks slot index bounds and ensures valid equivalence class construction
-EquivalenceClass RDSGraph::computeEquivalenceClass(const SearchPath &search_path, unsigned int slotIndex)
+EquivalenceClass RDSGraph::computeEquivalenceClass(const SearchPath &search_path, unsigned int slotIndex) const
 {
     assert(0 < slotIndex);
     assert(slotIndex < (search_path.size()-1));
@@ -745,7 +752,7 @@ void RDSGraph::computeDescentsMatrix(TNT::Array2D<double> &flows, TNT::Array2D<d
 // Find significant patterns in the given connection, flows, and descents matrices.
 // Updates patterns and pvalues with the found patterns and their significance.
 // Returns true if any patterns were found, false otherwise.
-bool RDSGraph::findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, double eta, double alpha)
+bool RDSGraph::findSignificantPatterns(std::vector<Range> &patterns, std::vector<SignificancePair> &pvalues, const ConnectionMatrix &connections, const TNT::Array2D<double> &flows, const TNT::Array2D<double> &descents, double eta, double alpha) const
 {
     patterns.clear();
     pvalues.clear();
@@ -1127,7 +1134,7 @@ vector<Connection> RDSGraph::getAllNodeConnections(unsigned int nodeIndex) const
 // RDSGraph::findExistingEquivalenceClass
 // Find an existing equivalence class that is a subset of the given equivalence class.
 // Returns the index of the found equivalence class, or nodes.size() if none found.
-unsigned int RDSGraph::findExistingEquivalenceClass(const EquivalenceClass &ec)
+unsigned int RDSGraph::findExistingEquivalenceClass(const EquivalenceClass &ec) const
 {   // look for the existing ec that is a subset of the given ec
     for(unsigned int i = 0; i < nodes.size(); i++)
         if(nodes[i].type == LexiconTypes::EC)
@@ -1373,11 +1380,18 @@ std::vector<std::string> RDSGraph::generate() const {
     // By convention, the start node is at index 0
     return generate(0);
 }
-
+/**
+ * @brief Get the number of significant patterns currently in the graph.
+ * @return The number of significant patterns.
+ */
 unsigned int RDSGraph::getPatternCount() const {
     // Return the number of significant patterns currently in the graph
     return significant_patterns.size();
 }
+/**
+ * @brief Get the number of rewiring operations performed.
+ * @return The number of rewiring operations.
+ */
 unsigned int RDSGraph::getRewiringCount() const {
     // Return the number of rewiring operations performed (tracked by rewiring_ops)
     return rewiring_ops;

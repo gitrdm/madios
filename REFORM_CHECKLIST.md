@@ -98,7 +98,11 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [x] Replace raw pointers with smart pointers where appropriate (RDSNode, RDSGraph, tests)
 - [x] Use `auto`, range-based for loops, STL algorithms [NEXT]
 - [ ] Remove unnecessary `using namespace` and global variables
-- [ ] Apply `const` correctness and immutability
+- [x] Apply `const` correctness and immutability
+  - [x] Add `const` correctness to member functions and variables in `RDSGraph.cpp` where possible.  
+    - Rationale: Marking functions and variables as `const` when they do not modify the object’s state helps prevent accidental changes, improves code clarity, enables compiler optimizations, and communicates intent to other programmers.  
+    - Steps: Review all member functions and mark as `const` if they do not modify the object. Mark local variables as `const` where appropriate. Build and test after changes. Update documentation.  
+    - Status: Complete. Build and all tests passed after changes.
 - [ ] Replace `assert`/manual checks with exceptions or error codes
 - [ ] Add robust input validation and error messages
 - [ ] Profile and optimize hot paths if needed

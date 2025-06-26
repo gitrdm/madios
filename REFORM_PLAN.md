@@ -199,6 +199,46 @@ This structure supports modern CMake, IDEs, and packaging. See README for more d
 
 ---
 
+## Add `const` Correctness to RDSGraph.cpp
+
+**Motivation:**
+Marking member functions and variables as `const` when they do not modify the object’s state is a best practice in modern C++. It prevents accidental changes, makes code easier to understand and maintain, allows for better compiler optimizations, and clearly communicates intent to other developers.
+
+**Plan:**
+- Review all member functions in `RDSGraph.cpp` and mark them as `const` if they do not modify the object’s state.
+- Mark local variables as `const` where their value does not change after initialization.
+- Build and test after making these changes to ensure correctness.
+- Update `REFORM_CHECKLIST.md` and `REFORM_PLAN.md` to reflect completion of this step.
+
+**Status:**
+- Complete. All relevant functions and variables are now `const` where appropriate. Build and tests pass.
+
+---
+
+## Recommendation: Add Doxygen Comments to Public Methods
+
+**Why?**
+Adding Doxygen-style comments to public methods makes your code much easier to understand, both for yourself and for others. It also enables automatic documentation generation, which is very helpful for larger projects.
+
+**Next Step:**
+- Add or improve Doxygen comments for all public methods in `RDSGraph.cpp` and `RDSGraph.h`.
+- Focus on clear, beginner-friendly explanations of what each method does, its parameters, and its return value.
+- Build and test after making documentation changes (to ensure no accidental code breakage).
+- Update the REFORM documents after this step.
+
+**Beginner Tip:**
+Doxygen comments start with `/** ... */` and are placed immediately before the function declaration or definition. Example:
+```cpp
+/**
+ * @brief Generates a random sequence from the learned grammar.
+ * @param node The index of the node to start from.
+ * @return A vector of strings representing the generated sequence.
+ */
+std::vector<std::string> generate(unsigned int node) const;
+```
+
+---
+
 ## Phase 5: Final Review and Release
 
 ### Goals
