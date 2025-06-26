@@ -14,6 +14,8 @@
 //   - Defensive guards prevent double deletion and ensure valid state
 
 #include "RDSNode.h"
+#include "madios/BasicSymbol.h"
+#include <utility>
 
 using std::vector;
 
@@ -30,9 +32,9 @@ RDSNode::RDSNode()
  * @param lexicon Pointer to a LexiconUnit (ownership is taken)
  * @param type Lexicon type (Symbol, EC, SP, etc.)
  */
-RDSNode::RDSNode(LexiconUnit *lexicon, LexiconTypes::LexiconEnum type)
+RDSNode::RDSNode(std::unique_ptr<LexiconUnit> lexicon, LexiconTypes::LexiconEnum type)
 {
-    this->lexicon = lexicon;
+    this->lexicon = std::move(lexicon);
     this->type = type;
 }
 
@@ -42,8 +44,10 @@ RDSNode::RDSNode(LexiconUnit *lexicon, LexiconTypes::LexiconEnum type)
  */
 RDSNode::RDSNode(const RDSNode &other)
 {
-    lexicon = nullptr;
-    deepCopy(other);
+    lexicon = other.lexicon ? std::unique_ptr<LexiconUnit>(other.lexicon->makeCopy()) : nullptr;
+    type = other.type;
+    connections = other.connections;
+    parents = other.parents;
 }
 
 /**
@@ -51,7 +55,7 @@ RDSNode::RDSNode(const RDSNode &other)
  */
 RDSNode::~RDSNode()
 {
-    if(lexicon) delete lexicon;
+    // unique_ptr handles deletion
     lexicon = nullptr;
 }
 
@@ -63,9 +67,10 @@ RDSNode::~RDSNode()
 RDSNode& RDSNode::operator=(const RDSNode &other)
 {
     if (this != &other) {
-        if (lexicon) delete lexicon;
-        lexicon = nullptr;
-        deepCopy(other);
+        lexicon.reset(other.lexicon ? other.lexicon->makeCopy() : nullptr);
+        type = other.type;
+        connections = other.connections;
+        parents = other.parents;
     }
     return *this;
 }
@@ -104,8 +109,8 @@ void RDSNode::setConnections(const vector<Connection> &connections)
  */
 bool RDSNode::addParent(const Connection &newParent)
 {
-    for(unsigned int i = 0; i < parents.size(); i++)
-        if(parents[i] == newParent)
+    for(const auto& parent : parents)
+        if(parent == newParent)
             return false;
 
     parents.push_back(newParent);
@@ -118,8 +123,7 @@ bool RDSNode::addParent(const Connection &newParent)
  */
 void RDSNode::deepCopy(const RDSNode &other)
 {
-    if (lexicon) delete lexicon;
-    lexicon = other.lexicon ? other.lexicon->makeCopy() : nullptr;
+    lexicon.reset(other.lexicon ? other.lexicon->makeCopy() : nullptr);
     type = other.type;
     connections = other.connections;
     parents = other.parents;
