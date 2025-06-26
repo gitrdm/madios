@@ -85,6 +85,9 @@ RDSGraph::RDSGraph()
  */
 RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
 {
+    if (sequences.empty()) {
+        throw std::invalid_argument("RDSGraph: input sequences vector is empty");
+    }
     srand(getSeedFromTime());
     buildInitialGraph(sequences);
 }
@@ -96,6 +99,9 @@ RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
  */
 void RDSGraph::distill(const ADIOSParams &params)
 {
+    if (paths.empty()) {
+        throw std::runtime_error("RDSGraph::distill: No paths available in the graph");
+    }
     madios::Logger::trace("Entering RDSGraph::distill");
     if (!quiet) {
         std::cout << "eta = " << params.eta << endl;
@@ -168,6 +174,9 @@ void RDSGraph::distill(const ADIOSParams &params)
  */
 void RDSGraph::convert2PCFG(ostream &out) const
 {
+    if (nodes.empty()) {
+        throw std::runtime_error("RDSGraph::convert2PCFG: No nodes in the graph");
+    }
     madios::Logger::trace("Entering RDSGraph::convert2PCFG");
 
     // Output the learned PCFG rules in standard format: LHS -> RHS [probability]
@@ -228,12 +237,14 @@ void RDSGraph::convert2PCFG(ostream &out) const
 // Robust to out-of-bounds node indices.
 vector<string> RDSGraph::generate(unsigned int node) const
 {
+    if (nodes.empty()) {
+        throw std::runtime_error("RDSGraph::generate: No nodes in the graph");
+    }
+    if (node >= nodes.size()) {
+        throw std::out_of_range("RDSGraph::generate: node index out of bounds");
+    }
     madios::Logger::trace("Entering RDSGraph::generate(unsigned int)");
 
-    if (node >= nodes.size()) {
-        madios::Logger::error("[RDSGraph::generate] node index out of bounds (" + std::to_string(node) + "/" + std::to_string(nodes.size()) + ")");
-        return {};
-    }
     vector<string> sequence;
     if(nodes[node].type == LexiconTypes::Start)
         sequence.push_back("*");
@@ -268,6 +279,12 @@ vector<string> RDSGraph::generate(unsigned int node) const
 // Generate a sequence from a specific search path
 std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
 {
+    if (nodes.empty()) {
+        throw std::runtime_error("RDSGraph::generate(SearchPath): No nodes in the graph");
+    }
+    if (search_path.empty()) {
+        throw std::invalid_argument("RDSGraph::generate(SearchPath): search_path is empty");
+    }
     madios::Logger::trace("Entering RDSGraph::generate(SearchPath)");
 
     std::vector<std::string> sequence;
@@ -308,6 +325,9 @@ std::vector<std::string> RDSGraph::generate(const SearchPath &search_path) const
 // Look for possible significant pattern found with help of equivalence class
 bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
 {
+    if (search_path.empty()) {
+        throw std::invalid_argument("RDSGraph::distill(SearchPath): search_path is empty");
+    }
     madios::Logger::trace("RDSGraph::distill(SearchPath) called");
     ConnectionMatrix connections;
     TNT::Array2D<double> flows, descents;
@@ -340,6 +360,12 @@ bool RDSGraph::distill(const SearchPath &search_path, const ADIOSParams &params)
 // Bootstrapping stage followed by generalization and distillation stages.
 bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &params)
 {
+    if (search_path.empty()) {
+        throw std::invalid_argument("RDSGraph::generalise: search_path is empty");
+    }
+    if (params.contextSize < 2) {
+        throw std::invalid_argument("RDSGraph::generalise: contextSize must be >= 2");
+    }
     // BOOTSTRAPPING STAGE
     // bootstrapping variables
     vector<Range> all_boosted_contexts;
@@ -578,7 +604,11 @@ string RDSGraph::toString() const
 // Build the initial graph from input sequences
 // Defensive: handles empty sequences and updates internal state consistently
 void RDSGraph::buildInitialGraph(const vector<vector<string> > &sequences)
-{   //pad the temporary lexicon vector with empty element to acount for special start and end state
+{
+    if (sequences.empty()) {
+        throw std::invalid_argument("RDSGraph::buildInitialGraph: input sequences vector is empty");
+    }
+    //pad the temporary lexicon vector with empty element to acount for special start and end state
     vector<string> lexicon;
     lexicon.push_back("");
     lexicon.push_back("");
@@ -627,6 +657,9 @@ void RDSGraph::buildInitialGraph(const vector<vector<string> > &sequences)
 // Defensive: handles empty search paths and updates connections matrix in place
 void RDSGraph::computeConnectionMatrix(ConnectionMatrix &connections, const SearchPath &search_path) const
 {
+    if (search_path.empty()) {
+        throw std::invalid_argument("RDSGraph::computeConnectionMatrix: search_path is empty");
+    }
     // calculate subpath distributions, symmetrical matrix
     unsigned dim = search_path.size();
     connections = ConnectionMatrix(dim, dim);

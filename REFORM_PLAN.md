@@ -301,4 +301,21 @@ std::vector<std::string> generate(unsigned int node) const;
 
 ---
 
+## Apply Consistent Code Style with clang-format (Phase 4)
+
+### Rationale
+Consistent code style improves readability, maintainability, and makes the codebase more approachable for new contributors. Using a standard style (Google-based, C++14) ensures best practices and beginner-friendliness.
+
+### Steps
+1. Add a `.clang-format` file to the project root.
+2. Run `clang-format` on all `.cpp` and `.h` files in `src/`, `include/`, and `tests/`.
+3. Review changes.
+4. Commit.
+5. Document the process for future contributors in `CONTRIBUTING.md`.
+
+### Status
+- `.clang-format` file added and code formatting in progress.
+
+---
+
 *This plan is a living document. Update as you proceed through each phase.*

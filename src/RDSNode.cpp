@@ -34,6 +34,9 @@ RDSNode::RDSNode()
  */
 RDSNode::RDSNode(std::unique_ptr<LexiconUnit> lexicon, LexiconTypes::LexiconEnum type)
 {
+    if (!lexicon) {
+        throw std::invalid_argument("RDSNode: lexicon pointer is null");
+    }
     this->lexicon = std::move(lexicon);
     this->type = type;
 }
@@ -81,6 +84,10 @@ RDSNode& RDSNode::operator=(const RDSNode &other)
  */
 void RDSNode::addConnection(const Connection &con)
 {
+    // Defensive: check for valid connection (could add more checks if needed)
+    if (con.first == static_cast<unsigned int>(-1) || con.second == static_cast<unsigned int>(-1)) {
+        throw std::invalid_argument("RDSNode::addConnection: invalid connection indices");
+    }
     connections.push_back(con);
 }
 
@@ -112,7 +119,9 @@ bool RDSNode::addParent(const Connection &newParent)
     for(const auto& parent : parents)
         if(parent == newParent)
             return false;
-
+    if (newParent.first == static_cast<unsigned int>(-1) || newParent.second == static_cast<unsigned int>(-1)) {
+        throw std::invalid_argument("RDSNode::addParent: invalid parent connection indices");
+    }
     parents.push_back(newParent);
     return true;
 }

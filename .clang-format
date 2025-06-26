@@ -1,6 +1,11 @@
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 IndentWidth: 4
 ColumnLimit: 100
 AllowShortFunctionsOnASingleLine: Inline
+DerivePointerAlignment: false
+PointerAlignment: Left
 SortIncludes: true
+IncludeBlocks: Preserve
+BreakBeforeBraces: Attach
+Standard: Cpp14
 ReflowComments: true

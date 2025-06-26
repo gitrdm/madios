@@ -37,6 +37,9 @@ EquivalenceClass::EquivalenceClass()
 EquivalenceClass::EquivalenceClass(const vector<unsigned int> &units)
 :vector<unsigned int>(units)
 {
+    if (units.empty()) {
+        throw std::invalid_argument("EquivalenceClass: input units vector is empty");
+    }
     madios::Logger::trace("EquivalenceClass constructed from vector, size: " + std::to_string(units.size()));
 }
 
@@ -54,11 +57,13 @@ EquivalenceClass::~EquivalenceClass()
  */
 EquivalenceClass EquivalenceClass::computeOverlapEC(const EquivalenceClass &other) const
 {
+    if (other.empty()) {
+        throw std::invalid_argument("EquivalenceClass::computeOverlapEC: other equivalence class is empty");
+    }
     EquivalenceClass overlap;
     for(unsigned int i = 0; i < other.size(); i++)
         if(has(other[i]))
             overlap.add(other[i]);
-
     return overlap;
 }
 
@@ -69,6 +74,10 @@ EquivalenceClass EquivalenceClass::computeOverlapEC(const EquivalenceClass &othe
  */
 bool EquivalenceClass::has(unsigned int unit) const
 {
+    if (empty()) {
+        madios::Logger::warn("EquivalenceClass::has called on empty class");
+        return false;
+    }
     bool present = (find(begin(), end(), unit) != end());
     madios::Logger::trace("EquivalenceClass::has(" + std::to_string(unit) + ") => " + (present ? "true" : "false"));
     return present;
@@ -81,6 +90,9 @@ bool EquivalenceClass::has(unsigned int unit) const
  */
 bool EquivalenceClass::add(unsigned int unit)
 {
+    if (unit == static_cast<unsigned int>(-1)) {
+        throw std::invalid_argument("EquivalenceClass::add: unit index is invalid");
+    }
     if(has(unit)) {
         madios::Logger::trace("EquivalenceClass::add(" + std::to_string(unit) + ") skipped (already present)");
         return false;

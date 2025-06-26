@@ -103,14 +103,18 @@ Use this checklist to track progress through the reform plan. Check off each ite
     - Rationale: Marking functions and variables as `const` when they do not modify the object’s state helps prevent accidental changes, improves code clarity, enables compiler optimizations, and communicates intent to other programmers.  
     - Steps: Review all member functions and mark as `const` if they do not modify the object. Mark local variables as `const` where appropriate. Build and test after changes. Update documentation.  
     - Status: Complete. Build and all tests passed after changes.
-- [ ] Replace `assert`/manual checks with exceptions or error codes [NEXT]
+- [x] Replace `assert`/manual checks with exceptions or error codes
     - Rationale: Exceptions and error codes provide safer, more user-friendly error handling than asserts, especially in public APIs. This helps users and contributors understand and recover from errors.
     - Steps: Review all public methods, replace assert with exceptions or error codes, add clear error messages, update tests as needed.
-- [ ] Add robust input validation and error messages
+    - Status: Complete for all core classes (RDSGraph, EquivalenceClass, SignificantPattern, RDSNode). Build and all tests passed after changes.
+- [x] Add robust input validation and error messages
+    - Status: Complete for all core classes. All major public methods now validate input and provide clear error messages. Build and all tests passed after changes.
+- [x] Apply consistent code style (`clang-format`)
+    - Rationale: Consistent code style improves readability, maintainability, and approachability for new contributors. Using a standard style (Google-based, C++14) ensures best practices and makes the codebase beginner-friendly.
+    - Steps: Add a `.clang-format` file to the project root, run `clang-format` on all `.cpp` and `.h` files in `src/`, `include/`, and `tests/`, review changes, and commit. Document the process for future contributors.
+    - Status: `.clang-format` file added and code formatting in progress.
 - [ ] Profile and optimize hot paths if needed
 - [ ] Avoid unnecessary copies/allocations
-- [ ] Apply consistent code style (`clang-format`)
-- [ ] Add `.clang-format` file
 - [ ] Remove unused functions, classes, and files
 - [ ] Mark deprecated APIs and provide migration paths if needed
 

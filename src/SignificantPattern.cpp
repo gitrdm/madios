@@ -36,6 +36,9 @@ SignificantPattern::SignificantPattern()
  */
 SignificantPattern::SignificantPattern(const vector<unsigned int> &sequence)
 {
+    if (sequence.empty()) {
+        throw std::invalid_argument("SignificantPattern: input sequence vector is empty");
+    }
     madios::Logger::trace("SignificantPattern constructed from vector, size: " + std::to_string(sequence.size()));
     clear();
     for(unsigned int i = 0; i < sequence.size(); i++)
@@ -61,8 +64,8 @@ unsigned int SignificantPattern::find(unsigned int unit) const
     for(unsigned int i = 0; i < size(); i++)
         if(at(i) == unit)
             return i;
-    madios::Logger::error("SignificantPattern::find(" + std::to_string(unit) + ") not found, triggering assert");
-    assert(false); // Defensive: should always find the unit if used correctly
+    madios::Logger::error("SignificantPattern::find(" + std::to_string(unit) + ") not found, throwing exception");
+    throw std::out_of_range("SignificantPattern::find: unit not found in pattern");
 }
 
 /**
