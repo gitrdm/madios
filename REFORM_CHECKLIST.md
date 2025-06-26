@@ -85,12 +85,39 @@ Use this checklist to track progress through the reform plan. Check off each ite
 - [x] Confirm all tests pass after migration
 
 ## Phase 3: Documentation Improvement
-- [ ] Add/improve Doxygen-style comments for all public classes/methods
-- [ ] Document all parameters, return values, and exceptions
-- [ ] Expand `README.md` with usage, install, and CLI instructions
-- [ ] Add `docs/` directory for guides, design notes, and algorithm explanations
+- [x] Add/improve Doxygen-style comments for all public classes/methods in headers and non-trivial .cpp files
+- [x] Document all parameters, return values, and exceptions in public APIs
+- [ ] Add file-level comments to all test .cpp files in tests/ describing their focus
+- [ ] Ensure all scripts in scripts/ and utility code in utils/ have file-level comments and function docstrings (for Python)
+- [ ] Add a DEVELOPER.md or section in the README about documentation/commenting standards for new code
+- [ ] Expand README.md with advanced usage, troubleshooting, and developer notes
+- [ ] Add docs/ directory for guides, design notes, and architecture diagrams/flowcharts
 - [ ] Document build system, test suite, and contribution workflow
 - [ ] Add architecture diagrams/flowcharts as needed
+
+### Recommendations for Further Comments/Docs (2025-06-26)
+- All public headers and non-trivial .cpp files are now documented with Doxygen and inline comments. Empty or trivial files were skipped.
+- Every change was followed by a clean build and test; all tests pass.
+- CLI modernization is nearly complete, but some default behaviors and output conventions remain to be modernized (see CLI_MODERNIZATION_CHECKLIST.md).
+- Next steps:
+  - Add file-level comments to all test .cpp files in tests/
+  - Ensure all scripts in scripts/ and utility code in utils/ have file-level comments and function docstrings (for Python)
+  - Add a DEVELOPER.md or section in the README about documentation/commenting standards for new code
+  - Make output file/type/parameters optional with sensible defaults in CLI
+  - Change default output to JSON if no type is specified
+  - Ensure all errors/warnings go to stderr, and main data output goes to file or stdout as appropriate
+  - Add or improve unit tests for CLI argument parsing and error handling
+  - Replace remaining raw loops with range-based for and auto where appropriate
+  - Remove unnecessary using namespace and global variables
+  - Profile and optimize hot paths; avoid unnecessary copies/allocations
+  - Remove unused functions, classes, and files; mark deprecated APIs
+  - Apply .clang-format to all code and document the process
+  - Add architecture diagrams/flowcharts to docs/
+  - Expand the README with advanced usage, troubleshooting, and developer notes
+  - Add more granular trace logs for data mutations and branch decisions
+  - Proofread and finalize all documentation; conduct a thorough code review; tag and announce the next release
+
+---
 
 ## Phase 4: Code Logic Refactor and Modernization
 - [x] Plan and document first refactor target (RDSNode smart pointer migration)
@@ -151,4 +178,4 @@ Use this checklist to track progress through the reform plan. Check off each ite
 
 ---
 
-*Checklist updated after C++14 upgrade and smart pointer migration (2025-06-26). Next: range-based for, auto, const, Doxygen, STL, error handling.*
+*Checklist updated after Doxygen/public header and .cpp documentation phase (2025-06-26). Next: CLI defaults, test/docs comments, code modernization, and release prep.*
