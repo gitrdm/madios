@@ -82,9 +82,11 @@ RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
     buildInitialGraph(sequences);
 }
 
-// RDSGraph::distill
-// Main distillation loop: iteratively finds and generalizes patterns until convergence.
-// Robust to empty/invalid parse trees and out-of-bounds access.
+/**
+ * @brief Main distillation loop: iteratively finds and generalizes patterns until convergence.
+ * Robust to empty/invalid parse trees and out-of-bounds access.
+ * @param params ADIOS algorithm parameters (eta, alpha, contextSize, overlapThreshold)
+ */
 void RDSGraph::distill(const ADIOSParams &params)
 {
     madios::Logger::trace("Entering RDSGraph::distill");
@@ -130,7 +132,7 @@ void RDSGraph::distill(const ADIOSParams &params)
             if (!quiet) {
                 std::cout << printNodeName(&countVec - &counts[0]);
                 std::cout <<  " ---> [";
-                for(auto j = 0u; j < countVec.size(); j++) { // use auto for index
+                for(auto j = 0u; j < countVec.size(); j++) {
                     std::cout << countVec[j];
                     if(j < countVec.size() - 1)
                         std::cout << " | ";
@@ -152,8 +154,11 @@ void RDSGraph::distill(const ADIOSParams &params)
     madios::Logger::trace("Exiting RDSGraph::distill");
 }
 
-// RDSGraph::convert2PCFG
-// Output the learned PCFG rules in a standard format.
+/**
+ * @brief Output the learned PCFG rules in a standard format.
+ * Probabilities are normalized over all rules with the same LHS.
+ * @param out Output stream to write PCFG rules.
+ */
 void RDSGraph::convert2PCFG(ostream &out) const
 {
     madios::Logger::trace("Entering RDSGraph::convert2PCFG");
@@ -445,7 +450,7 @@ bool RDSGraph::generalise(const SearchPath &search_path, const ADIOSParams &para
 //         for(unsigned int j = 0; j < 1; j++) // just take the best pattern at the moment, use all candidate patterns later
         {   // only accept the pattern if the any completely new equivalence class is in the distilled pattern
             if(all_general_paths[i][all_general_slots[i]] >= nodes.size())
-                if((all_general_slots[i] < some_patterns[j].first) || (all_general_slots[i] > some_patterns[j].second))
+                if((all_general_slots[i] < some_patterns[j].first) || (all_generalSlots[i] > some_patterns[j].second))
                     continue;
 
             all_patterns.push_back(some_patterns[j]);
