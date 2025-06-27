@@ -40,7 +40,7 @@ class SignificantPattern: public LexiconUnit, public std::vector<unsigned int>
         /**
          * @brief Find the index of a unit in the pattern.
          * @param unit The unit index to find.
-         * @return The index if found, or std::vector::npos if not found.
+         * @return The index if found, or std::vector<unsigned int>::npos if not found.
          */
         unsigned int find(unsigned int unit) const;
         /**

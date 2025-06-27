@@ -1,11 +1,11 @@
-/**
+/*
  * @file main.cpp
  * @brief Entry point and CLI handler for the madios ADIOS grammar induction tool.
  *
  * This file contains the main() function and the CLI logic for running the ADIOS grammar induction algorithm.
  * It handles argument parsing, input/output, error handling, and program flow.
  *
- * Usage: ./madios <filename> <eta> <alpha> <context_size> <coverage> [--format <format>] [number_of_new_sequences]
+ * Usage: ./madios <input> <eta> <alpha> <context_size> <coverage> [--format <format>] [number_of_new_sequences]
  *
  * For more details, see the README and documentation for the ADIOS algorithm.
  */
