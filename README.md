@@ -63,7 +63,7 @@ The resulting executable will be `madios` in the project root.
 ## Command-Line Usage
 
 ```
-./build/madios <filename> <eta> <alpha> <context_size> <coverage> [-o <outputfile>] [--json] [--pcfg] [number_of_new_sequences]
+./build/madios <filename> <eta> <alpha> <context_size> <coverage> [-o <outputfile>] [--format <format>] [number_of_new_sequences]
 ```
 
 - `<filename>`: Path to the input corpus file (see below for format).
@@ -72,8 +72,7 @@ The resulting executable will be `madios` in the project root.
 - `<context_size>`: Size of the context window for equivalence class search (e.g., 5).
 - `<coverage>`: Threshold for bootstrapping equivalence classes (e.g., 0.65).
 - `-o <outputfile>`: (Optional) Write all output to the specified file instead of stdout.
-- `--json`: Output all results as JSON (machine-readable).
-- `--pcfg`: Output only the learned grammar in standard PCFG format (see below).
+- `--format <format>`: Output format: `json`, `pcfg`, or `text` (default: `text`).
 - `[number_of_new_sequences]`: (Optional) Number of new sequences to generate from the grammar.
 
 ## Command-Line Options
@@ -87,23 +86,20 @@ The resulting executable will be `madios` in the project root.
 | `<coverage>`                | Coverage threshold (e.g., 0.65, required)                                   | 0.65            |
 | `[number_of_new_sequences]` | Number of new sequences to generate from the grammar                        | 0               |
 | `-o`, `--output`            | Output file (writes all output to file instead of stdout)                   | stdout          |
-| `--json`                    | Output all results as JSON (machine-readable)                               | off             |
-| `--pcfg`                    | Output only the learned grammar in PCFG format                              | off             |
+| `--format <format>`         | Output format: json, pcfg, or text (default: text)                          | text            |
 | `--verbose`                 | Enable verbose progress/info output                                         | off             |
 | `--quiet`                   | Suppress all non-error output (overrides --verbose)                         | off             |
 
 ### Output Behavior
-- If `--json` is set and no output file is specified, output goes to `output.json`.
-- If `--pcfg` is set and no output file is specified, output goes to `output.pcfg`.
-- Otherwise, output is printed to stdout or the file specified by `-o`/`--output`.
+- Output is printed to stdout or the file specified by `-o`/`--output`, regardless of format.
 - Progress and info messages are printed only if `--verbose` is set and `--quiet` is not set.
 - Errors are always printed to stderr.
 
 ### Example Usage
 
 ```sh
-./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --json
-./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --pcfg -o grammar.txt
+./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --format json
+./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --format pcfg -o grammar.txt
 ./build/madios test/test_madios.txt 0.9 0.01 5 0.65 --verbose
 ```
 
@@ -171,8 +167,8 @@ Probabilities are normalized for each LHS (left-hand side).
 
 - **Default output:** Human-readable, includes corpus, lexicon, search paths, and grammar.
 - **-o <outputfile>:** All output is written to the specified file instead of stdout.
-- **--json:** Machine-readable JSON with all results.
-- **--pcfg:** Only the PCFG rules, suitable for downstream parsing tools.
+- **--format json:** Machine-readable JSON with all results.
+- **--format pcfg:** Only the PCFG rules, suitable for downstream parsing tools.
 
 ## Running Tests
 
@@ -219,3 +215,7 @@ This checks that the CLI produces valid PCFG output and that probabilities are n
 
 - [ADIOS Algorithm Paper](https://www.cs.bgu.ac.il/~elhadad/nlp09/ADIOS.pdf)
 - [C++ Language Reference](https://en.cppreference.com/)
+
+## License
+
+See `License.txt` for details. This project is provided under a permissive license (original and MIT).
