@@ -1,5 +1,9 @@
 # Madios
 
+This project is a clone of https://github.com/shaobohou/madios. The goal was to experiment using an LLM to refactor and modernize the codebase, improving readability, maintainability, and performance while preserving the original functionality. This was a bit of a tough challenge, as the LLM tended to add random text that would break the build even if you were only adding comments or Doxygen comments. To mitigate this, I used checklists and a step-by-step migration process to ensure that each change was carefully reviewed and tested before moving on to the next step. The process got done quicker than I could do it, but it was still a lot of work. Compounding the challenge, is that I am not a C++ programmer and so the LLM had to do a lot of the heavy lifting in terms of understanding the code and making meaningful changes. But the regression tests are passing and I think the end result is a more modern, readable, and maintainable codebase that still retains the original functionality of the ADIOS algorithm as intended by the original authors -- at least according to the LLM :).
+
+So, use at your own risk. The code has not been extensively tested and may contain bugs or undiscovered regressions. The original authors of the ADIOS algorithm and I are not responsible for any issues that may arise from using this code.
+
 Madios is a modern C++ implementation of the ADIOS grammar induction algorithm.
 
 ## Directory Structure
