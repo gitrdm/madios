@@ -51,15 +51,6 @@ make
 
 The resulting executable will be `build/madios`.
 
-### With qmake (Legacy)
-
-```sh
-qmake ModifiedADIOS.pro
-make
-```
-
-The resulting executable will be `madios` in the project root.
-
 ## Command-Line Usage
 
 ```
