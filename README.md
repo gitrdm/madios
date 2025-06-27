@@ -111,7 +111,7 @@ Each line is a sentence. ADIOS-style input uses `*` and `#` as start/end markers
 
 ## Example PCFG Output
 
-When run with `--pcfg`, the output will look like:
+When run with `--format pcfg`, the output will look like:
 
 ```
 E27 -> believes [0.730769]
@@ -134,26 +134,21 @@ P35 -> to E29 [1]
 E36 -> easy [0.666667]
 E36 -> eager [0.333333]
 P37 -> is E36 P35 [1]
-S -> Cindy P32 easy [1.0]
-S -> Cindy P32 tough [1.0]
-S -> Pam P32 tough [1.0]
-S -> Beth P28 George P30 easy [1.0]
-S -> Pam P32 easy [1.0]
-S -> Beth P32 tough [1.0]
-S -> that Cindy P37 annoys Cindy [1.0]
-S -> that P34 P37 disturbs P34 [1.0]
-S -> that P34 P37 annoys P34 [1.0]
-S -> that Cindy P37 bothers P34 [1.0]
-S -> that P34 P37 annoys Jim [1.0]
-S -> Pam P32 easy [1.0]
-S -> that P34 P37 worries P34 [1.0]
-S -> Cindy P28 George P30 easy [1.0]
-S -> Pam P28 Pam P30 easy [1.0]
-S -> Beth P32 tough [1.0]
-S -> Cindy P32 easy [1.0]
-S -> that P34 is tough P35 disturbs P34 [1.0]
-S -> Beth P32 tough [1.0]
-S -> Cindy P32 easy [1.0]
+S -> Beth P28 George P30 easy [0.05]
+S -> Beth P32 tough [0.15]
+S -> Cindy P28 George P30 easy [0.05]
+S -> Cindy P32 easy [0.15]
+S -> Cindy P32 tough [0.05]
+S -> Pam P28 Pam P30 easy [0.05]
+S -> Pam P32 easy [0.1]
+S -> Pam P32 tough [0.05]
+S -> that Cindy P37 annoys Cindy [0.05]
+S -> that Cindy P37 bothers P34 [0.05]
+S -> that P34 P37 annoys Jim [0.05]
+S -> that P34 P37 annoys P34 [0.05]
+S -> that P34 P37 disturbs P34 [0.05]
+S -> that P34 P37 worries P34 [0.05]
+S -> that P34 is tough P35 disturbs P34 [0.05]
 ```
 
 Probabilities are normalized for each LHS (left-hand side).
