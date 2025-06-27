@@ -34,7 +34,7 @@ SignificantPattern::SignificantPattern()
  * @brief Construct a significant pattern from a vector of node indices.
  * @param sequence Vector of node indices
  */
-SignificantPattern::SignificantPattern(const vector<unsigned int> &sequence)
+SignificantPattern::SignificantPattern(const std::vector<unsigned int> &sequence)
 {
     if (sequence.empty()) {
         throw std::invalid_argument("SignificantPattern: input sequence vector is empty");

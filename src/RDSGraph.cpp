@@ -84,7 +84,7 @@ RDSGraph::RDSGraph()
  * @brief Constructs an RDSGraph from a set of input sequences.
  * @param sequences A vector of input sequences (each sequence is a vector of strings).
  */
-RDSGraph::RDSGraph(const vector<vector<string> > &sequences)
+RDSGraph::RDSGraph(const std::vector<std::vector<std::string>> &sequences)
 {
     if (sequences.empty()) {
         throw std::invalid_argument("RDSGraph: input sequences vector is empty");

@@ -34,7 +34,7 @@ EquivalenceClass::EquivalenceClass()
  * @brief Construct an equivalence class from a vector of units.
  * @param units Vector of node indices to include in the class
  */
-EquivalenceClass::EquivalenceClass(const vector<unsigned int> &units)
+EquivalenceClass::EquivalenceClass(const std::vector<unsigned int> &units)
 :vector<unsigned int>(units)
 {
     if (units.empty()) {

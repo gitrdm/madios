@@ -34,7 +34,7 @@ SearchPath::SearchPath()
  * @brief Construct a search path from a vector of node indices.
  * @param path Vector of node indices
  */
-SearchPath::SearchPath(const vector<unsigned int> &path)
+SearchPath::SearchPath(const std::vector<unsigned int> &path)
 :vector<unsigned int>(path)
 {
 }

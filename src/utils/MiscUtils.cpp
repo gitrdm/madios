@@ -22,10 +22,10 @@ using std::stringstream;
 
 // Reads sequences from a file, supporting both ADIOS-style (with '*' and '#') and plain space-separated input.
 // Returns a vector of token sequences. Warns once if markers are missing.
-vector<vector<string> > readSequencesFromFile(const string &filename) {
-    vector<vector<string> > sequences;
-    vector<string> tokens;
-    string token;
+std::vector<std::vector<std::string>> readSequencesFromFile(const std::string &filename) {
+    std::vector<std::vector<std::string>> sequences;
+    std::vector<std::string> tokens;
+    std::string token;
     std::ifstream in(filename.c_str(), std::ios::in);
     if(!in.is_open()) {
         madios::Logger::error("Unable to open file: " + filename);
@@ -33,7 +33,7 @@ vector<vector<string> > readSequencesFromFile(const string &filename) {
         exit(1);
     }
     while(!in.eof()) {
-        string line;
+        std::string line;
         getline(in, line);
         if(line.empty()) continue;
         stringstream ss(line);

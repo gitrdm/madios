@@ -93,18 +93,18 @@ void RDSNode::addConnection(const Connection &con)
 
 /**
  * @brief Get all connections from this node.
- * @return Vector of connections
+ * @return std::vector of connections
  */
-const vector<Connection>& RDSNode::getConnections() const
+const std::vector<Connection>& RDSNode::getConnections() const
 {
     return connections;
 }
 
 /**
  * @brief Set the connections for this node.
- * @param connections New vector of connections
+ * @param connections New std::vector of connections
  */
-void RDSNode::setConnections(const vector<Connection> &connections)
+void RDSNode::setConnections(const std::vector<Connection> &connections)
 {
     this->connections = connections;
 }
